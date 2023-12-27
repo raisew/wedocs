@@ -1,6 +1,7 @@
 // import { tsParticles } from "https://cdn.jsdelivr.net/npm/@tsparticles/engine@3.0.0/+esm";
 // import { loadAll } from "https://cdn.jsdelivr.net/npm/@tsparticles/all@3.0.0/+esm";
-(async () => {
+window.onload=function(){
+  (async () => {
     await loadAll(tsParticles);
   
     await tsParticles.addPreset("lightdark", {
@@ -719,3 +720,4 @@
       }
     });
   })();
+}

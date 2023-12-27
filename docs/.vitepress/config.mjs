@@ -22,7 +22,7 @@ export default defineConfig({
   ],
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
-    logo: '/public/logo.png',
+    logo: 'logo.png',
     lang: 'zh-CN',
     search: {
       provider: 'local',
