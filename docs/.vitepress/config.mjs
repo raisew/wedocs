@@ -4,8 +4,25 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: "hongyangwu",
   description: "A VitePress Site",
+  head: [
+    // 配置网站的图标（显示在浏览器的 tab 上）
+    ['link', { rel: 'icon', href: '/public/logo.png' }],
+    [
+      'script',
+      { async: '', src: 'https://cdn.jsdelivr.net/npm/@tsparticles/all@3.0.3/tsparticles.all.bundle.min.js'}
+    ],
+    [
+      'script',
+      { async: '', src: 'https://cdn.jsdelivr.net/npm/@tsparticles/configs@3.0.3/tsparticles.configs.min.js'}
+    ],
+    [
+      'script',
+      { async: '', src: '/utils/particles.js'}
+    ],
+  ],
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
+    logo: '/public/logo.png',
     lang: 'zh-CN',
     search: {
       provider: 'local',
