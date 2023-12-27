@@ -48,10 +48,8 @@ const {page} = useData()
 const pageData = {
     num: 100
 }
+
 </script>
-<div class="container">
-  <p>{{pageData.num}}</p>
-</div>
 
 <style>
 :root {
