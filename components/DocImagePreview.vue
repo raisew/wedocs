@@ -53,6 +53,6 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <ElImageViewer v-if="show" :infinite="false" hide-on-click-modal teleported :url-list="previewImageInfo.list"
+    <ElImageViewer v-if="show" :infinite="true" hide-on-click-modal teleported :url-list="previewImageInfo.list"
         :initial-index="previewImageInfo.idx" @close="show = false" />
 </template>
