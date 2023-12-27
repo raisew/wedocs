@@ -6,7 +6,7 @@ export default defineConfig({
   description: "A VitePress Site",
   head: [
     // 配置网站的图标（显示在浏览器的 tab 上）
-    ['link', { rel: 'icon', href: '/public/logo.png' }],
+    ['link', { rel: 'icon', href: 'logo.png' }],
     [
       'script',
       { async: '', src: 'https://cdn.jsdelivr.net/npm/@tsparticles/all@3.0.3/tsparticles.all.bundle.min.js'}
@@ -17,7 +17,7 @@ export default defineConfig({
     ],
     [
       'script',
-      { async: '', src: '/utils/particles.js'}
+      { async: '', src: 'particles.js'}
     ],
   ],
   themeConfig: {
