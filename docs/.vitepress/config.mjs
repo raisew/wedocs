@@ -11,7 +11,7 @@ export default defineConfig({
       "script",
       {
         async: "",
-        src: "https://cdn.jsdelivr.net/npm/@tsparticles/all@3.0.3/tsparticles.all.bundle.min.js",
+        src: "tsparticles.all.bundle.min.js",
       },
     ],
 
