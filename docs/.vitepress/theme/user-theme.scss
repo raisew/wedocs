@@ -2,23 +2,23 @@
 /* 自定义主题色示例，如下 */
 
 /* 浅色模式使用的变量 */
-html[theme] {
-    --vp-c-user-1:red;
-    --vp-c-user-2:blue;
-    --vp-c-user-3:green;
+:root {
+    --vp-c-user-1:#fc7277;
+    --vp-c-user-2:#fcc832;
+    --vp-c-user-3:#07b1ef;
     --vp-c-user-soft:rgba(255,0,0,.5);
   }
   
   /* 深色模式使用的变量 */
-  html[theme].dark {
-    --vp-c-user-1:yellow;
-    --vp-c-user-2:purple;
-    --vp-c-user-3:orange;
+  .dark {
+    --vp-c-user-1:#fc7277;
+    --vp-c-user-2:#fcc832;
+    --vp-c-user-3:#07b1ef;
     --vp-c-user-soft:rgba(255,255,0,.5);
   }
   
   /* 覆盖默认变量 */
-  html[theme],html[theme].dark {
+  :root, .dark {
     --vp-c-brand-1: var(--vp-c-user-1);
     --vp-c-brand-2: var(--vp-c-user-2);
     --vp-c-brand-3: var(--vp-c-user-3);

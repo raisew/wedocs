@@ -6,7 +6,7 @@ export default defineConfig({
   description: "A VitePress Site",
   head: [
     // 配置网站的图标（显示在浏览器的 tab 上）
-    ["link", { rel: "icon", href: "logo.png" }],
+    ["link", { rel: "icon", href: "favicon.ico" }],
     [
       "script",
       {
@@ -14,7 +14,6 @@ export default defineConfig({
         src: "tsparticles.all.bundle.min.js",
       },
     ],
-
     ["script", { async: "", src: "particles.js" }],
   ],
   themeConfig: {
@@ -47,9 +46,7 @@ export default defineConfig({
       },
     ],
 
-    socialLinks: [
-      { icon: "github", link: "https://github.com/vuejs/vitepress" },
-    ],
+    socialLinks: [{ icon: "github", link: "https://github.com" }],
     footer: {
       message: "",
       copyright: "Copyright © 2023-hongyangwu",

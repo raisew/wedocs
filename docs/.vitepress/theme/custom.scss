@@ -1,3 +1,7 @@
+body{
+  line-height: 1.42857143;
+  overflow-x: hidden;
+}
 .VPHome {
     // 自定义首页背景图
     &::before {
@@ -11,6 +15,7 @@
     //   rgba(var(--bg-gradient-home), 0) 500%
     // );
     background: transparent;
+    padding-bottom: 90px!important;
   }
   .VPNavBar:not(.top) .content-body[data-v-cf6e7c5e]{
     background-color: var(--vp-bg);
@@ -19,6 +24,15 @@
   
   #app canvas{
     background-color: transparent!important;
-    opacity: 0.5;
+    opacity: 0.4;
   }
-  
+ 
+  .container-main{
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 20px;
+  }
+  .el-icon{
+    color: var(--vp-c-user-1)!important;
+  }
