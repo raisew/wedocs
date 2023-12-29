@@ -9,7 +9,6 @@
 
 <script setup>
 import { ref, onMounted } from "vue"
-import { Countdown } from 'vue3-flip-countdown'
 import { Solar, LunarMonth } from 'lunar-typescript';
 
 
