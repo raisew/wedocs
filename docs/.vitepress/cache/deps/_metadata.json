@@ -1,67 +1,73 @@
 {
-  "hash": "83c9966c",
+  "hash": "2a134519",
   "configHash": "33bd6347",
-  "lockfileHash": "a217bb4b",
-  "browserHash": "4323ec37",
+  "lockfileHash": "19bac563",
+  "browserHash": "ee86d822",
   "optimized": {
     "vue": {
       "src": "../../../../node_modules/vue/dist/vue.runtime.esm-bundler.js",
       "file": "vue.js",
-      "fileHash": "7511761a",
+      "fileHash": "4841172c",
       "needsInterop": false
     },
     "vitepress > @vue/devtools-api": {
       "src": "../../../../node_modules/@vue/devtools-api/lib/esm/index.js",
       "file": "vitepress___@vue_devtools-api.js",
-      "fileHash": "50d132cc",
+      "fileHash": "c93d6dbb",
       "needsInterop": false
     },
     "vitepress > @vueuse/integrations/useFocusTrap": {
       "src": "../../../../node_modules/@vueuse/integrations/useFocusTrap.mjs",
       "file": "vitepress___@vueuse_integrations_useFocusTrap.js",
-      "fileHash": "eeb179b0",
+      "fileHash": "9b58171d",
       "needsInterop": false
     },
     "vitepress > mark.js/src/vanilla.js": {
       "src": "../../../../node_modules/mark.js/src/vanilla.js",
       "file": "vitepress___mark__js_src_vanilla__js.js",
-      "fileHash": "bf9092f7",
+      "fileHash": "035e00e9",
       "needsInterop": false
     },
     "vitepress > minisearch": {
       "src": "../../../../node_modules/minisearch/dist/es/index.js",
       "file": "vitepress___minisearch.js",
-      "fileHash": "dd7eb8ee",
+      "fileHash": "38ae0e71",
       "needsInterop": false
     },
     "element-plus": {
       "src": "../../../../node_modules/element-plus/es/index.mjs",
       "file": "element-plus.js",
-      "fileHash": "cb256f4f",
+      "fileHash": "1542db4b",
       "needsInterop": false
-    },
-    "vue3-flip-countdown": {
-      "src": "../../../../node_modules/vue3-flip-countdown/dist/vue3-flip-countdown.common.js",
-      "file": "vue3-flip-countdown.js",
-      "fileHash": "4d516fea",
-      "needsInterop": true
     },
     "lunar-typescript": {
       "src": "../../../../node_modules/lunar-typescript/dist/index.mjs",
       "file": "lunar-typescript.js",
-      "fileHash": "c117b705",
+      "fileHash": "160739ef",
+      "needsInterop": false
+    },
+    "moment": {
+      "src": "../../../../node_modules/moment/dist/moment.js",
+      "file": "moment.js",
+      "fileHash": "e16b75d4",
+      "needsInterop": false
+    },
+    "uuid": {
+      "src": "../../../../node_modules/uuid/dist/esm-browser/index.js",
+      "file": "uuid.js",
+      "fileHash": "8e6fb6d4",
       "needsInterop": false
     }
   },
   "chunks": {
-    "chunk-42YYMLDJ": {
-      "file": "chunk-42YYMLDJ.js"
+    "chunk-C6VKOE3R": {
+      "file": "chunk-C6VKOE3R.js"
     },
-    "chunk-ZXOL45VX": {
-      "file": "chunk-ZXOL45VX.js"
+    "chunk-W6MSB4XG": {
+      "file": "chunk-W6MSB4XG.js"
     },
-    "chunk-CEQRFMJQ": {
-      "file": "chunk-CEQRFMJQ.js"
+    "chunk-BQWMX7FD": {
+      "file": "chunk-BQWMX7FD.js"
     }
   }
 }

@@ -10,8 +10,7 @@
 <script setup>
 import { ref, onMounted } from "vue"
 import { Solar, LunarMonth } from 'lunar-typescript';
-
-
+import Countdown from "./Countdown.vue"
 const nextYear = ref(new Date().getFullYear() + 1);
 const curTime = ref('')
 const newYear = ref('')

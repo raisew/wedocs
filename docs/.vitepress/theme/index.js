@@ -3,7 +3,6 @@ import DefaultTheme from "vitepress/theme";
 import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
 import DocImagePreview from "../../../components/DocImagePreview.vue";
-import { Countdown } from "vue3-flip-countdown";
 
 import "./vars.css";
 import "./global.scss";
@@ -19,7 +18,6 @@ export default {
   },
   enhanceApp({ app }) {
     app.use(ElementPlus);
-    app.component("Countdown", Countdown);
     // app.component('Demo', Demo);
   },
 };
