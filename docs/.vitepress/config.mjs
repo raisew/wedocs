@@ -57,13 +57,13 @@ export default defineConfig({
   },
 });
 
-function createSearch(params) {
+function createSearch() {
   return {
     provider: "algolia",
     options: {
       appId: "721DA6B4OG",
       apiKey: "0bc7c5bc02bb5e269863c9cb237117db",
-      indexName: "vitepress",
+      indexName: "wedoc",
       locales: {
         zh: {
           placeholder: "搜索文档",
