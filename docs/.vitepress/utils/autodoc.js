@@ -164,9 +164,6 @@ function setNavBar() {
   return [...obj.values()];
 }
 
-console.log("导航", JSON.stringify(setNavBar()));
-console.log("侧栏", JSON.stringify(setSideBar()));
-
 // 自动生成
 function docsAuto() {
   let sideBar = setSideBar();
