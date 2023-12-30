@@ -37,7 +37,7 @@ import { v4 as uuidv4 } from 'uuid';
 const fmt = "YYYY-MM-DD HH:mm:ss";
 
 export default {
-    name: 'vue3-flip-countdown',
+    name: 'Countdown',
     emits: ["timeElapsed"],
     setup(props, {
         emit
