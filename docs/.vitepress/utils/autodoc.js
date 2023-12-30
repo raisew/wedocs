@@ -60,7 +60,6 @@ function autoSideBar(dirPath) {
       };
       if (name.endsWith(".md")) {
         param.link = `${dirPath}${selfPath}`;
-
         if (index === 0) {
           obj[dirPath] = {
             id: dirPath,
@@ -78,7 +77,6 @@ function autoSideBar(dirPath) {
       obj[selfPath] = param;
     });
   });
-
   let treeSideBar = orderBy(
     tree_array2Tree(Object.values(obj), "id", "pid", "items"),
     (item) => {

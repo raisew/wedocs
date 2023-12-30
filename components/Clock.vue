@@ -3,9 +3,9 @@
         <div ref="hourDiv" class="hour"></div>
         <div ref="minDiv" class="min"></div>
         <div ref="secDiv" class="sec"></div>
-        <div class="position-absolute left-0 bottom-20 font-12 w-100 align-center">
+        <div class="position-absolute left-0 bottom-30 font-10 w-100 align-center">
             <p>{{ nowTime }}</p>
-            <p class="pdt-4">{{ nowWeek }}</p>
+            <p>{{ nowWeek }}</p>
         </div>
     </div>
 </template>
@@ -62,7 +62,7 @@ onUnmounted(() => {
     align-items: center;
     width: 11em;
     height: 11em;
-    background-image: url("../image/clock.png");
+    background-image: url("/clock.png");
     background-position: center center;
     background-size: cover;
     border-radius: 50%;
