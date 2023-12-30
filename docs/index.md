@@ -53,7 +53,7 @@ import Calendar from "../components/Calendar.vue";
   <div class="container-main">
     <div class="sign">
       <div class="font-bold font-80 line-height-1">HONG YANG WU</div>
-      <div class="font-26 mgt-10">热衷于探索前沿的前端技术，不断学习和尝试新事物，记录零零碎碎的知识点</div>
+      <div class="font-26 mgt-10">代码如诗，世界如画。莫失心所念，万物皆可期。</div>
     </div>
     <el-row :gutter="20" class="mgt-36">
       <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
