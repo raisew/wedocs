@@ -2,19 +2,20 @@
     <div class="pdb-10 pdt-10">
         <div class="align-center pdb-12 font-22 font-bold">距离{{ nextYear }}年元旦还有</div>
         <Countdown :deadline="newYear" v-if="newYear"></Countdown>
-        <div class="align-center pdb-12 font-22 font-bold mgt-10">距离{{ nextYear }}年春节还有</div>
+        <div class="align-center pdb-12 font-22 font-bold mgt-10">距离{{ nextYearLunar }}年春节还有</div>
         <Countdown :deadline="springDay" v-if="springDay"></Countdown>
     </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from "vue"
-import { Solar, LunarMonth } from 'lunar-typescript';
+import { Solar, Lunar, LunarMonth } from 'lunar-typescript';
 import Countdown from "./Countdown.vue"
 const nextYear = ref(new Date().getFullYear() + 1);
+const nextYearLunar = ref('');
 const curTime = ref('')
-const newYear = ref('')
-const springDay = ref('')
+const newYear = ref(Solar.fromDate(new Date()).toYmdHms())
+const springDay = ref(Solar.fromDate(new Date()).toYmdHms())
 
 function getCurTime() {
     let d = Solar.fromDate(new Date());
@@ -45,7 +46,9 @@ function getNextYearNewYearDate() {
     return formattedDate;
 }
 function getNextYearSpringFestivalDate() {
-    var lunarMonth = LunarMonth.fromYm(nextYear.value, 1);
+    var d = Lunar.fromDate(new Date());
+    nextYearLunar.value = d.getYear() + 1;
+    var lunarMonth = LunarMonth.fromYm(nextYearLunar.value, 1);
     var firstJulianDay = lunarMonth.getFirstJulianDay();
     var solar = Solar.fromJulianDay(firstJulianDay);
     return solar.toYmdHms();
