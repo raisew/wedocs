@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, watch } from 'vue'
+import { reactive, watch, onMounted, nextTick } from 'vue'
 import { Solar, SolarMonth, SolarWeek, HolidayUtil } from 'lunar-javascript'
 
 const now = Solar.fromDate(new Date())
@@ -154,7 +154,12 @@ function onBack() {
     state.selected = buildDay(now)
 }
 
-render()
+onMounted(() => {
+    nextTick(() => {
+        render()
+    })
+})
+
 
 watch(() => state.year, () => {
     render()
