@@ -58,6 +58,13 @@ function autoSideBar(dirPath) {
         pid: parentPath,
         text: "📄 " + name.replace(/\d+-/gi, "").replace(".md", ""),
       };
+
+      console.log("selfPath", selfPath);
+      console.log("parentPath", parentPath);
+      if (selfPath.split("/")?.length < 3) {
+        param.collapsed = true;
+      }
+
       if (name.endsWith(".md")) {
         param.link = `${dirPath}${selfPath}`;
         if (index === 0) {
