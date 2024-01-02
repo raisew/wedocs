@@ -121,6 +121,7 @@ export default {
             const val = newValue.value < 0 ? 0 : newValue.value;
             const el = document.querySelector(`#${d.elementId}`);
 
+
             if (val !== d.current) {
                 d.previous = d.current;
                 d.current = val;
@@ -132,7 +133,7 @@ export default {
                 }
 
                 if (idx === 0) {
-                    const els = el.querySelectorAll('span b');
+                    const els = el?.querySelectorAll('span b');
                     if (els) {
                         for (let e of els) {
                             const cls = e.classList[0];

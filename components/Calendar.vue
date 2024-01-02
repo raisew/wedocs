@@ -423,6 +423,10 @@ watch(() => state.holidayMonth, (newVal) => {
                 li.holiday.rest {
                     div.inner {
                         background: #FDE3E4;
+
+                        i {
+                            color: rgba(100, 100, 100, .6);
+                        }
                     }
                 }
 
