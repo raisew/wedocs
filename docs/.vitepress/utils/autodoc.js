@@ -59,8 +59,6 @@ function autoSideBar(dirPath) {
         text: "📄 " + name.replace(/\d+-/gi, "").replace(".md", ""),
       };
 
-      console.log("selfPath", selfPath);
-      console.log("parentPath", parentPath);
       if (selfPath.split("/")?.length < 3) {
         param.collapsed = true;
       }
