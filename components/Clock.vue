@@ -11,7 +11,7 @@
 </template>
 <script setup>
 import { onMounted, onUnmounted, ref, nextTick } from "vue"
-import { Solar } from "lunar-typescript"
+import { Solar } from "lunar-javascript"
 const deg = 6;
 const hourDiv = ref(null);
 const minDiv = ref(null);

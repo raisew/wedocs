@@ -1,41 +1,41 @@
-<script setup lang="ts">
+<script setup>
 import { reactive, watch } from 'vue'
-import { Solar, SolarMonth, SolarWeek, HolidayUtil } from 'lunar-typescript'
+import { Solar, SolarMonth, SolarWeek, HolidayUtil } from 'lunar-javascript'
 
 const now = Solar.fromDate(new Date())
 
 class Day {
-    public month: number = 0
-    public day: number = 0
-    public lunarDay: string = ''
-    public lunarMonth: string = ''
-    public yearGanZhi: string = ''
-    public yearShengXiao: string = ''
-    public monthGanZhi: string = ''
-    public dayGanZhi: string = ''
-    public ymd: string = ''
-    public desc: string = ''
-    public isToday: boolean = false
-    public isSelected: boolean = false
-    public isRest: boolean = false
-    public isHoliday: boolean = false
-    public festivals: string[] = []
-    public yi: string[] = []
-    public ji: string[] = []
+    month = 0
+    day = 0
+    lunarDay = ''
+    lunarMonth = ''
+    yearGanZhi = ''
+    yearShengXiao = ''
+    monthGanZhi = ''
+    dayGanZhi = ''
+    ymd = ''
+    desc = ''
+    isToday = false
+    isSelected = false
+    isRest = false
+    isHoliday = false
+    festivals = []
+    yi = []
+    ji = []
 }
 
 class Week {
-    public days: Day[] = []
+    days = []
 }
 
 class Month {
-    public heads: string[] = []
-    public weeks: Week[] = []
+    heads = []
+    weeks = []
 }
 
 class Holiday {
-    public name: string = ''
-    public month: number = 0
+    name = ''
+    month = 0
 }
 
 const state = reactive({
@@ -44,11 +44,11 @@ const state = reactive({
     weekStart: 1,
     selected: new Day(),
     data: new Month(),
-    holidays: new Array<Holiday>(),
+    holidays: new Array(),
     holidayMonth: 0
 })
 
-function buildDay(d: Solar) {
+function buildDay(d) {
     const ymd = d.toYmd()
     const lunar = d.getLunar()
     const day = new Day()
@@ -109,7 +109,7 @@ function buildDay(d: Solar) {
 
 function render() {
     const month = new Month()
-    const weeks: SolarWeek[] = []
+    const weeks = []
     const solarWeeks = SolarMonth.fromYm(parseInt(state.year + '', 10), parseInt(state.month + '', 10)).getWeeks(state.weekStart)
     solarWeeks.forEach(w => {
         weeks.push(w)
@@ -119,7 +119,7 @@ function render() {
     }
     weeks.forEach(w => {
         const week = new Week()
-        const heads: string[] = []
+        const heads = []
         w.getDays().forEach(d => {
             heads.push(d.getWeekInChinese())
             week.days.push(buildDay(d))
@@ -128,7 +128,7 @@ function render() {
         month.weeks.push(week)
     })
     state.data = month
-    const holidays: Holiday[] = []
+    const holidays = []
     HolidayUtil.getHolidays(state.year).forEach(h => {
         const holiday = new Holiday()
         holiday.name = h.getName()
@@ -143,7 +143,7 @@ function render() {
     state.holidays = holidays
 }
 
-function onSelect(day: Day) {
+function onSelect(day) {
     state.selected = day
 }
 
