@@ -65,8 +65,8 @@ function createSearch() {
     // provider: "local",
     provider: "algolia",
     options: {
-      appId: "721DA6B4OG",
-      apiKey: "0bc7c5bc02bb5e269863c9cb237117db",
+      appId: "58QLPMKXQK",
+      apiKey: "9b3f805316e5e9d2396a9c47ae9b0efb",
       indexName: "wedoc",
       // locales: {
       //   zh: {
