@@ -51,7 +51,7 @@ function getNextYearSpringFestivalDate() {
     var lunarMonth = LunarMonth.fromYm(nextYearLunar.value, 1);
     var firstJulianDay = lunarMonth.getFirstJulianDay();
     var solar = Solar.fromJulianDay(firstJulianDay);
-    return solar.toYmdHms();
+    return solar.toYmd() + ' 00:00:00';
 }
 // 补零函数，确保单个数字前面有零
 function padZero(num) {
