@@ -1,18 +1,18 @@
-return new Crawler({
+export default {
   appId: "RMVAHTZ5LL",
   apiKey: "96dbb8e7c314f86172f3108ef9338d89",
   rateLimit: 8,
-  startUrls: ["https://www.hongyangwu/"],
+  startUrls: ["https://www.hongyangwu.top/"],
   renderJavaScript: false,
   sitemaps: [],
   exclusionPatterns: [],
   ignoreCanonicalTo: false,
-  discoveryPatterns: ["https://www.hongyangwu/**"],
+  discoveryPatterns: ["https://www.hongyangwu.top/**"],
   schedule: "at 05:10 on Saturday",
   actions: [
     {
       indexName: "wedoc",
-      pathsToMatch: ["https://www.hongyangwu/**"],
+      pathsToMatch: ["https://www.hongyangwu.top/**"],
       recordExtractor: ({ $, helpers }) => {
         return helpers.docsearch({
           recordProps: {
@@ -98,4 +98,4 @@ return new Crawler({
       removeWordsIfNoResults: "allOptional",
     },
   },
-});
+};
