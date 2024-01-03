@@ -1,6 +1,7 @@
 export default {
   appId: "RMVAHTZ5LL",
   apiKey: "96dbb8e7c314f86172f3108ef9338d89",
+  indexName: "wedoc",
   rateLimit: 8,
   startUrls: ["https://www.hongyangwu.top/"],
   renderJavaScript: false,
