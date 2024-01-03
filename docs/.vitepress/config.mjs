@@ -26,13 +26,6 @@ export default defineConfig({
       },
     ],
   },
-  sitemap: {
-    hostname: "https://www.hongyangwu.top",
-    transformItems(items) {
-      return items.filter((item) => !item.url.includes("migration"));
-    },
-  },
-
   head: [
     // 配置网站的图标（显示在浏览器的 tab 上）
     ["link", { rel: "icon", href: "/favicon.ico" }],
@@ -48,6 +41,7 @@ export default defineConfig({
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     logo: "/logo.png",
+    siteTitle: "hongyangwu",
     search: createSearch(),
     nav: navBar,
     sidebar: sideBar,
@@ -65,8 +59,8 @@ function createSearch() {
     // provider: "local",
     provider: "algolia",
     options: {
-      appId: "58QLPMKXQK",
-      apiKey: "9b3f805316e5e9d2396a9c47ae9b0efb",
+      appId: "RMVAHTZ5LL",
+      apiKey: "96dbb8e7c314f86172f3108ef9338d89",
       indexName: "wedoc",
       // locales: {
       //   zh: {

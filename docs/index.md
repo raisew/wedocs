@@ -48,8 +48,8 @@ import { ref, onMounted} from 'vue'
 import Clock from "../components/Clock.vue";
 import DateTimeCount from "../components/DateTimeCount.vue";
 import Calendar from "../components/Calendar.vue";
-
 </script>
+
   <div class="container-main">
     <div class="sign">
       <div class="font-bold font-80 line-height-1">HONG YANG WU</div>
@@ -65,6 +65,7 @@ import Calendar from "../components/Calendar.vue";
       </el-col>
     </el-row>
   </div>
+  <div id="lizi"></div>
 
 <style lang="scss">
 

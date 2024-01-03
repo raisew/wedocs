@@ -713,7 +713,7 @@ window.onload = function () {
     };
 
     await tsParticles.load({
-      id: "app",
+      id: "particles",
       options: {
         preset: "lightdark",
         ...options,

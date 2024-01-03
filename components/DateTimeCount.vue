@@ -4,6 +4,7 @@
         <Countdown :deadline="newYear" v-if="newYear"></Countdown>
         <div class="align-center pdb-12 font-22 font-bold mgt-10">距离{{ nextYearLunar }}年春节还有</div>
         <Countdown :deadline="springDay" v-if="springDay"></Countdown>
+        <div class="h-20px"></div>
     </div>
 </template>
 

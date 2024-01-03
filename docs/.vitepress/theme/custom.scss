@@ -15,14 +15,18 @@ body{
     //   rgba(var(--bg-gradient-home), 0) 500%
     // );
     background: transparent;
-    padding-bottom: 90px!important;
+    padding-bottom: 89px!important;
   }
   .VPNavBar:not(.top) .content-body[data-v-cf6e7c5e]{
     background-color: var(--vp-bg);
     backdrop-filter: saturate(50%) blur(10px);
   }
   
-  #app canvas{
+  .content{
+    background-color: var(--vp-c-bg);
+  }
+  
+  #particles canvas{
     background-color: transparent!important;
     opacity: 0.4;
   }

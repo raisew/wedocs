@@ -47,7 +47,6 @@ function autoSideBar(dirPath) {
   files.forEach((file) => {
     let fileEnd = file.replace(`docs${dirPath}`, "");
     let fileArrs = fileEnd.split("/");
-
     // 过滤掉
     fileArrs.forEach((name, index) => {
       // 路径前缀
@@ -88,16 +87,24 @@ function autoSideBar(dirPath) {
       return Number(item.id.split("-")[0]);
     }
   );
+
   treeSideBar.forEach((item) => {
     item.text = `📂 ${item.text.replace("📄 ", "")}`;
     if (item.collapsed !== false) item.collapsed = true;
-
-    item.items = orderBy(cloneDeep(item.items), (item) => {
-      let nameSp = item.id.split("/");
-
+    item.items = orderBy(cloneDeep(item.items), (item2) => {
+      let nameSp = item2.id.split("/");
       // 使用最后一个文件名称进行排序
       let lastName = nameSp?.[1] || nameSp?.[0];
-      return Number(lastName.split("-")[0]);
+      item2.items = orderBy(cloneDeep(item2.items), (item3) => {
+        let nameSp3 = item3.id.split("/");
+        let lastName3 = nameSp3?.[2] || nameSp3?.[1];
+        return lastName3.indexOf("-")
+          ? Number(lastName3.split("-")[0])
+          : Number(lastName3.split(" ")[0]);
+      });
+      return lastName.indexOf("-")
+        ? Number(lastName.split("-")[0])
+        : Number(lastName.split(" ")[0]);
     });
   });
 
@@ -132,7 +139,11 @@ function setNavBar() {
   let files = fg.sync(`docs/markdown/**/[0-9]+-*.md`, {
     onlyFiles: true,
   });
-  let filesSort = files.sort();
+  let filesSort = files.sort((a, b) => {
+    let aNum = a.split("/")[3].split("-")[0];
+    let bNum = b.split("/")[3].split("-")[0];
+    return aNum - bNum;
+  });
   let obj = new Map();
   let navNameObject = {};
   filesSort.forEach((file) => {
