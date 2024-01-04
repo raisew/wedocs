@@ -21,15 +21,6 @@ body{
     background-color: var(--vp-bg);
     backdrop-filter: saturate(50%) blur(10px);
   }
-  
-  .content-container{
-    background-color: var(--vp-c-bg);
-  }
-  
-  #particles canvas{
-    background-color: transparent!important;
-    opacity: 0.4;
-  }
  
   .container-main{
       max-width: 1200px;

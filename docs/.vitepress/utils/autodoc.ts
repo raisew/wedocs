@@ -17,7 +17,7 @@ function tree_array2Tree(arrs, id = "id", pid = "pid", children = "children") {
   });
 
   // 无限级树结构
-  let treeData = [];
+  let treeData:Array<any> = [];
 
   arrs.forEach((item) => {
     // 父级对象数据
@@ -39,6 +39,15 @@ function tree_array2Tree(arrs, id = "id", pid = "pid", children = "children") {
 }
 
 // 自动生成侧边栏
+
+interface paramTypes {
+  id: string,
+  pid: string,
+  text: string,
+  collapsed?: boolean,
+  link?: string,
+  items?: Array<any>
+}
 function autoSideBar(dirPath) {
   let files = fg.sync(`docs/${dirPath}/**/*.md`, {
     onlyFiles: true,
@@ -52,7 +61,7 @@ function autoSideBar(dirPath) {
       // 路径前缀
       let selfPath = fileArrs.slice(0, index + 1).join("/");
       let parentPath = fileArrs.slice(0, index).join("/");
-      let param = {
+      let param: paramTypes = {
         id: selfPath,
         pid: parentPath,
         text: "📄 " + name.replace(/\d+-/gi, "").replace(".md", ""),
@@ -83,7 +92,7 @@ function autoSideBar(dirPath) {
   });
   let treeSideBar = orderBy(
     tree_array2Tree(Object.values(obj), "id", "pid", "items"),
-    (item) => {
+    (item: paramTypes) => {
       return Number(item.id.split("-")[0]);
     }
   );
@@ -140,8 +149,8 @@ function setNavBar() {
     onlyFiles: true,
   });
   let filesSort = files.sort((a, b) => {
-    let aNum = a.split("/")[3].split("-")[0];
-    let bNum = b.split("/")[3].split("-")[0];
+    let aNum: any = a.split("/")[3].split("-")[0];
+    let bNum: any = b.split("/")[3].split("-")[0];
     return aNum - bNum;
   });
   let obj = new Map();

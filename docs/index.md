@@ -48,6 +48,7 @@ import { ref, onMounted, nextTick} from 'vue'
 import Clock from "../components/Clock.vue";
 import DateTimeCount from "../components/DateTimeCount.vue";
 import Calendar from "../components/Calendar.vue";
+import Particle from "../components/Particle.vue";
 
 </script>
 
@@ -66,7 +67,9 @@ import Calendar from "../components/Calendar.vue";
       </el-col>
     </el-row>
   </div>
-  <div id="particles"></div>
+  <particle />
+  
+
 
 <style lang="scss">
 

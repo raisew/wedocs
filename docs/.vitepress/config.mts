@@ -1,8 +1,6 @@
 import { defineConfig } from "vitepress";
 
 import { docsAuto } from "./utils/autodoc";
-
-
 let { navBar, sideBar } = docsAuto();
 
 // https://vitepress.dev/reference/site-config
@@ -28,22 +26,42 @@ export default defineConfig({
   },
   head: [
     // 配置网站的图标（显示在浏览器的 tab 上）
-    ["link", { rel: "icon", href: "/favicon.ico" }],
-    [
-      "script",
-      {
-        async: "",
-        src: "/tsparticles.all.bundle.min.js",
-      },
-    ],
-    ["script", { async: "", src: "/particles.js" }],
+    ["link", { rel: "icon", href: "/favicon.ico" }], 
   ],
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     logo: "/logo.png",
     siteTitle: "hongyangwu",
     // algolia: algoliaJSON(),
-    search: createSearch(),
+    search: {
+      provider: "local",
+      options:{
+        _render(src, env, md) {
+          const html = md.render(src, env)
+          if (env.frontmatter?.title)
+            return md.render(`# ${env.frontmatter.title}`) + html
+          return html
+        },
+        translations: {
+          button: {
+            buttonText: '搜索文档',
+            buttonAriaLabel: '搜索文档'
+          },
+          modal: {
+            displayDetails: '显示详细列表',
+            resetButtonTitle: '重置搜索',
+            backButtonTitle: '关闭搜索',
+            noResultsText: '无法找到相关结果',
+            footer: {
+              selectText: '选择',
+              navigateText: '切换',
+              closeText: '关闭',
+            }
+          }
+        }
+      }
+      
+    },
     nav: navBar,
     sidebar: sideBar,
 

@@ -70,6 +70,8 @@ onUnmounted(() => {
     box-shadow: 0 -15px 15px rgba(255, 255, 255, 0.05), inset 0 -15px 15px rgba(255, 255, 255, 0.05), 0 15px 15px rgba(0, 0, 0, 0.3), inset 0 15px 15px rgba(0, 0, 0, 0.3);
     transition: all ease .2s;
     margin: 0 auto;
+    position: relative;
+    z-index: 1;
 }
 
 .clock:before {
