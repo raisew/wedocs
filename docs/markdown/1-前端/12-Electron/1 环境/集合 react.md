@@ -29,23 +29,25 @@
 4. 在项目文件夹下创建 main.js
 
    ```js
-   const { app, BrowserWindow } = require('electron')
-   const isDev = require('electron-is-dev')
-   const { join } = require('path')
-   
+   const { app, BrowserWindow } = require("electron");
+   const isDev = require("electron-is-dev");
+   const { join } = require("path");
+
    let mainWindow;
-   
-   app.on('ready', () => {
-       mainWindow = new BrowserWindow({
-           width: 1024,
-           height: 680,
-           webPreferences: {
-               nodeIntegration: true
-           }
-       })
-       const urlLocation = isDev ? 'http://localhost:3000' : `file://${join(__dirname, 'build', 'index.html')}` // 判断是生产环境还是上线环境
-       mainWindow.loadURL(urlLocation)
-   })
+
+   app.on("ready", () => {
+     mainWindow = new BrowserWindow({
+       width: 1024,
+       height: 680,
+       webPreferences: {
+         nodeIntegration: true,
+       },
+     });
+     const urlLocation = isDev
+       ? "http://localhost:3000"
+       : `file://${join(__dirname, "build", "index.html")}`; // 判断是生产环境还是上线环境
+     mainWindow.loadURL(urlLocation);
+   });
    ```
 
 5. 修改 `package.json`
@@ -69,14 +71,14 @@
 > **在 react 中使用 node 的模块，要加 window**
 >
 > ```js
-> const fs = window.require('fs')
+> const fs = window.require("fs");
 > ```
 
 ## 打包
 
-1. 安装 `electron-builder` 
+1. 安装 `electron-builder`
 
-   ```shell\
+   ```shell
    npm install electron-builder --save-dev
    ```
 
@@ -108,32 +110,34 @@
 
    > **prepack**
    >
-   > - npm的钩子命令，表示执行 `pack` 前要做的事情
+   > - npm 的钩子命令，表示执行 `pack` 前要做的事情
 
 4. 自定义 `main.js` 的打包
 
    - 在主目录下新建 `webpack.config.js`
 
      ```js
-     const path = require('path')
-     
+     const path = require("path");
+
      module.exports = {
-       target: 'electron-main',
-       entry: './main.js',
+       target: "electron-main",
+       entry: "./main.js",
        output: {
-         path: path.resolve(__dirname, './build'),
-         filename: 'main.js'
+         path: path.resolve(__dirname, "./build"),
+         filename: "main.js",
        },
        node: {
-         __dirname: false
-       }
-     }
+         __dirname: false,
+       },
+     };
      ```
 
    - 因为上面可看出把 `main.js` 打包到 `build` 文件夹里了，所以记得把主渲染进程（main.js）里的 loadURL 修成成对的位置
 
      ```js
-     urlLocation = isDev ? 'http://localhost:3000' : `file://${join(__dirname, 'index.html')}`
+     urlLocation = isDev
+       ? "http://localhost:3000"
+       : `file://${join(__dirname, "index.html")}`;
      ```
 
    - 添加 `mian.js` 的打包命令
@@ -225,10 +229,10 @@
 
    > **解析**
    >
-   > 1. **appId**：打包程序的id，应该是所有electron唯一的
+   > 1. **appId**：打包程序的 id，应该是所有 electron 唯一的
    > 2. **projectName**：程序名称
    > 3. **files**：程序运行要依赖的文件
-   >    - settings是子设置渲染程序的文件入口
+   >    - settings 是子设置渲染程序的文件入口
 
 8. 优化：electron-builder 不会打包 devDependencies 里的 modules，但 react 和 electron（main.js）通过 webpack 会自动打包
 
@@ -280,4 +284,3 @@
   ```
 
 - 然后就可以看到 github 仓库的 release 中有新的版本安装包
-
