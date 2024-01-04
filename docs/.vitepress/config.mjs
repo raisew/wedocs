@@ -4,6 +4,8 @@ import { docsAuto } from "./utils/autodoc";
 
 let { navBar, sideBar } = docsAuto();
 
+import hljs from "highlight.js";
+
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   lang: "zh-CN",
@@ -15,7 +17,7 @@ export default defineConfig({
   lastUpdated: false,
   cleanUrls: true,
   markdown: {
-    math: true,
+    math: false,
     lineNumbers: true,
     codeTransformers: [
       // We use `[!!code` in demo to prevent transformation, here we revert it back.
@@ -25,6 +27,15 @@ export default defineConfig({
         },
       },
     ],
+    highlight: function (str, lang) {
+      if (lang && hljs.getLanguage(lang)) {
+        try {
+          return hljs.highlight(str, { language: lang }).value;
+        } catch (__) {}
+      }
+
+      return ""; // use external default escaping
+    },
   },
   head: [
     // 配置网站的图标（显示在浏览器的 tab 上）
@@ -43,7 +54,10 @@ export default defineConfig({
     logo: "/logo.png",
     siteTitle: "hongyangwu",
     // search: createSearch(),
-    algolia: algoliaJSON(),
+    // algolia: algoliaJSON(),
+    search: {
+      provider: "local",
+    },
     nav: navBar,
     sidebar: sideBar,
 

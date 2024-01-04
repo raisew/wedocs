@@ -1,4 +1,5 @@
-node_modules
+node_modules/*
+!node_modules/vitepress-plugin-search/
 docs/.vitepress/dist
 docs/.vitepress/cache
 yarn.lock
