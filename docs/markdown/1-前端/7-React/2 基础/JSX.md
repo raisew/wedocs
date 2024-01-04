@@ -8,7 +8,7 @@
 
 ## 嵌入表达式
 
-- 通过 ` {  } ` 动态的嵌入变量，或者 **JS** 表达式
+- 通过 `{  }` 动态的嵌入变量，或者 **JS** 表达式
 
 ```jsx
 const name = 'kingmusi'
@@ -16,7 +16,7 @@ render() {
     return (
     	<div>
      		<h1>{name}</h1>
-    		<h2>{`hello world! ${name}`}</h2>   
+    		<h2>{`hello world! ${name}`}</h2>
         </div>
     )
 }
@@ -40,7 +40,7 @@ render() {
   ```jsx
   render() {
       return (
-      	<h1 className="red">kinmgusi</h1>	
+      	<h1 className="red">kinmgusi</h1>
       )
   }
   ```
@@ -51,15 +51,15 @@ render() {
   let isShow = true
   render() {
       return (
-      	<h1 className={isShow ? 'show' : 'disappear'}>kinmgusi</h1>	
+      	<h1 className={isShow ? 'show' : 'disappear'}>kinmgusi</h1>
       )
   }
   ```
 
-> **引入css文件**
+> **引入 css 文件**
 >
 > ```js
-> import './xx.css'
+> import "./xx.css";
 > ```
 
 2、**style**
@@ -116,7 +116,9 @@ render() {
 ## 注释
 
 ```jsx
-{ /* 注释 */ }
+{
+  /* 注释 */
+}
 ```
 
 ## 列表
@@ -125,9 +127,8 @@ render() {
 
 ```jsx
 render(){
-	return <ul> 
+	return <ul>
     	{ this.state.arr.map( (item, index) => <li key={item.id}> {item.title} </li> ) }
     </ul>
 }
 ```
-

@@ -4,8 +4,6 @@ import { docsAuto } from "./utils/autodoc";
 
 let { navBar, sideBar } = docsAuto();
 
-import hljs from "highlight.js";
-
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   lang: "zh-CN",
@@ -27,15 +25,6 @@ export default defineConfig({
         },
       },
     ],
-    highlight: function (str, lang) {
-      if (lang && hljs.getLanguage(lang)) {
-        try {
-          return hljs.highlight(str, { language: lang }).value;
-        } catch (__) {}
-      }
-
-      return ""; // use external default escaping
-    },
   },
   head: [
     // 配置网站的图标（显示在浏览器的 tab 上）
