@@ -44,10 +44,11 @@ head:
 
 <script setup>
 import { useData } from 'vitepress'
-import { ref, onMounted} from 'vue'
+import { ref, onMounted, nextTick} from 'vue'
 import Clock from "../components/Clock.vue";
 import DateTimeCount from "../components/DateTimeCount.vue";
 import Calendar from "../components/Calendar.vue";
+
 </script>
 
   <div class="container-main">
@@ -65,7 +66,7 @@ import Calendar from "../components/Calendar.vue";
       </el-col>
     </el-row>
   </div>
-  <div id="lizi"></div>
+  <div id="particles"></div>
 
 <style lang="scss">
 

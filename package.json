@@ -1,4 +1,9 @@
 {
+  "name": "wedoc",
+  "version": "1.0.0",
+  "private": true,
+  "author": "hongyangwu",
+  "license": "MIT",
   "devDependencies": {
     "vitepress": "1.0.0-rc.34"
   },
@@ -18,7 +23,6 @@
     "moment": "^2.30.1",
     "sass": "^1.69.5",
     "uuid": "^9.0.1",
-    "vitepress-plugin-search": "^1.0.4-alpha.21",
     "yarn": "^1.22.21"
   }
 }
