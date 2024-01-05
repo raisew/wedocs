@@ -474,9 +474,9 @@ window.onload = function () {
           },
           limit: {
             mode: "delete",
-            value: 200,
+            value: 160,
           },
-          value: 100,
+          value: 80,
         },
         opacity: {
           value: 1,

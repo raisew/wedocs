@@ -12,7 +12,7 @@ export default defineConfig({
   title: "hongyangwu",
   description: "hongyangwu",
   lastUpdated: false,
-  cleanUrls: true,
+  cleanUrls: false,
   markdown: {
     math: false,
     lineNumbers: true,
