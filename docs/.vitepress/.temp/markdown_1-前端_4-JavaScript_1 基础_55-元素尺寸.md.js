@@ -1,0 +1,20 @@
+import { ssrRenderAttrs, ssrRenderStyle } from "vue/server-renderer";
+import { useSSRContext } from "vue";
+import { _ as _export_sfc } from "./plugin-vue_export-helper.yVxbj29m.js";
+const __pageData = JSON.parse('{"title":"元素尺寸","description":"","frontmatter":{},"headers":[],"relativePath":"markdown/1-前端/4-JavaScript/1 基础/55-元素尺寸.md","filePath":"markdown/1-前端/4-JavaScript/1 基础/55-元素尺寸.md"}');
+const _sfc_main = { name: "markdown/1-前端/4-JavaScript/1 基础/55-元素尺寸.md" };
+function _sfc_ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
+  _push(`<div${ssrRenderAttrs(_attrs)}><h1 id="元素尺寸" tabindex="-1">元素尺寸 <a class="header-anchor" href="#元素尺寸" aria-label="Permalink to &quot;元素尺寸&quot;">​</a></h1><h2 id="偏移尺寸" tabindex="-1">偏移尺寸 <a class="header-anchor" href="#偏移尺寸" aria-label="Permalink to &quot;偏移尺寸&quot;">​</a></h2><table><thead><tr><th>属性</th><th>说明</th></tr></thead><tbody><tr><td><code>offsetHeight</code></td><td>元素在垂直方向上占用的元素尺寸，包括高度、水平滚动条高度、边框高度</td></tr><tr><td><code>offsetWidth</code></td><td>元素在水平方向上占用的元素尺寸，包括宽度、垂直滚动条宽度、边框宽度</td></tr><tr><td><code>offsetTop</code></td><td>元素上边框外侧，距离其第一个具有<strong>定位</strong>的父级元素上边框内侧的像素数</td></tr><tr><td><code>offsetLeft</code></td><td>元素左边框外侧，距离其第一个具有<strong>定位</strong>的父级元素左边框内侧的像素数</td></tr></tbody></table><p><img src="https://cdn.jsdelivr.net/gh/kingmusi/blogImages/img/20210508195117.png" alt=""></p><h2 id="客户端尺寸" tabindex="-1">客户端尺寸 <a class="header-anchor" href="#客户端尺寸" aria-label="Permalink to &quot;客户端尺寸&quot;">​</a></h2><table><thead><tr><th>属性</th><th>说明</th></tr></thead><tbody><tr><td><code>clientWidth</code></td><td>内容区加左右内边距宽度</td></tr><tr><td><code>clientHeight</code></td><td>内容区加上下内边距宽度</td></tr></tbody></table><p><img src="https://cdn.jsdelivr.net/gh/kingmusi/blogImages/img/20210508200435.png" alt=""></p><blockquote><p>常常用于检测客户端的尺寸</p><div class="language-js vp-adaptive-theme line-numbers-mode"><button title="Copy Code" class="copy"></button><span class="lang">js</span><pre class="shiki shiki-themes github-light github-dark vp-code"><code><span class="line"><span style="${ssrRenderStyle({ "--shiki-light": "#24292E", "--shiki-dark": "#E1E4E8" })}">document.documentElement.clientHeight</span></span>
+<span class="line"><span style="${ssrRenderStyle({ "--shiki-light": "#24292E", "--shiki-dark": "#E1E4E8" })}">document.documentElement.clientWidth</span></span></code></pre><div class="line-numbers-wrapper" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div></blockquote><h2 id="滚动尺寸" tabindex="-1">滚动尺寸 <a class="header-anchor" href="#滚动尺寸" aria-label="Permalink to &quot;滚动尺寸&quot;">​</a></h2><table><thead><tr><th>属性</th><th>说明</th></tr></thead><tbody><tr><td><code>scrollHeight</code></td><td>没有滚动条出现时，元素内容的总高度</td></tr><tr><td><code>scrollWidth</code></td><td>没有滚动条出现时，元素内容的总宽度</td></tr><tr><td><code>scrollLeft</code></td><td>内容区左侧隐藏的像素数，设置这个属性可以改变元素的滚动位置</td></tr><tr><td><code>scrollTop</code></td><td>内容区顶部隐藏的像素数，设置这个属性可以改变元素的滚动位置</td></tr></tbody></table><p><img src="https://cdn.jsdelivr.net/gh/kingmusi/blogImages/img/20210508203913.png" alt=""></p><blockquote><p><strong>scrollHeight</strong> 和 <strong>scrollwidth</strong> 常常用来确定文档总的宽度和高度</p></blockquote><h2 id="元素尺寸-1" tabindex="-1">元素尺寸 <a class="header-anchor" href="#元素尺寸-1" aria-label="Permalink to &quot;元素尺寸&quot;">​</a></h2><p>每个元素都暴露了 <code>getBoundingClientRect()</code> 方法，有如下六个属性，是基于视口的位置（不包含滚动条，只是 <strong>client</strong>）</p><p><img src="https://cdn.jsdelivr.net/gh/kingmusi/blogImages/img/20210508213725.png" alt=""></p><blockquote><p>想基于获取文档整体高度的，可以加上 <strong>window.scrollY</strong></p></blockquote></div>`);
+}
+const _sfc_setup = _sfc_main.setup;
+_sfc_main.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("markdown/1-前端/4-JavaScript/1 基础/55-元素尺寸.md");
+  return _sfc_setup ? _sfc_setup(props, ctx) : void 0;
+};
+const _55_____ = /* @__PURE__ */ _export_sfc(_sfc_main, [["ssrRender", _sfc_ssrRender]]);
+export {
+  __pageData,
+  _55_____ as default
+};

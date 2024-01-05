@@ -36,6 +36,14 @@ body{
     color: var(--vp-c-user-1)!important;
   }
 
+  #particles canvas{
+    background-color: transparent !important;
+    opacity: 0.25 !important;
+  }
+
+  .VPDoc{
+    background-color: var(--vp-c-bg);
+  }
   
 
   .VPPluginSearch-flex-logo{
