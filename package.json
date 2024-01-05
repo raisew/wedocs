@@ -13,6 +13,8 @@
     "docs:preview": "vitepress preview docs"
   },
   "dependencies": {
+    "@tsparticles/all": "^3.0.3",
+    "@tsparticles/engine": "^3.0.3",
     "element-plus": "^2.4.4",
     "fast-glob": "^3.3.2",
     "lodash-es": "^4.17.21",

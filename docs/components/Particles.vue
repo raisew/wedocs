@@ -3,8 +3,8 @@
 </template>
 <script setup>
 import { onMounted } from "vue";
-import { tsParticles } from "https://cdn.jsdelivr.net/npm/@tsparticles/engine@3.0.0/+esm";
-import { loadAll } from "https://cdn.jsdelivr.net/npm/@tsparticles/all@3.0.0/+esm";
+import { tsParticles } from "@tsparticles/engine";
+import { loadAll } from "@tsparticles/all";
 
 const html5 = "/flag/html5.svg";
 const css3 = "/flag/css3.svg";
