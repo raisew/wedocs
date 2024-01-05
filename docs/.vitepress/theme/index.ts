@@ -1,8 +1,8 @@
-import { h } from "vue";
+import {h} from "vue";
 import DefaultTheme from "vitepress/theme";
 import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
-import DocImagePreview from "../../../components/DocImagePreview.vue";
+import DocImagePreview from "../../components/DocImagePreview.vue";
 
 import "./vars.css";
 import "./global.scss";

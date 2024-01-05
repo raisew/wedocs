@@ -1,6 +1,6 @@
 ﻿# 与 git 集合
 
-### 1、在github上新建JAVA项目
+### 1、在 github 上新建 JAVA 项目
 
 ### 2、在项目下创建`README.md`，里面写上项目的介绍
 
@@ -59,12 +59,12 @@ git pull
 git push -u -f origin master
 ```
 
-### 6、以master分支为基础，创建第一个子分支
+### 6、以 master 分支为基础，创建第一个子分支
 
 ```bash
 git checkout -b 第一个子分支名 origin/master
 git push origin HEAD -u
 ```
 
-可以看到 v1.0 子分支上有master分支的所有内容
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200507113148699.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)
+可以看到 v1.0 子分支上有 master 分支的所有内容
+![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051740387.png)

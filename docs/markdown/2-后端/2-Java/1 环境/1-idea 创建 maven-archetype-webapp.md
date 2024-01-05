@@ -4,54 +4,59 @@
 
 **1、创建**
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200506221931581.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70#pic_center)![在这里插入图片描述](https://img-blog.csdnimg.cn/20200506223705800.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70#pic_center)
+![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051659655.png)
+![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051659125.png)
+![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051659757.png)
+![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051700721.png)
+![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051700784.png)<br/>
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200506222227235.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70#pic_center)
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200506222307359.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70#pic_center)![在这里插入图片描述](https://img-blog.csdnimg.cn/20200506222413176.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70#pic_center)<br>
-
-**2、把新项目改成标准的maven项目**
+**2、把新项目改成标准的 maven 项目**
 
 1. 创建 `/src/main/java` ，右键把 `java文件夹`改为 `sources Root`
-   ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200507112156663.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)<br>
+   ![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051701127.png)<br/>
 2. 创建 `/src/test`， 再创建 `/src/test/java`，右键 `java`文件夹改为 `Test sources Root`
-   ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200507112348727.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)<br>
+   ![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051702748.png)<br>
 
 3. 创建 `/src/main/resources`，并右键把`resources` 文件夹改为 `Resources Root`
-   ![在这里插入图片描述](https://img-blog.csdnimg.cn/2020051610184277.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)<br>
+   ![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051703427.png)<br>
    结果如图：
-   ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200516101939325.png)
+   ![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051703267.png)
 
 **3、启动**
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200506223043528.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)![在这里插入图片描述](https://img-blog.csdnimg.cn/20200506223132134.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)![在这里插入图片描述](https://img-blog.csdnimg.cn/20200507105640309.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)
+![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051704669.png)
+![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051704947.png)
+![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051704038.png)
 
-## 问题1—— maven版本太高，导致404错误（可能遇到）
+## 问题 1—— maven 版本太高，导致 404 错误（可能遇到）
 
-**1、创建artifact**
+**1、创建 artifact**
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200506222813409.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)
+![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051705035.png)
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200506222824433.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)
+![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051705061.png)
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/2020050622283415.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)
+![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051705569.png)
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/202005062228411.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)
+![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051706485.png)
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200506222846254.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)
+![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051706196.png)
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200506222851233.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)
+![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051706096.png)
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/202005062228565.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)
+![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051706050.png)
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200506222905219.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)
+![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051707401.png)
 
-**3、配置tomcat，并把项目插入进去**
+**3、配置 tomcat，并把项目插入进去**
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200506223043528.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)![在这里插入图片描述](https://img-blog.csdnimg.cn/20200506223132134.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)![在这里插入图片描述](https://img-blog.csdnimg.cn/20200506223229650.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)
+![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051707855.png)
+![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051707456.png)
+![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051707747.png)<br>
 
 **4、完成，可以进行以下操作测试**
 
-  1. Web.xml中添加
+1. Web.xml 中添加
 
 ```xml
 <welcome-file-list>
@@ -59,29 +64,30 @@
 </welcome-file-list>
 ```
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200506223435757.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)
+![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051709193.png)
 
-  2. 新建index.jsp，编写Hello word
-     ![3.](https://img-blog.csdnimg.cn/20200506223530694.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)
-  3. 启动后，在浏览器访问
-     ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200506223612986.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)
+2. 新建 index.jsp，编写 Hello word
+   ![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051709396.png)
+3. 启动后，在浏览器访问
+   ![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051709809.png)
 
-## 问题2—— 报错unable to import maven project
+## 问题 2—— 报错 unable to import maven project
 
-**1、idea报错unable to import maven project**
+**1、idea 报错 unable to import maven project**
 
-我的错误是因为版本太高，我下载的是3.6版本，选一个3.0.6以下的版本即可
-[3.0.5版本](http://learning.happymmall.com/maven/windows_apache-maven-3.0.5-bin.zip)
+我的错误是因为版本太高，我下载的是 3.6 版本，选一个 3.0.6 以下的版本即可
+[3.0.5 版本](http://learning.happymmall.com/maven/windows_apache-maven-3.0.5-bin.zip)
 
-然后重新配置maven
+然后重新配置 maven
 
-**2、修改maven中央仓库位置**
+**2、修改 maven 中央仓库位置**
 
-重新配置maven时，顺便把中央仓库位置也改，不让他占c盘的位置
+重新配置 maven 时，顺便把中央仓库位置也改，不让他占 c 盘的位置
 
-  1. 把原始的 `repository` 拷贝一份到需要的路径下，可以在以下位置看到自己原始的 repository在那里
-     ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200507110751290.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)![在这里插入图片描述](https://img-blog.csdnimg.cn/20200507110917158.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)
-   2. 在你的新repository的文件夹下，创建一份 `settings.xml` 文件，并写入以下代码，`注意<localRepository>你的repository路径</localRepository>`
+1. 把原始的 `repository` 拷贝一份到需要的路径下，可以在以下位置看到自己原始的 repository 在那里
+   ![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051710499.png)
+   ![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051710562.png)
+2. 在你的新 repository 的文件夹下，创建一份 `settings.xml` 文件，并写入以下代码，`注意<localRepository>你的repository路径</localRepository>`
 
 ```xml
 <settings>
@@ -111,7 +117,9 @@
 </settings>
 ```
 
-3. 在idea中重新设置maven
-   ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200507110751290.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)![在这里插入图片描述](https://img-blog.csdnimg.cn/20200507111526475.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)
-4. 每次新建项目都默认使用修改过后的maven
-   ![在这里插入图片描述](https://img-blog.csdnimg.cn/2020050711164169.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)![在这里插入图片描述](https://img-blog.csdnimg.cn/20200507111704816.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)
+3. 在 idea 中重新设置 maven
+   ![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051710500.png)
+   ![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051711937.png)
+4. 每次新建项目都默认使用修改过后的 maven
+   ![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051711097.png)
+   ![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051711947.png)

@@ -289,7 +289,7 @@
 
 ## mybatis-generator 生成数据对象及优化时间戳
 
-**1、pom.xml中的必要配置**
+**1、pom.xml 中的必要配置**
 
 ```xml
 <dependencies>
@@ -313,13 +313,12 @@
           <overwrite>true</overwrite>
         </configuration>
       </plugin>
-</build>      
+</build>
 ```
 
-**2、在 `/src/main/resources` 下创建 `datasource.properties` 和  `generatorConfig.xml`**
+**2、在 `/src/main/resources` 下创建 `datasource.properties` 和 `generatorConfig.xml`**
 
- - datasource.properties
-
+- datasource.properties
 
 ```java
 //你的 mysql-connector-java 的位置
@@ -334,16 +333,15 @@ db.username=root
 db.password=xxx
 ```
 
- - generatorConfig.xml —— 要修改的地方已经用中文标出，请自行修改，下面是截图提示 
+- generatorConfig.xml —— 要修改的地方已经用中文标出，请自行修改，下面是截图提示
 
-  - 二级包名：`/src/main/java/com` 里 `package` 名字
+- 二级包名：`/src/main/java/com` 里 `package` 名字
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200507154747233.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)
+![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051736407.png)
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200507154837546.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)
+![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051736434.png)
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200508142137517.png)
-
+![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051736655.png)
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -431,23 +429,28 @@ db.password=xxx
 
 **3、自动构建**
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200507155054777.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)![在这里插入图片描述](https://img-blog.csdnimg.cn/20200507155226727.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)
+![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051736205.png)
+![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051737840.png)
 
-**4、优化时间戳（字段createTime 和 字段updateTime）**
+**4、优化时间戳（字段 createTime 和 字段 updateTime）**
 
- - `resources/mappers/*.xml`
+- `resources/mappers/*.xml`
 
- - 把 `#{createTime,jdbcType=TIMESTAMP}` 和 `#{updateTime,jdbcType=TIMESTAMP}` 改成 `now()` ，通过代码自动生成
+- 把 `#{createTime,jdbcType=TIMESTAMP}` 和 `#{updateTime,jdbcType=TIMESTAMP}` 改成 `now()` ，通过代码自动生成
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200507171204691.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)
- ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200507171326272.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)
+![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051737586.png)
 
- - 把 `#{createTime,jdbcType=TIMESTAMP}` 和 `#{updateTime,jdbcType=TIMESTAMP}` 改成 `now()` ，通过代码自动生成
-   ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200507171513404.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)![在这里插入图片描述](https://img-blog.csdnimg.cn/20200507171628532.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)
- - 把 `#{updateTime,jdbcType=TIMESTAMP}` 改成 `now()` ，通过代码自动生成
-   ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200507171734449.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)![在这里插入图片描述](https://img-blog.csdnimg.cn/20200507171757665.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)
- - 把 `#{updateTime,jdbcType=TIMESTAMP}` 改成 `now()` ，通过代码自动生成
-   ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200507171842524.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)![在这里插入图片描述](https://img-blog.csdnimg.cn/20200507171903657.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80Mzg0ODUzMg==,size_16,color_FFFFFF,t_70)
+![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051737738.png)
+
+- 把 `#{createTime,jdbcType=TIMESTAMP}` 和 `#{updateTime,jdbcType=TIMESTAMP}` 改成 `now()` ，通过代码自动生成
+  ![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051737951.png)
+  ![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051738602.png)
+- 把 `#{updateTime,jdbcType=TIMESTAMP}` 改成 `now()` ，通过代码自动生成
+  ![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051738406.png)
+  ![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051738656.png)
+- 把 `#{updateTime,jdbcType=TIMESTAMP}` 改成 `now()` ，通过代码自动生成
+  ![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051739823.png)
+  ![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051739300.png)
 
 ## main \ resources \ `datasource.properties`
 
@@ -767,4 +770,3 @@ db.minEvictableIdleTimeMillis = 3600000
 
 </configuration>
 ```
-

@@ -1,10 +1,10 @@
-# vue3的升级点
+# vue3 的升级点
 
 ## 编译优化
 
 #### diff 算法优化
 
-`ue3`在`diff`算法中相比`vue2`增加了静态标记
+`Vue3`在`diff`算法中相比`Vue2`增加了静态标记
 
 关于这个静态标记，其作用是为了会发生变化的地方添加一个`flag`标记，下次发生变化的时候直接找该地方进行比较
 
@@ -22,22 +22,43 @@
 ```js
 // 没做提升
 export function render(_ctx, _cache, $props, $setup, $data, $options) {
-    return (_openBlock(), _createBlock(_Fragment, null, [
+  return (
+    _openBlock(),
+    _createBlock(
+      _Fragment,
+      null,
+      [
         _createVNode("span", null, "你好"),
-        _createVNode("div", null, _toDisplayString(_ctx.message), 1 /* TEXT */ )
-    ], 64 /* STABLE_FRAGMENT */ ))
+        _createVNode("div", null, _toDisplayString(_ctx.message), 1 /* TEXT */),
+      ],
+      64 /* STABLE_FRAGMENT */
+    )
+  );
 }
 ```
 
 ```js
 // 做了提升
-const _hoisted_1 = /*#__PURE__*/ _createVNode("span", null, "你好", -1 /* HOISTED */ )
+const _hoisted_1 = /*#__PURE__*/ _createVNode(
+  "span",
+  null,
+  "你好",
+  -1 /* HOISTED */
+);
 
 export function render(_ctx, _cache, $props, $setup, $data, $options) {
-    return (_openBlock(), _createBlock(_Fragment, null, [
+  return (
+    _openBlock(),
+    _createBlock(
+      _Fragment,
+      null,
+      [
         _hoisted_1,
-        _createVNode("div", null, _toDisplayString(_ctx.message), 1 /* TEXT */ )
-    ], 64 /* STABLE_FRAGMENT */ ))
+        _createVNode("div", null, _toDisplayString(_ctx.message), 1 /* TEXT */),
+      ],
+      64 /* STABLE_FRAGMENT */
+    )
+  );
 }
 ```
 
@@ -49,11 +70,19 @@ export function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 ```js
 export function render(_ctx, _cache, $props, $setup, $data, $options) {
-    return (_openBlock(), _createBlock("div", null, [
-        _createVNode("button", {
-            onClick: _cache[1] || (_cache[1] = (...args) => (_ctx.onClick(...args)))
-        }, "点我")
-    ]))
+  return (
+    _openBlock(),
+    _createBlock("div", null, [
+      _createVNode(
+        "button",
+        {
+          onClick:
+            _cache[1] || (_cache[1] = (...args) => _ctx.onClick(...args)),
+        },
+        "点我"
+      ),
+    ])
+  );
 }
 ```
 
@@ -61,11 +90,11 @@ export function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 #### SSR 优化
 
-当静态内容大到一定量级时候，会用`createStaticVNode`方法在客户端去生成一个static node，这些静态`node`，会被直接`innerHtml`，就不需要创建对象，然后根据对象渲染
+当静态内容大到一定量级时候，会用`createStaticVNode`方法在客户端去生成一个 static node，这些静态`node`，会被直接`innerHtml`，就不需要创建对象，然后根据对象渲染
 
 ## Tree shanking
 
-相比`Vue2`，`Vue3`整体体积变小了，除了移出一些不常用的API，再重要的是`Tree shanking`
+相比`Vue2`，`Vue3`整体体积变小了，除了移出一些不常用的 API，再重要的是`Tree shanking`
 
 任何一个函数，如`ref`、`reavtived`、`computed`等，仅仅在用到的时候才打包，没用到的模块都被摇掉，打包的整体体积变小
 

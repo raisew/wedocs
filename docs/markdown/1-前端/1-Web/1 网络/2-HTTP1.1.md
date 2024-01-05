@@ -11,7 +11,7 @@
 | ---------------- | ------ | ---------------------------- |
 | no-cache         | 无     | 强制向源服务器再次验证       |
 | no-store         | 无     | 不缓存请求或响应的任何内容   |
-| max-age = [秒]   | 必需   | 响应的最大Age值              |
+| max-age = [秒]   | 必需   | 响应的最大 Age 值            |
 | max-stale = [秒] | 可省略 | 接收已过期的响应             |
 | min-fresh = [秒] | 必需   | 期望在指定时间内的响应仍有效 |
 | no-transform     | 无     | 代理不可更改媒体类型         |
@@ -29,8 +29,8 @@
 | no-transform     | 无     | 代理不可更改媒体类型                           |
 | must-revalidate  | 无     | 可缓存但必须再向源服务器进行确认               |
 | proxy-revalidate | 无     | 要求中间缓存服务器对缓存的响应有效性再进行确认 |
-| max-age = [秒]   | 必需   | 响应的最大Age值                                |
-| s-maxage = [秒]  | 必需   | 公共缓存服务器响应的最大Age值                  |
+| max-age = [秒]   | 必需   | 响应的最大 Age 值                              |
+| s-maxage = [秒]  | 必需   | 公共缓存服务器响应的最大 Age 值                |
 | cache-extension  | 无     | 新指令标记（token）                            |
 
 > 通过 cache-extension 标记（token），可以扩展 Cache-Control 首部字段内的指令
@@ -45,7 +45,7 @@
 
 - 控制不再转发给代理的首部字段
 
-  ![](https://gitee.com/kingmusi/imgs/raw/master/blog/20211018113030.png)
+![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051437248.png)
 
 - 管理持久连接
 
@@ -62,7 +62,7 @@ HTTP 1.0 采用 RFC850 格式
 Date: Tue, 03-Jul-12 04:40:59 GMT
 ```
 
-HTTP 1.1采用 RFC1123 格式
+HTTP 1.1 采用 RFC1123 格式
 
 ```http
 Date: Tue, 03 Jul 2012 04:40:59 GMT
@@ -106,7 +106,7 @@ Date: Tue, 03 Jul 2012 04:40:59 GMT
 
   text/html, text/plain, text/css
 
-  application/xhtml+xml, application/xml 
+  application/xhtml+xml, application/xml
 
 - 图片文件
 
@@ -166,7 +166,7 @@ Accept-Language: zh-cn,zh;q=0.7,en-us,en;
 
 - 用来告知服务器，用户代理的认证信息（证书值）
 
-![](https://gitee.com/kingmusi/imgs/raw/master/blog/20211018115107.png)
+![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051439315.png)
 
 ## From
 
@@ -188,7 +188,7 @@ Host: www.kingmusi.xyz
 
 - 告知服务器匹配资源所用 的实体标记（ETag）值
 - 服务器会比对 If-Match 的字段值和资源的 ETag 值，仅当两者一致时，才会执行请求。反之，则返回状态码 412 Precondition Failed 的响应
-- 可以使用星号（*）指定 If-Match 的字段值，服务器将会忽略 ETag 的值，只要资源存在就处理请求
+- 可以使用星号（\*）指定 If-Match 的字段值，服务器将会忽略 ETag 的值，只要资源存在就处理请求
 
 ## If-Modified-Since
 
@@ -221,7 +221,7 @@ If-Unmodified-Since: Thu, 03 Jul 2012 00:00:00 GMT
 
 - 通过 TRACE 方法或 OPTIONS 方法，发送包含首部字段 MaxForwards 的请求时，该字段以十进制整数形式指定可经过的服务器最大数目
 
-![](https://gitee.com/kingmusi/imgs/raw/master/blog/20211018120159.png)
+![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051439355.png)
 
 ## Range
 
@@ -254,8 +254,6 @@ TE: gzip, deflate;
 ## User-Agent
 
 - 将创建请求的浏览器和用户代理名称等信息传达给服务器
-
-
 
 # HTTP/1.1 响应首部字段
 
@@ -328,7 +326,7 @@ Server: Apache/2.2.6 (Unix) PHP/5.2.5
 
 - 对缓存进行控制。源服务器会向代理服务器传达关于本地缓存使用方法的命令
 
-![](https://gitee.com/kingmusi/imgs/raw/master/blog/20211018142205.png)
+![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051439453.png)
 
 上图：当代理服务器接收到带有 Vary 首部字段指定获取资源的请求时，如果使用的 Accept-Language 字段的值相同，那么就直接从缓存返回响应。反之，则需要先从源服务器端获取资源后才能作为响应返回
 
@@ -351,7 +349,7 @@ Allow: GET, HEAD
 
 - 会告知客户端服务器对实体的主体部分选用的内容编码方式
 
-![](https://gitee.com/kingmusi/imgs/raw/master/blog/20211018142731.png)
+![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051440867.png)
 
 ```http
 Content-Encoding: gzip
@@ -386,7 +384,7 @@ Content-Location: http://www.hackr.jp/index-ja.html
 
 - Content-MD5 是一串由 MD5 算法生成的值，其目的在于检查报文主体在传输过程中是否保持完整，以及确认传输到达
 
-![](https://gitee.com/kingmusi/imgs/raw/master/blog/20211018143201.png)
+![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051440797.png)
 
 上图例子：客户端会对接收的报文主体执行相同的 MD5 算法，然后与首部字段 Content-MD5 的字段值比较
 
@@ -394,7 +392,7 @@ Content-Location: http://www.hackr.jp/index-ja.html
 
 - 告知客户端作为响应返回的实体的哪个部分符合范围请求
 
-![](https://gitee.com/kingmusi/imgs/raw/master/blog/20211018143436.png)
+![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401051440050.png)
 
 ## Content-Type
 
@@ -418,19 +416,18 @@ Last-Modified: Wed, 23 May 2012 09:59:55 GMT
 
 # 为 Cookie 服务的首部字段
 
-| 首部字段名 | 说明                           | 首部类型     |
-| ---------- | ------------------------------ | ------------ |
-| Set-Cookie | 开始状态管理所使用的Cookie信息 | 响应首部字段 |
-| Cookie     | 服务器接收到的Cookie信息       | 请求首部字段 |
+| 首部字段名 | 说明                             | 首部类型     |
+| ---------- | -------------------------------- | ------------ |
+| Set-Cookie | 开始状态管理所使用的 Cookie 信息 | 响应首部字段 |
+| Cookie     | 服务器接收到的 Cookie 信息       | 请求首部字段 |
 
-## Set-Cookie 
+## Set-Cookie
 
-| 属性         | 说明                                                         |
-| ------------ | ------------------------------------------------------------ |
-| NAME=VALUE   | 赋予 Cookie 的名称和其值（必需项）                           |
-| expires=DATE | Cookie 的有效期（若不明确指定则默认为浏览器关闭前为止）      |
-| path=PATH    | 将服务器上的文件目录作为Cookie的适用对象（若不指定则默认为文档所在的文件目录） |
-| domain=域名  | 作为 Cookie 适用对象的域名 （若不指定则默认为创建 Cookie 的服务器的域名） |
-| Secure       | 仅在 HTTPS 安全通信时才会发送 Cookie                         |
-| HttpOnly     | 加以限制，使 Cookie 不能被 JavaScript 脚本访问               |
-
+| 属性         | 说明                                                                             |
+| ------------ | -------------------------------------------------------------------------------- |
+| NAME=VALUE   | 赋予 Cookie 的名称和其值（必需项）                                               |
+| expires=DATE | Cookie 的有效期（若不明确指定则默认为浏览器关闭前为止）                          |
+| path=PATH    | 将服务器上的文件目录作为 Cookie 的适用对象（若不指定则默认为文档所在的文件目录） |
+| domain=域名  | 作为 Cookie 适用对象的域名 （若不指定则默认为创建 Cookie 的服务器的域名）        |
+| Secure       | 仅在 HTTPS 安全通信时才会发送 Cookie                                             |
+| HttpOnly     | 加以限制，使 Cookie 不能被 JavaScript 脚本访问                                   |

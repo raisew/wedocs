@@ -18,9 +18,13 @@ body{
     padding-bottom: 89px!important;
   }
   .VPNavBar:not(.top) .content-body[data-v-cf6e7c5e]{
-    background-color: var(--vp-bg);
-    backdrop-filter: saturate(50%) blur(10px);
+    background-color: rgba(var(--vp-c-bg),0.8);
+    backdrop-filter: saturate(50%) blur(15px);
   }
+  // .divider-line{
+  //   height: 10px!important;
+  //   background: linear-gradient(var(--vp-c-bg),transparent 95%)!important;
+  // }
  
   .container-main{
       max-width: 1200px;
@@ -36,13 +40,12 @@ body{
     color: var(--vp-c-user-1)!important;
   }
 
-  #particles canvas{
-    background-color: transparent !important;
-    opacity: 0.25 !important;
-  }
-
-  .VPDoc{
-    background-color: var(--vp-c-bg);
+  // .VPDoc{
+  //   background-color: var(--vp-c-bg);
+  // }
+  .vp-doc p{
+    line-height: 1.42857143!important;
+    margin: 0!important;
   }
   
 
