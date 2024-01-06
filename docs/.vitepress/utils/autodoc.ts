@@ -98,7 +98,7 @@ function autoSideBar(dirPath) {
   );
 
   treeSideBar.forEach((item) => {
-    item.text = `📂 ${item.text.replace("📄 ", "")}`;
+    item.text = `📁 ${item.text.replace("📄 ", "")}`;
     if (item.collapsed !== false) item.collapsed = true;
     item.items = orderBy(cloneDeep(item.items), (item2) => {
       let nameSp = item2.id.split("/");
@@ -122,9 +122,8 @@ function autoSideBar(dirPath) {
 
 // 设置侧边栏
 function setSideBar() {
-  let files = fg.sync(`docs/markdown/**/[0-9]+-*.md`, {
+  let files = fg.sync(`docs/markdown/**/**/[0-9]+-*.md`, {
     onlyFiles: true,
-    ignore: ["markdown/**/**/*"],
   });
   let obj = {};
   files.sort().forEach((file) => {
@@ -145,12 +144,12 @@ function setSideBar() {
 
 // 设置导航栏
 function setNavBar() {
-  let files = fg.sync(`docs/markdown/**/[0-9]+-*.md`, {
+  let files = fg.sync(`docs/markdown/**/**/[0-9]+-*.md`, {
     onlyFiles: true,
   });
   let filesSort = files.sort((a, b) => {
-    let aNum: any = a.split("/")[3].split("-")[0];
-    let bNum: any = b.split("/")[3].split("-")[0];
+    let aNum: any = a.split("/")[2].split("-")[0];
+    let bNum: any = b.split("/")[2].split("-")[0];
     return aNum - bNum;
   });
   let obj = new Map();
@@ -164,10 +163,10 @@ function setNavBar() {
     if (obj.has(navName) === false) {
       navNameObject[navName] = [linkName];
       obj.set(navName, {
-        text: navName.replace(/^\d+-/, ""),
+        text: '⭐ '+ navName.replace(/^\d+-/, ""),
         items: [
           {
-            text: linkName,
+            text: '✨ '+ linkName,
             link: "/markdown" + fileEnd.replace(".md", ""),
           },
         ],
@@ -177,7 +176,7 @@ function setNavBar() {
         navNameObject[navName].push(linkName);
         let item = obj.get(navName);
         item.items.push({
-          text: linkName,
+          text:'✨ '+ linkName,
           link: "/markdown" + fileEnd.replace(".md", ""),
         });
         obj.set(navName, item);

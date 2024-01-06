@@ -17,7 +17,9 @@ export default defineConfig({
   cleanUrls: false,
   vite:{
     build:{
-      chunkSizeWarningLimit:5000
+      chunkSizeWarningLimit:5000,
+      target: "modules",
+      sourcemap: false,
     }
   },
   markdown: {
