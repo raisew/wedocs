@@ -37,36 +37,36 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     logo: "/logo.png",
     siteTitle: "hongyangwu",
-    // algolia: algoliaJSON(),
-    search: {
-      provider: "local",
-      options:{
-        _render(src, env, md) {
-          const html = md.render(src, env)
-          if (env.frontmatter?.title)
-            return md.render(`# ${env.frontmatter.title}`) + html
-          return html
-        },
-        translations: {
-          button: {
-            buttonText: '搜索文档',
-            buttonAriaLabel: '搜索文档'
-          },
-          modal: {
-            displayDetails: '显示详细列表',
-            resetButtonTitle: '重置搜索',
-            backButtonTitle: '关闭搜索',
-            noResultsText: '无法找到相关结果',
-            footer: {
-              selectText: '选择',
-              navigateText: '切换',
-              closeText: '关闭',
-            }
-          }
-        }
-      }
+    algolia: algoliaJSON(),
+    // search: {
+    //   provider: "local",
+    //   options:{
+    //     _render(src, env, md) {
+    //       const html = md.render(src, env)
+    //       if (env.frontmatter?.title)
+    //         return md.render(`# ${env.frontmatter.title}`) + html
+    //       return html
+    //     },
+    //     translations: {
+    //       button: {
+    //         buttonText: '搜索文档',
+    //         buttonAriaLabel: '搜索文档'
+    //       },
+    //       modal: {
+    //         displayDetails: '显示详细列表',
+    //         resetButtonTitle: '重置搜索',
+    //         backButtonTitle: '关闭搜索',
+    //         noResultsText: '无法找到相关结果',
+    //         footer: {
+    //           selectText: '选择',
+    //           navigateText: '切换',
+    //           closeText: '关闭',
+    //         }
+    //       }
+    //     }
+    //   }
       
-    },
+    // },
     nav: navBar,
     sidebar: sideBar,
     socialLinks: [{ icon: "github", link: "https://github.com" }],
@@ -92,9 +92,9 @@ export default defineConfig({
 
 function algoliaJSON() {
   return {
-    appId: "RMVAHTZ5LL",
-    apiKey: "96dbb8e7c314f86172f3108ef9338d89",
-    indexName: "wedoc",
+    appId: "A1B9APT84I",
+    apiKey: "07401488509684729962437366a027e3",
+    indexName: "hongyangwutp[",
     // locales: {
     //   zh: {
     placeholder: "搜索文档",
