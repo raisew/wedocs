@@ -433,8 +433,269 @@ FALLBACK:
 允许用户最大缩放比例，为⼀个数字，可以带⼩数 // user-scalable 是否允许手动缩放
 ```
 
-1. 延伸提问
+1.  延伸提问
 
-   - 怎样处理 移动端 1px
+    - 怎样处理 移动端 `1px` 被 渲染成 `2px` 问题
 
-2. 局部处理
+2.  局部处理
+
+    - `mate` 标签中的 `viewport` 属性 ，`initial-scale` 设置为 `1`
+
+    - `rem` 按照设计稿标准走，外加利用 `transfrome` 的 `scale(0.5)` 缩⼩⼀倍即可；
+
+3.  全局处理
+
+    - `mate` 标签中的 `viewport` 属性 ， `initial-scale` 设置为 `0.5`
+    - `rem` 按照设计稿标准走即可
+
+## 24. 渲染优化
+
+1. 禁止使用 `iframe` ( 阻塞父⽂档 `onload` 事件)
+
+   - `iframe` 会阻塞主页面的 `Onload` 事件
+   - 搜索引擎的检索程序⽆法解读这种页面，不利于 `SEO`
+   - `iframe` 和主页面共享连接池， 而浏览器对相同域的连接有限制，所以会影响页面的并
+     行加载
+   - 使用 `iframe` 之前需要考虑这两个缺点 。如果需要使用 `iframe` ， 最好是通过 `javascript`
+   - 动态给 `iframe` 添加 `src` 属性值， 这样可以绕开以上两个问题
+
+2. 禁止使用 `gif` 图片实现 `loading` 效果 ( 降低 `CPU` 消耗，提升渲染性能)
+3. 使用 `CSS3` 代码代替 `JS` 动画 (尽可能避免重绘重排以及回流)
+4. 对于⼀些⼩图标， 可以使用 base64 位编码， 以减少⽹络请求 。但不建议大图使用， 比较耗
+   费 `CPU`
+
+   ⼩图标优势在于:
+
+   - 减少 `HTTP` 请求
+   - 避免⽂件跨域
+   - 修改及时生效
+
+5. 页面头部的 `<style></style>` `<script></script>` 会阻塞页面；( 因为 `Renderer`
+   进程中 `JS` 线程和渲染线程是互斥的)
+6. 页面中空的 `href` 和 `src` 会阻塞页面其他资源的加载 (阻塞下载进程)
+7. ⽹页 `gzip` ， `CDN` 托管， `data` 缓存 ， 图片服务器
+8. 前端模板 1S+数据，减少由于 `HTML` 标签导致的带宽浪费， 前端用变量保存 A1AX 请求结
+   果，每次操作本地变量，不用请求，减少请求次数
+9. 用 `innerHTML` 代替 `DOM` 操作，减少 `DOM` 操作次数，优化 `javascript` 性能
+10. 当需要设置的样式很多时设置 `className` 而不是直接操作 `style`
+11. 少用全局变量 、缓存 `DOM` 节点查找的结果 。减少 `IO` 读取操作
+12. 图片预加载，将样式表放在顶部，将脚本放在底部 加上时间戳
+13. 对普通的网站有⼀个统⼀的思路，就是尽量向前端优化 、减少数据库操作 、减少磁盘 `IO`
+
+## 25. meta viewport 相关
+
+```html
+<!DOCTYPE html>
+<!--H5标准声明，使用 HTML5 doctype，不区分大⼩写-->
+<head lang="”en”">
+  <!--标准的 lang 属性写法-->
+  <meta charset="’utf-8′" />
+  <!--声明文档使用的字符编码-->
+  <meta http-equiv="”X-UA-Compatible”" content="”IE" ="edge,chrome" ="1″" />
+  <!--优先使
+<meta name= ”description” content=”不超过150个字符”/> <!--页面描述-->
+  <meta name="”keywords”" content="””" />
+  <!-- 页面关键词-->
+  <meta name="”author”" content="”name," email@gmail .com” />
+  <!--网页作者-->
+  <meta name="”robots”" content="”index,follow”" />
+  <!--搜索引擎抓取-->
+  <meta
+    name="”viewport”"
+    content="”initial-scale"
+    ="1,"
+    maximum-
+    scale="3,"
+    minimum-sc
+    <meta
+    name="”apple-mobile-web-app-title”"
+    content="”标题”"
+  />
+  <!--iOS 设备 begin-- <meta name= ”apple-mobile-web-app-capable” content= ”yes”/> <!--添加到主屏后的标
+是否启用 WebApp 全屏模式，删除苹果默认的⼯具栏和菜单栏-->
+  <meta
+    name="”apple-"
+    itunes-
+    app”
+    content="”"
+    app-
+    id="myAppStoreID,"
+    affiliate-data="<!--添加智能"
+    App
+    ⼴告条
+    Smart
+    App
+    Banner
+    (
+    iOS
+    6+
+    Safari)
+    --
+  />
+  <meta name="”apple-mobile-web-app-status-bar-style”" content="”black”" />
+  <meta name="”format-detection”" content="”telphone" ="no," email="no”" />
+  <!--设置苹果-->
+  <meta name="”renderer”" content="”webkit”" />
+  <!-- 启用360浏览器的极速模式(webkit)-->
+  <meta http-equiv="”X-UA-Compatible”" content="”IE" ="edge”" />
+  <!--避免IE使用兼容模-->
+  <meta http-equiv="”Cache-Control”" content="”no-siteapp”" />
+  <!--不让百度转码-->
+  <meta name="”HandheldFriendly”" content="”true”" />
+  <!--针对手持设备优化，主要是针对一些老的不识别viewport的浏览器，比如黑莓 -->
+  <meta name="”MobileOptimized”" content="”320″" />
+  <!--微软的老式浏览器-->
+  <meta name="”screen-orientation”" content="”portrait”" />
+  <!--uc强制竖屏-->
+  <meta name="”x5-orientation”" content="”portrait”" />
+  <!--QQ强制竖屏-->
+  <meta name="”full-screen”" content="”yes”" />
+  <!--UC强制全屏-->
+  <meta name="”x5-fullscreen”" content="”true”" />
+  <!--QQ强制全屏-->
+  <meta name="”browsermode”" content="”application”" />
+  <!--UC应用模式-->
+  <meta name="”x5-page-mode”" content="”app”" />
+  <!-- QQ应用模式-->
+  <meta name="”msapplication-tap-highlight”" content="”no”" />
+  <!--windows phone 设置页面不缓存-->
+  <meta http-equiv="”pragma”" content="”no-cache”" />
+  <meta http-equiv="”cache-control”" content="”no-cache”" />
+  <meta http-equiv="”expires”" content="”0″" />
+</head>
+```
+
+## 26. 你做的页面在哪些流览器测试过？这些浏览器的内核分别是什么?
+
+1. `IE` : `trident` 内核
+2. `Firefox` ： `gecko` 内核
+3. `Safari` : `webkit` 内核
+4. `Opera` :以前是 `presto` 内核， `Opera` 现已改用 Google - `Chrome` 的 `Blink` 内核
+5. `Chrome`: `Blink` (基于 `webkit` ， Google 与 Opera Software 共同开发)
+
+## 27. div+css 的布局较 table 布局有什么优点？
+
+1. 改版的时候更⽅便 只要改 `css` ⽂件。
+2. 页面加载速度更快 、结构化清晰 、页面显示简洁。
+3. 表现与结构相分离。
+4. 易于优化 ( `seo` ) 搜索引擎更友好， 排名更容易靠前。
+
+## 28. a： img 的 alt 与 title 有何异同？b：strong 与 em 的异同？
+
+1. `alt(alt text)` :为不能显示图像 、窗体或 `applets` 的用户代理 ( `UA` )， `alt` 属性用
+   来指定替换⽂字 。替换⽂字的语⾔由 `lang` 属性指定 。(在 IE 浏览器下会在没有 `title` 时
+   把 alt 当成 `tool` `tip` 显示)
+2. `title(tool tip)` :该属性为设置该属性的元素提供建议性的信息
+3. `strong`:粗体强调标签， 强调，表示内容的重要性
+4. `em`:斜体强调标签，更强烈强调，表示内容的强调点
+
+## 29. 你能描述⼀下渐进增强和优雅降级之间的不同吗
+
+1. 渐进增强：针对低版本浏览器进⾏构建页面，保证最基本的功能，然后再针对高级浏览器
+   进⾏效果 、交互等改进和追加功能达到更好的用户体验
+2. 优雅降级：⼀开始就构建完整的功能，然后再针对低版本浏览器进⾏兼容
+
+   > 区别：优雅降级是从复杂的现状开始， 并试图减少用户体验的供给， 而渐进增强则是从⼀个非常基础的， 能够起作用的版本开始， 并不断扩充， 以适应未来环境的需要 。降级 (功能衰减) 意味着往回看；而渐进增强则意味着朝前看，同时保证其根基处于安全地带
+
+## 30. 为什么利用多个域名来存储网站资源会更有效？
+
+1. `CDN` 缓存更⽅便
+2. 突破浏览器并发限制
+3. 节约 `cookie` 带宽
+4. 节约主域名的连接数，优化页面响应速度
+5. 防止不必要的安全问题
+
+## 31. 简述⼀下 src 与 href 的区别
+
+1. `src` 用于替换当前元素， href 用于在当前⽂档和引用资源之间确立联系。
+2. `src` 是 `source` 的缩写，指向外部资源的位置，指向的内容将会嵌⼊到⽂档中当前标签所
+   在位置；在请求 `src` 资源时会将其指向的资源下载并应用到⽂档内，例如 `js` 脚本，
+   `img` 图片和 `frame` 等元素
+   > `<script src ="js.js"></script>` 当浏览器解析到该元素时，会暂停其他资源的下载和处理， 直到将该资源加载 、编译 、执⾏完毕， 图片和框架等元素也如此， 类似于将所指向资源嵌⼊当前标签内 。这也是为什么将 js 脚本放在底部而不是头部
+3. `href` 是 `Hypertext Reference` 的缩写，指向⽹络资源所在位置， 建立和当前元素 ( 锚
+   点) 或当前⽂档 (链接) 之间的链接， 如果我们在⽂档中添加
+4. `<link href="common.css" rel="stylesheet"/>` 那么浏览器会识别该⽂档为 `css` ⽂
+   件，就会并⾏下载资源并且不会停止对当前⽂档的处理 。这也是为什么建议使用 `link` ⽅
+   式来加载 `css` ， 而不是使用 `@import` ⽅式
+
+## 32. 知道的网页制作会用到的图片格式有哪些？
+
+1. `png-8` 、 `png-24` 、 `jpeg` 、 `gif` 、 `svg`
+   > 但是上面的那些都不是面试官想要的最后答案 。面试官希望听到是 Webp , Apng 。 ( 是否有关注新技术，新鲜事物)
+2. Webp： `WebP` 格式，谷歌 ( google) 开发的⼀种旨在加快图片加载速度的图片格式 。图
+   片压缩体积大约只有 `JPEG` 的 `2/3` ， 并能节省大量的服务器带宽资源和数据空间。
+   `Facebook Ebay` 等知名⽹站已经开始测试并使用 `WebP` 格式
+3. 在质量相同的情况下， WebP 格式图像的体积要比 JPEG 格式图像⼩ `40%` 。
+4. Apng：全称是 `“Animated Portable Network Graphics”` , 是 PNG 的位图动画扩展， 可
+   以实现 png 格式的动态图片效果 。04 年诞生，但⼀直得不到各大浏览器⼚商的⽀持， 直到
+   ⽇前得到 `iOS safari 8` 的⽀持，有望代替 `GIF` 成为下⼀代动态图标准
+
+## 33. 在 css/js 代码上线之后开发人员经常会优化性能，从用户刷新网页开始， ⼀次 js 请求⼀般情况下有哪些地方会有缓存处理？
+
+`dns` 缓存， 浏览器缓存， 服务器缓存
+
+## 34. ⼀个页面上有大量的图片 (大型电商网站) ，加载很慢，你有哪些方法优化这些图片的加载，给用户更好的体验。
+
+1. 图片懒加载，在页面上的未可视区域可以添加⼀个滚动事件， 判断图片位置与浏览器顶端
+   的距离与页面的距离， 如果前者小于后者，优先加载。
+2. 如果为幻灯片 、相册等， 可以使用图片预加载技术，将当前展示图片的前⼀张和后⼀张优
+   先下载。
+3. 如果图片为 css 图片， 可以使用 CSSsprite ， SVGsprite ， Iconfont 、 Base64 等技
+   术。
+4. 如果图片过大， 可以使用特殊编码的图片，加载时会先加载⼀张压缩的特别厉害的缩略
+   图， 以提高用户体验。
+5. 如果图片展示区域小于图片的真实大小，则因在服务器端根据业务需要先行进行图片压
+   缩， 图片压缩后大小与展示⼀致。
+
+## 35. 常见排序算法的时间复杂度,空间复杂度
+
+![](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401080944850.png)
+
+## 36. web 开发中会话跟踪的方法有哪些
+
+1. `cookie`
+2. `session`
+3. `url` 重写
+4. 隐藏 `input`
+5. `ip` 地址
+
+## 37. HTTP request 报文结构是怎样的
+
+1. 首行是 Request-Line 包括：请求方法，请求 URI，协议版本， CRLF
+2. 首行之后是若干行请求头， 包括 general-header， request-header 或者 entity-header，
+   每个⼀行以 CRLF 结束
+3. 请求头和消息实体之间有⼀个 CRLF 分隔
+4. 根据实际请求需要可能包含⼀个消息实体 ⼀个请求报文例子如下：
+
+```js
+GET /Protocols/rfc2616/rfc2616-sec5.html HTTP/1.1
+Host: www.w3.org
+Connection: keep-alive
+Cache-Control: max-age=0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/ *;q=0.8,application/signed-exchange;v=b3
+user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36
+Referer: https//www.google.com.hk/
+Accept-Encoding: gzip,deflate,sdch
+Accept-Language: zh-CN,zh;q=0.8,en;q=0.6
+Cookie: authorstyle=yes
+If-None-Match: "2cc8-3e3073913b100"
+If-Modified-Since: Wed, 01 Sep 2004 13:24:52 GMT
+name=qiu&age=25
+```
+
+## 38. HTTP response 报文结构是怎样的
+
+```js
+HTTP/1.1 200 OK
+Date: Tue, 08 Jul 2014 05:28:43 GMT
+Server: Apache/2
+Last-Modified: Wed, 01 Sep 2004 13:24:52 GMT
+ETag: "40d7-3e3073913b100"
+Accept-Ranges: bytes
+Content-Length: 16599
+Cache-Control: max-age=21600
+Expires: Tue, 08 Jul 2014 11:28:43 GMT
+P3P: policyref="http://www.w3.org/2001/05/P3P/p3p.xml"
+Content-Type: text/html; charset=iso-8859-1
+{"name": "qiu", "age": 25}
+```

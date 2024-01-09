@@ -47,7 +47,9 @@ body{
     line-height: 1.42857143!important;
     margin: 0!important;
   }
-  
+  .vp-doc li + li{
+    line-height: 1.52857143;
+  }
 
   .VPPluginSearch-flex-logo{
     display: none;
