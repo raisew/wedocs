@@ -36,6 +36,7 @@ export default defineConfig({
   head: [
     // 配置网站的图标（显示在浏览器的 tab 上）
     ["link", { rel: "icon", href: "/favicon.ico" }], 
+    ["link", { rel: "shortcut icon", href: "/favicon.ico" }], 
   ],
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config

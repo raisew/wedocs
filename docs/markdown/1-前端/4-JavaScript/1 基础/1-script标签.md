@@ -18,7 +18,7 @@
 
 - 按照出现顺序执行（现实中不一定）
 - 在 **DOMContentLoaded** 事件前执行（现实中不一定）
-- 只对外部脚本文件有效（IE4~7行内脚本也有效）
+- 只对外部脚本文件有效（IE4~7 行内脚本也有效）
 
 ## **async** 脚本
 
@@ -32,17 +32,16 @@
 通过向 **DOM** 中动态添加 **script** 元素加载，行为与 **async** 属性相似
 
 ```js
-const script = document.createElement('script')
-script.src = 'xx.js'
-document.body.appendChild(script)
+const script = document.createElement("script");
+script.src = "xx.js";
+document.body.appendChild(script);
 ```
 
 如果要控制动态脚本的加载行为，可以明确将其设置为同步加载
 
 ```js
-const script = document.createElement('script')
-script.src = 'xx.js'
-script.async = false
-document.body.appendChild(script)
+const script = document.createElement("script");
+script.src = "xx.js";
+script.async = false;
+document.body.appendChild(script);
 ```
-
