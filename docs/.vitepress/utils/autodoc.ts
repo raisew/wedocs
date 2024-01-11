@@ -145,13 +145,14 @@ function setSideBar() {
 // 设置导航栏
 function setNavBar() {
   let files = fg.sync(`docs/markdown/**/**/[0-9]+-*.md`, {
-    onlyFiles: true,
+    onlyFiles: false,
   });
   let filesSort = files.sort((a, b) => {
-    let aNum: any = a.split("/")[3].split("-")[0];
-    let bNum: any = b.split("/")[3].split("-")[0];
+    let aNum: any = a.split("/")[2].split("-")[0];
+    let bNum: any = b.split("/")[2].split("-")[0];
     return aNum - bNum;
   });
+  console.log(filesSort)
   let obj = new Map();
   let navNameObject = {};
   filesSort.forEach((file) => {
