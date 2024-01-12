@@ -152,7 +152,6 @@ function setNavBar() {
     let bNum: any = b.split("/")[2].split("-")[0];
     return aNum - bNum;
   });
-  console.log(filesSort)
   let obj = new Map();
   let navNameObject = {};
   filesSort.forEach((file) => {
@@ -184,7 +183,17 @@ function setNavBar() {
       }
     }
   });
-  return [...obj.values()];
+  let res = [...obj.values()];
+  for(let i=0; i<res.length; i++){
+    if(res[i].items){
+      res[i].items.sort((a:any, b:any) => {
+        let aNum: any = a.link.split("/")[3].split("-")[0];
+        let bNum: any = b.link.split("/")[3].split("-")[0];
+        return aNum - bNum;
+      })
+    }
+  }
+  return res;
 }
 
 // 自动生成
