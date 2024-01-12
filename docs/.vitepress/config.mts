@@ -37,8 +37,8 @@ export default defineConfig({
     // 配置网站的图标（显示在浏览器的 tab 上）
     ["link", { rel: "icon", href: "/favicon.ico" }], 
     ["link", { rel: "shortcut icon", href: "/favicon.ico" }], 
-    ["meta",{property: "og: title", content: "hongyangwu 前端文档"}],
-    ["meta",{property: "og: image", content: "https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401121430489.png"}]
+    ["meta", {property: "og:title", content: "hongyangwu 前端文档"}],
+    ["meta", {property: "og:image", content: "https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202401121430489.png"}]
   ],
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
