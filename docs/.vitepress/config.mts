@@ -49,7 +49,7 @@ export default defineConfig({
     search: localOptions,
     nav: navBar,
     sidebar: sideBar,
-    socialLinks: [{ icon: "github", link: "https://github.com" }],
+    // socialLinks: [{ icon: "github", link: "https://github.com" }],
     footer: {
       message: "",
       copyright: `Copyright © 2021-${new Date().getFullYear()} hongyangwu`,
