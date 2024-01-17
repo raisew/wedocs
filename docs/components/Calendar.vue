@@ -458,6 +458,8 @@ watch(() => state.holidayMonth, (newVal) => {
     }
 
     .side {
+        display: flex;
+        flex-direction: column;
         background: var(--vp-c-user-1);
         width: 112px;
         color: #fff;
@@ -514,12 +516,14 @@ watch(() => state.holidayMonth, (newVal) => {
 
         .yiji {
             position: relative;
+            width: 100%;
+            flex: 1;
             margin-top: 12px;
             padding-top: 12px;
             background: rgba(255, 255, 255, 0.15);
-            height: 80%;
             text-align: center;
             overflow-y: auto;
+            padding-bottom: 5px;
 
             .yi {
                 float: left;
