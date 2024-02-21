@@ -3,7 +3,7 @@
 ## typeof
 
 1. 返回值含义
-   - **undefined** ：值未定义
+   - **undefined**：值未定义
    - **boolean**：布尔值
    - **string**：字符串
    - **number**：数值

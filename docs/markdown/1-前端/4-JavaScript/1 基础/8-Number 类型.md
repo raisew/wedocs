@@ -61,7 +61,7 @@ inFinite( Number.MAX_VALUE + Number.MAX_VALUE ) // false
 
 - 表示要返回的数值不是数值（Not a Number）
 
-- **NaN** 不等于任何值，包活自己
+- **NaN** 不等于任何值，包括自己
 - 涉及 **NaN** 的任何操作都返回 **NaN**
 - 可以用 `isNaN()` 函数判断一个值，是否不是数值
 
