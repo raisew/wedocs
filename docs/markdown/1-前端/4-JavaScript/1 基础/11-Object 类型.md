@@ -15,6 +15,6 @@
 - **propertyIsEnumerable(propertyName)**：用于判断给定的属性是否可以使用 **for-in** 语句枚举。与 `hasOwnProperty()`一样，属性名必须是字符串。
 
 - **toLocalestring()**：返回对象的字符串表示，该字符串反映对象所在的本地化执行环境。
-- **tostring()**：返回对象的字符串表示。
+- **toString()**：返回对象的字符串表示。
 
-- **valueof()**：返回对象对应的字符串、数值或布尔值表示。通常与 `tostring()` 的返回值相同。
+- **valueOf()**：返回对象对应的字符串、数值或布尔值表示。通常与 `toString()` 的返回值相同。

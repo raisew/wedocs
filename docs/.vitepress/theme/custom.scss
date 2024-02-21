@@ -1,6 +1,7 @@
 body{
   line-height: 1.42857143;
   overflow-x: hidden;
+  font-synthesis: weight;
 }
 .VPHome {
     // 自定义首页背景图
@@ -49,6 +50,9 @@ body{
   }
   .vp-doc li + li{
     line-height: 1.52857143;
+  }
+  .vp-doc :not(pre) > code{
+    font-weight: 700;
   }
 
   .VPPluginSearch-flex-logo{
