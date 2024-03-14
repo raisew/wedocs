@@ -1,10 +1,10 @@
 # Logger【终端输出带颜色】
 
-## 1. package地址
+## 1.package地址
 
 https://pub-web.flutter-io.cn/packages/logger
 
-## 2. 引入
+## 2.引入
 
 在 `pubspec.yaml` 中添加以下依赖：
 
@@ -15,7 +15,7 @@ dependencies:
   # print colorful logs
   logger: ^2.1.0
 ```
-## 3. 封装
+## 3.封装
 在main.dart里面引入
 
 ```dart
@@ -76,7 +76,7 @@ class AppLogger {
 }
 ```
 
-## 4. 使用
+## 4.使用
 
 由于我们封装的方法都是全局的，所以直接使用即可
 

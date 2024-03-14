@@ -3,11 +3,20 @@
 ## 1.渲染方式
 `Flutter for Web` 有两种渲染方式 `html` 和 `canvaskit` ，打包命令分别如下
 
-```shell
+::: code-group
+
+```sh [html]
   flutter build web --web-renderer html --release
+```
+```sh [canvaskit]
   flutter build web --web-renderer canvaskit --release
 ```
+:::
+
 默认使用的是 `canvaskit` ，但是对中文支持不好，刚开始加载会显示乱码，那是因为默认使用的是 `Nato` 字体，会去网上下载，就会有明显的感觉，可以设定项目字体就能解决；当然 `html` 方式没有这个问题，但是如果项目中有使用 `RenderRepaintBoundary` 保存图片的功能， `html` 的方式就会报错了，所以还是建议使用 `canvaskit` 。
+
+打包后确保路径没问题，建议把 `index.html` 文件中的`<base href="/">`改成`<base href="./">`
+
 ## 2.跨域问题
 
 `Web` 开发都会遇到跨域问题，本地开发的解决方式目前我看到的有两种，修改启动配置或者设置本地代理服务器
