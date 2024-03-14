@@ -106,8 +106,6 @@ assets/kline 里面的文件
 ## 5.封装成app时，添加返回功能
 
 ```dart
-import 'dart:ffi';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
