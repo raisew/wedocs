@@ -22,7 +22,7 @@
   image_picker: ^1.0.7
 ```
 `analysis_options.yaml` 文件
-```dart
+```yaml
 # This file configures the analyzer, which statically analyzes Dart code to
 # check for errors, warnings, and lints.
 #
