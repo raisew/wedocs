@@ -1,8 +1,8 @@
-# getx实现换肤、多语言、api请求、路由封装等多功能脚手架
+# getx 实现换肤、多语言、api请求、路由封装等多功能脚手架
 
 ## 1. pubspec.yaml添加package
 将下面依赖复制到 `pubspec.yaml` 文件的 `dependencies` 下面
-```dart
+```yaml
   get: ^4.6.5
   get_storage: ^2.1.1
 
