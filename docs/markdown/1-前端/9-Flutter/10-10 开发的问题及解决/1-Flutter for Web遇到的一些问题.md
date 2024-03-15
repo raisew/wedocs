@@ -61,6 +61,79 @@ void main() {
 }
 
 ```
+### 项目部署后，直接通过路由访问会出现 `404` 错误
+
+**问题：**
+
+解决了上述问题，测试阶段的各个功能都正常。然而部署上线之后，直接访问子路径下的某个页面，居然返回了 404 错误。
+
+命名路由的 `routes` 是有的，或者如果使用 `GetX` ，设置了 `getPages` 是一样的。在调试模式下，这个问题是不存在的，仅仅出现在部署之后，一度让我大为困惑。
+
+对照之前的改动，把 `URL` 策略切换回 `Hash` 模式，这个问题就消失了,
+
+难道是 `Flutter Web` 编译的 `bug` 嘛?
+
+**解决方法：**
+
+一通搜索后总算有了结论，原来是托管应用页面的 `web` 服务(例如 `Nginx` )，默认会把多级路径的 `URL` 按目录去解析，访问最后一个目录下的 `index.html` 文件。而对于单页应用来说，显然后续的路径都是作为参数来使用的。而 `Hash` 模式由于使用一个井号把后续路径隔开了，自然就没有这个问题了
+
+- `Apache Web`服务器（`.htaccess`文件）
+```apache
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>
+```
+- `Nginx Web`服务器（`nginx.conf`文件）
+
+```nginx
+location / {
+  # ...
+  try_files $uri $uri/ /index.html;
+}
+```
+
+- `Vercel` 
+在 `Vercel` 上配置路由重定向也是很简单的。 `Vercel` 提供了一个名为 `vercel.json` 的配置文件，你可以在其中指定路由重定向规则。
+
+以下是一个示例 `vercel.json` 文件，用于将所有的URL请求重定向到 `index.html`：
+```json
+{
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
+```
+
+- `Firebase Hosting`
+
+`Firebase Hosting` 通常在 `firebase.json` 中配置重写规则：
+
+```json
+{
+  "hosting": {
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
+
+```
+
+意为:先尝试访问 `URL` 和其路径下的文件，如果不存在，则直接访问根目录的 `index.html` 。
+
+为什么开发的时候没有出现这个问题呢?原因就是在调试模式下， `Flutter` 优化了本地开发服务器，会优雅的处理各类 `URL` 策略并指向根目录的 `Html` 文件，也就是替我们做了上面这一步。
+
 ## 4. 一些库的适配
 
 `webview_flutter` 也是对 `web` 做了适配的，只需要设置下面一句即可

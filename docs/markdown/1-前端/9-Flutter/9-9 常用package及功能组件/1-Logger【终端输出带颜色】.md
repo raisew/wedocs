@@ -12,20 +12,17 @@ https://pub-web.flutter-io.cn/packages/logger
 dependencies:
   flutter:
     sdk: flutter
-  # print colorful logs
+
   logger: ^2.1.0
 ```
 ## 3.封装
-在main.dart里面引入
+
+新建一个 `app_logger.dart` 的文件
 
 ```dart
+
 import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
-```
-
-将一下类复制到main.dart 文件里面
-
-```dart
 
 class AppLogger {
   static final AppLogger _instance = AppLogger._internal();
@@ -78,11 +75,11 @@ class AppLogger {
 
 ## 4.使用
 
-由于我们封装的方法都是全局的，所以直接使用即可
+引入 `app_logger.dart` 文件
 
 ```dart
-AppLogger.log('这里是log日志【正常颜色】');
-AppLogger.info('这里是info日志【浅蓝色】');
-AppLogger.warn('这里是warning日志【橘色】');
-AppLogger.error('这里是error日志【红色颜色】');
+AppLogger().log('这里是log日志【正常颜色】');
+AppLogger().info('这里是info日志【浅蓝色】');
+AppLogger().warn('这里是warning日志【橘色】');
+AppLogger().error('这里是error日志【红色颜色】');
 ```
