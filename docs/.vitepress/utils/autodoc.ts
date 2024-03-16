@@ -64,7 +64,7 @@ function autoSideBar(dirPath) {
       let param: paramTypes = {
         id: selfPath,
         pid: parentPath,
-        text: "📖 " + name.replace(/\d+-/gi, "").replace(".md", ""),
+        text: "📜 " + name.replace(/\d+-/gi, "").replace(".md", ""),
       };
 
       if (selfPath.split("/")?.length < 3) {
@@ -98,7 +98,7 @@ function autoSideBar(dirPath) {
   );
 
   treeSideBar.forEach((item) => {
-    item.text = `📘 ${item.text.replace("📖 ", "")}`;
+    item.text = `🗂️ ${item.text.replace("📜 ", "")}`;
     if (item.collapsed !== false) item.collapsed = true;
     item.items = orderBy(cloneDeep(item.items), (item2) => {
       let nameSp = item2.id.split("/");
@@ -163,10 +163,10 @@ function setNavBar() {
     if (obj.has(navName) === false) {
       navNameObject[navName] = [linkName];
       obj.set(navName, {
-        text: '📙 '+ navName.replace(/^\d+-/, ""),
+        text: '⭐ '+ navName.replace(/^\d+-/, ""),
         items: [
           {
-            text: '📜 '+ linkName,
+            text: '✨ '+ linkName,
             link: "/markdown" + fileEnd.replace(".md", ""),
           },
         ],
@@ -176,7 +176,7 @@ function setNavBar() {
         navNameObject[navName].push(linkName);
         let item = obj.get(navName);
         item.items.push({
-          text:'📜 '+ linkName,
+          text:'✨ '+ linkName,
           link: "/markdown" + fileEnd.replace(".md", ""),
         });
         obj.set(navName, item);

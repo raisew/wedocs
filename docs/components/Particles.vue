@@ -145,9 +145,7 @@ const imgNames = imgs.map((item) => {
     return obj;
 });
 
-const init = async () => {
-    await loadAll(tsParticles);
-    const options = {
+const options = {
         autoPlay: true,
         background: {
             color: {
@@ -654,6 +652,10 @@ const init = async () => {
         },
     };
 
+
+
+const init = async () => {
+    await loadAll(tsParticles);
     await tsParticles.load({
         id: "particles",
         options: {
