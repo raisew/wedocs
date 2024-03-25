@@ -1,27 +1,31 @@
-# getx 实现换肤、多语言、api请求、路由封装等多功能脚手架
+# getx 实现换肤、多语言、api 请求、路由封装等多功能脚手架
 
-## 1. pubspec.yaml添加package
+## 1. pubspec.yaml 添加 package
+
 将下面依赖复制到 `pubspec.yaml` 文件的 `dependencies` 下面
+
 ```yaml
-  get: ^4.6.5
-  get_storage: ^2.1.1
+get: ^4.6.5
+get_storage: ^2.1.1
 
-  dio: ^5.4.1
-  pretty_dio_logger: ^1.3.1
+dio: ^5.4.1
+pretty_dio_logger: ^1.3.1
 
-  flutter_swiper_view: ^1.1.8
+flutter_swiper_view: ^1.1.8
 
-  contained_tab_bar_view: ^0.8.0
+contained_tab_bar_view: ^0.8.0
 
-  flutter_easyloading: ^3.0.0
+flutter_easyloading: ^3.0.0
 
-  animations: ^2.0.11
+animations: ^2.0.11
 
-  shared_preferences: ^2.2.2
+shared_preferences: ^2.2.2
 
-  image_picker: ^1.0.7
+image_picker: ^1.0.7
 ```
+
 `analysis_options.yaml` 文件
+
 ```yaml
 # This file configures the analyzer, which statically analyzes Dart code to
 # check for errors, warnings, and lints.
@@ -65,6 +69,7 @@ linter:
 ```
 
 ## 2. 项目结构
+
 ```
 |-- lib
     |-- main.dart
@@ -128,6 +133,7 @@ linter:
 ```
 
 ## 3. main.dart 文件
+
 ```dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -220,7 +226,9 @@ class MyApp extends StatelessWidget {
   }
 }
 ```
+
 ## 4. config.dart 配置文件
+
 ```dart
 class Config {
   static const String theme = 'light';
@@ -232,9 +240,13 @@ class Config {
   static const String apiUrl = 'https://admin.be-cc.com';
 }
 ```
+
 ## 5. utils 工具类文件
-### `app_logger.dart` 
+
+### `app_logger.dart`
+
 打印日志工具
+
 ```dart
 import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
@@ -285,8 +297,11 @@ class AppLogger {
   }
 }
 ```
+
 ### `create_page.dart`
+
 创建动画路由页面
+
 ```dart
 import 'package:flutter/material.dart';
 
@@ -307,8 +322,11 @@ Route createPage(page) {
   );
 }
 ```
+
 ### `platform.dart`
+
 判断平台
+
 ```dart
 import 'dart:io';
 
@@ -328,8 +346,11 @@ class Platforms {
   static bool isFuchsia = Platform.isFuchsia;
 }
 ```
+
 ### `show_bottom_sheet.dart`
+
 底部弹出操作界面
+
 ```dart
 import 'package:flutter/material.dart';
 
@@ -393,8 +414,11 @@ void showCustomBottomSheet(BuildContext context, Widget bottomSheetContent, {boo
   );
 }
 ```
+
 ### `store.dart`
+
 `get_storage` 长缓存封装
+
 ```dart
 import 'package:get_storage/get_storage.dart';
 
@@ -418,8 +442,11 @@ class Store {
   }
 }
 ```
+
 ### `storage.dart`
+
 `shared_preferences` 长缓存封装
+
 ```dart
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -487,6 +514,7 @@ class Storage {
 ```
 
 ## 6. auth_controller.dart 登录状态管理
+
 ```dart
 import 'package:get/get.dart';
 import '../../utils/store.dart';
@@ -512,7 +540,9 @@ class AuthController extends GetxController {
   }
 }
 ```
+
 ## 7. routes.dart 路由文件
+
 ```dart
 import 'package:get/get.dart';
 import '../pages/root/root.dart';
@@ -531,9 +561,12 @@ final routes = [
 ];
 ```
 
-## 8. api dio封装
+## 8. api dio 封装
+
 ### `http.dart`
+
 `dio`请求封装，`get`、`post`、`put`、`delete`、`postFile`等方法
+
 ```dart
 import 'dart:typed_data';
 import 'package:dio/dio.dart';
@@ -760,8 +793,11 @@ class Http {
 final http = Http();
 
 ```
+
 ### `apis.dart`
+
 `api`列表管理
+
 ```dart
 class Api {
   final String name;
@@ -801,8 +837,11 @@ List<Api> apiList = [
   // 添加更多的API对象
 ];
 ```
+
 ### `api.dart`
-把 `apis.dart` 里面的api列表组装成对应的方法导出使用
+
+把 `apis.dart` 里面的 api 列表组装成对应的方法导出使用
+
 ```dart
 import 'http.dart'; // 导入http.dart中的http对象
 import 'apis.dart';
@@ -853,7 +892,9 @@ final Map<String, Function> apis = apiFuncs();
 ```
 
 ### 使用方法
+
 引入 `api.dart` 文件
+
 ```dart
 void login() async {
     if (formData['account'] == '') {
@@ -873,10 +914,12 @@ void login() async {
   }
 ```
 
-## 9. 多主题文件配置
+## 9. 多主题配置
 
 ### `theme_colors.dart`
+
 存放主题颜色
+
 ```dart
 import 'package:flutter/material.dart';
 
@@ -926,8 +969,11 @@ final Map<String, dynamic> themeColors = {
   },
 };
 ```
+
 ### `themes_controller.dart`
+
 主题状态控制器
+
 ```dart
 import 'package:get/get.dart';
 import '../utils/store.dart';
@@ -956,6 +1002,7 @@ class ThemeController extends GetxController {
   }
 }
 ```
+
 - 在页面使用
 
 引入 `themes_controller.dart` 文件
@@ -972,17 +1019,22 @@ themeC.changeTheme('dark');
 ```
 
 ## 10. 多语言配置
+
 ### 新建目录 `langs`
+
 多语言存放文件，命名由 `intl` 、 `LanguageCode`、`CountryCode` 拼接 `-` 组成
 
 中文文件 `intl_zh_cn.dart`
+
 ```dart
 final intlZhCn = {
   "hello": "你好 世界",
   "test": "测试",
 };
 ```
+
 德语文件 `intl_de_DE.dart`
+
 ```dart
 final intlDeDe = {
   "hello": "Hallo Welt",
@@ -991,6 +1043,7 @@ final intlDeDe = {
 ```
 
 ### `locale.dart`
+
 语言输出文件，用于赋值给 `main.dart` - `GetMaterialApp` - `translations`
 
 ```dart
@@ -1007,13 +1060,17 @@ class Messages extends Translations {
       };
 }
 ```
+
 - 使用
+
 ```dart
 translations: Messages(),
 ```
 
 ### `locale_controller.dart`
-locale语言状态控制器
+
+locale 语言状态控制器
+
 ```dart
 import 'dart:ui';
 import 'package:get/get.dart';
@@ -1037,7 +1094,7 @@ class LocaleController extends GetxController {
   void onInit() async {
 
     setLocale(Store.get('languageCode') ?? Config.languageCode, Store.get('countryCode') ?? Config.countryCode);
-  
+
     super.onInit();
   }
 
@@ -1050,6 +1107,7 @@ class LocaleController extends GetxController {
 ```
 
 - 可以添加 `locale_set.dart` 文件
+
 ```dart
 import 'package:get/get.dart';
 import './locale_controller.dart';
@@ -1063,11 +1121,14 @@ void localeSet(languageVal, [String? countryVal]) {
 在页面上使用直接加上 `.tr` 即可
 
 改变语言
+
 ```dart
 final LocaleController localeC = Get.find();
 localC.setLocale(LanguageCode, CountryCode); // CountryCode可不传
 ```
+
 或者，引入 `locale_set.dart` 文件
+
 ```dart
 localeSet(LanguageCode, CountryCode); // CountryCode可不传
 ```
