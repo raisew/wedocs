@@ -105,6 +105,11 @@ h2 {
   font-weight: normal !important;
 }
 
+.VPSidebar {
+  scrollbar-width: thin;
+  // scrollbar-color: var(--vp-c-brand-1) var(--vp-c-gray-1);
+}
+
 @media (min-width: 1440px) {
   .VPNavBar.has-sidebar {
     .title {
