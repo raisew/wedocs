@@ -76,6 +76,28 @@ h2 {
   background: transparent;
   transition: border-color 0.25s;
 }
+
+.DocSearch-Button:hover {
+  background-color: var(--vp-local-search-bg);
+}
+.level-2 .item .text {
+  font-size: 13px !important;
+  font-weight: normal !important;
+}
+
+.VPSidebar {
+  scrollbar-width: thin;
+  // scrollbar-color: var(--vp-c-brand-1) var(--vp-c-gray-1);
+}
+
+.VPDocOutlineItem {
+  &.nested {
+    .outline-link {
+      font-size: 12px !important;
+    }
+  }
+}
+
 @media (min-width: 768px) {
   .DocSearch-Button {
     justify-content: flex-start;
@@ -97,19 +119,6 @@ h2 {
     border-radius: 4px;
   }
 }
-.DocSearch-Button:hover {
-  background-color: var(--vp-local-search-bg);
-}
-.level-2 .item .text {
-  font-size: 13px !important;
-  font-weight: normal !important;
-}
-
-.VPSidebar {
-  scrollbar-width: thin;
-  // scrollbar-color: var(--vp-c-brand-1) var(--vp-c-gray-1);
-}
-
 @media (min-width: 1440px) {
   .VPNavBar.has-sidebar {
     .title {

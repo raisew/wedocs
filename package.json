@@ -5,7 +5,7 @@
   "author": "hongyangwu",
   "license": "MIT",
   "devDependencies": {
-    "vitepress": "^1.0.0-rc.35"
+    "vitepress": "1.0.1"
   },
   "scripts": {
     "docs:dev": "vitepress dev docs",

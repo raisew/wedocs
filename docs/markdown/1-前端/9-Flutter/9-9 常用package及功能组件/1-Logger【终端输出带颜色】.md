@@ -1,6 +1,6 @@
 # Logger【终端输出带颜色】
 
-## 1.package地址
+## 1.package 地址
 
 https://pub-web.flutter-io.cn/packages/logger
 
@@ -15,6 +15,7 @@ dependencies:
 
   logger: ^2.1.0
 ```
+
 ## 3.封装
 
 新建一个 `app_logger.dart` 的文件
@@ -69,7 +70,7 @@ class AppLogger {
     }
   }
 
-  
+
 }
 ```
 

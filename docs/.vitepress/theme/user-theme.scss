@@ -3,24 +3,25 @@
 
 /* 浅色模式使用的变量 */
 :root {
-    --vp-c-user-1:#fc7277;
-    --vp-c-user-2:#ff0000;
-    --vp-c-user-3:#07b1ef;
-    --vp-c-user-soft:rgba(255,0,0,.5);
-  }
-  
+  --vp-c-user-1: #fc7277;
+  --vp-c-user-2: #d5393e;
+  --vp-c-user-3: #e0575b;
+  --vp-c-user-soft: rgba(244, 63, 94, 0.14);
+}
+
 /* 深色模式使用的变量 */
 .dark {
-  --vp-c-user-1:#fc7277;
-  --vp-c-user-2:#fc324d;
-  --vp-c-user-3:#07b1ef;
-  --vp-c-user-soft:rgba(255,255,0,.5);
+  --vp-c-user-1: #fc7277;
+  --vp-c-user-2: #fc324d;
+  --vp-c-user-3: #b62a3c;
+  --vp-c-user-soft: rgba(244, 63, 94, 0.16);
   // --vp-c-bg: rgba(40,44,53,1);
   // --vp-c-bg-alt: rgba(33,37,43,1);
 }
-  
+
 /* 覆盖默认变量 */
-:root, .dark {
+:root,
+.dark {
   --vp-c-brand-1: var(--vp-c-user-1);
   --vp-c-brand-2: var(--vp-c-user-2);
   --vp-c-brand-3: var(--vp-c-user-3);

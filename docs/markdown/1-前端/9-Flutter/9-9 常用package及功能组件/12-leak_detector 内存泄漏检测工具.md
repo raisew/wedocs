@@ -1,3 +1,7 @@
+---
+outline: deep
+---
+
 # leak_detector 内存泄漏检测工具
 
 flutter 内存泄漏检测工具

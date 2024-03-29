@@ -1,15 +1,17 @@
-# flutter_screenutil 屏幕适配
+---
+outline: deep
+---
 
+# flutter_screenutil 屏幕适配
 
 [![Flutter Package](https://img.shields.io/pub/v/flutter_screenutil.svg)](https://pub.dev/packages/flutter_screenutil)
 [![Pub Points](https://img.shields.io/pub/points/flutter_screenutil)](https://pub.dev/packages/flutter_screenutil/score)
 [![Popularity](https://img.shields.io/pub/popularity/flutter_screenutil)](https://pub.dev/packages/flutter_screenutil/score)
 [![CodeFactor](https://www.codefactor.io/repository/github/openflutter/flutter_screenutil/badge)](https://www.codefactor.io/repository/github/openflutter/flutter_screenutil)
 
-**flutter 屏幕适配方案，用于调整屏幕和字体大小的flutter插件，让你的UI在不同尺寸的屏幕上都能显示合理的布局!**
+**flutter 屏幕适配方案，用于调整屏幕和字体大小的 flutter 插件，让你的 UI 在不同尺寸的屏幕上都能显示合理的布局!**
 
-
-*注意*：此插件仍处于开发阶段，某些API可能尚不可用。
+_注意_：此插件仍处于开发阶段，某些 API 可能尚不可用。
 
 [README of English](https://github.com/OpenFlutter/flutter_ScreenUtil/blob/master/README.md)
 
@@ -17,7 +19,7 @@
 
 [github](https://github.com/OpenFlutter/flutter_screenutil)
 
-[csdn博客工具介绍](https://blog.csdn.net/u011272795/article/details/82795477)
+[csdn 博客工具介绍](https://blog.csdn.net/u011272795/article/details/82795477)
 
 [更新日志](https://github.com/OpenFlutter/flutter_screenutil/blob/master/CHANGELOG.md)
 
@@ -27,6 +29,7 @@
 
 安装之前请查看最新版本
 新版本如有问题请使用以前的版本
+
 ```yaml
 dependencies:
   flutter:
@@ -34,32 +37,36 @@ dependencies:
   # 添加依赖
   flutter_screenutil: ^{latest version}
 ```
+
 ### 在每个使用的地方导入包：
+
 ```dart
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 ```
 
 ### 属性
 
-|属性|类型|默认值|描述|
-|:---|:---|:---|:---|
-|designSize|Size|Size(360, 690)|设计稿中设备的尺寸(单位随意,建议dp,但在使用过程中必须保持一致)|
-| deviceSize      | Size         | null          | 物理设备的大小                                             |
-|builder|Widget Function()|Container()|一般返回一个MaterialApp类型的Function()|
-|orientation|Orientation|portrait|屏幕方向|
-|splitScreenMode|bool|false|支持分屏尺寸|
-|minTextAdapt|bool|false|是否根据宽度/高度中的最小值适配文字|
-|context|BuildContext|null|传入context会更灵敏的根据屏幕变化而改变|
-| child           | Widget       | null          | builder的一部分，其依赖项属性不使用该库    |
-| rebuildFactor   | Function     | *default*     | 返回屏幕指标更改时是否重建。          |
+| 属性            | 类型              | 默认值         | 描述                                                            |
+| :-------------- | :---------------- | :------------- | :-------------------------------------------------------------- |
+| designSize      | Size              | Size(360, 690) | 设计稿中设备的尺寸(单位随意,建议 dp,但在使用过程中必须保持一致) |
+| deviceSize      | Size              | null           | 物理设备的大小                                                  |
+| builder         | Widget Function() | Container()    | 一般返回一个 MaterialApp 类型的 Function()                      |
+| orientation     | Orientation       | portrait       | 屏幕方向                                                        |
+| splitScreenMode | bool              | false          | 支持分屏尺寸                                                    |
+| minTextAdapt    | bool              | false          | 是否根据宽度/高度中的最小值适配文字                             |
+| context         | BuildContext      | null           | 传入 context 会更灵敏的根据屏幕变化而改变                       |
+| child           | Widget            | null           | builder 的一部分，其依赖项属性不使用该库                        |
+| rebuildFactor   | Function          | _default_      | 返回屏幕指标更改时是否重建。                                    |
 
-注意：builder和child中必须填写至少一项
+注意：builder 和 child 中必须填写至少一项
 
 ### 初始化并设置适配尺寸及字体大小是否根据系统的“字体大小”辅助选项来进行缩放
+
 在使用之前请设置好设计稿的宽度和高度，传入设计稿的宽度和高度(单位随意,但在使用过程中必须保持一致)
 一定要进行初始化(只需设置一次),以保证在每次使用之前设置好了适配尺寸:
 
-#### 方式一（您必须在app中使用它一次）:
+#### 方式一（您必须在 app 中使用它一次）:
+
 ```dart
 void main() => runApp(MyApp());
 
@@ -94,6 +101,7 @@ class MyApp extends StatelessWidget {
 **混合开发使用方式二**
 
 不支持这样做：
+
 ```dart
 MaterialApp(
   ...
@@ -107,6 +115,7 @@ MaterialApp(
 ```
 
 正确的方法应当是这样：
+
 ```dart
 void main() async {
   // Add this line
@@ -135,6 +144,7 @@ MaterialApp(
    },
 )
 ```
+
 ```dart
 class MyApp extends StatelessWidget {
   @override
@@ -172,7 +182,9 @@ class _HomePageState extends State<HomePage> {
 ### 使用
 
 ### API
-#### 传入设计稿的dp尺寸
+
+#### 传入设计稿的 dp 尺寸
+
 ```dart
     ScreenUtil().setWidth(540)  (dart sdk>=2.6 : 540.w)   //根据屏幕宽度适配尺寸
     ScreenUtil().setHeight(200) (dart sdk>=2.6 : 200.h)   //根据屏幕高度适配尺寸(一般根据宽度适配即可)
@@ -202,9 +214,8 @@ class _HomePageState extends State<HomePage> {
     EdgeInsets.only(left:8,right:8).r // EdgeInsets.only(left:8.r,right:8.r).
     BoxConstraints(maxWidth: 100, minHeight: 100).w    //BoxConstraints(maxWidth: 100.w, minHeight: 100.w)
     Radius.circular(16).w          //Radius.circular(16.w)
-    BorderRadius.all(Radius.circular(16)).w  
+    BorderRadius.all(Radius.circular(16)).w
 ```
-
 
 #### 适配尺寸
 
@@ -219,13 +230,16 @@ class _HomePageState extends State<HomePage> {
 例子：
 
 你不应当这样做：
+
 ```dart
 Container(
   width: ScreenUtil().setWidth(50),
   height:ScreenUtil().setHeight(200),
 )
 ```
+
 正确的方法应当是这样使用：
+
 ```dart
 Container(
   width: 50.w,
@@ -235,9 +249,9 @@ Container(
 
 `注意`
 
-高度也根据setWidth来做适配可以保证不变形(当你想要一个正方形的时候)
+高度也根据 setWidth 来做适配可以保证不变形(当你想要一个正方形的时候)
 
-setHeight方法主要是在高度上进行适配, 在你想控制UI上一屏的高度与实际中显示一样时使用.
+setHeight 方法主要是在高度上进行适配, 在你想控制 UI 上一屏的高度与实际中显示一样时使用.
 
 一般来说，50.w!=50.h
 
@@ -273,7 +287,7 @@ Container(
 
 ```dart
 //输入字体大小（单位与初始化时的单位相同）
-ScreenUtil().setSp(28) 
+ScreenUtil().setSp(28)
 28.sp
 
 //例子:
@@ -301,7 +315,8 @@ Column(
 
 #### 设置字体不随系统字体大小进行改变
 
-APP全局:
+APP 全局:
+
 ```dart
        MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -319,12 +334,15 @@ APP全局:
         home: HomePage(title: 'FlutterScreenUtil Demo'),
       ),
 ```
-单独的Text:
+
+单独的 Text:
+
 ```dart
 Text("text", textScaleFactor: 1.0)
 ```
 
 指定的小部件：
+
 ```dart
 MediaQuery(
   // 如果这里context不可用，你可以新建一个 [Builder] 将 [MediaQuery] 放入其中
