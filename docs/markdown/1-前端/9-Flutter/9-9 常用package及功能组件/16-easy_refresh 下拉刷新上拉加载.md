@@ -4,8 +4,6 @@
 [![Platform Flutter](https://img.shields.io/badge/platform-Flutter-blue.svg)](https://flutter.dev)
 [![Pub](https://img.shields.io/pub/v/easy_refresh)](https://pub.dev/packages/easy_refresh)
 
-## [English](https://github.com/xuelongqy/flutter_easy_refresh/blob/v3/README.md) | 中文
-
 正如名字一样，EasyRefresh 很容易就能在 Flutter 应用上实现下拉刷新以及上拉加载操作，它支持几乎所有的 Flutter 滚动组件。它的功能与 Android 的 SmartRefreshLayout 很相似，同样也吸取了很多三方库的优点。EasyRefresh 中集成了多种风格的 Header 和 Footer，但是它并没有局限性，你可以很轻松的自定义。使用 Flutter 强大的动画，甚至随便一个简单的控件也可以完成。EasyRefresh 的目标是为 Flutter 打造一个强大，稳定，成熟的下拉刷新框架。
 
 [在线演示](https://xuelongqy.github.io/flutter_easy_refresh/)
