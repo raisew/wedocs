@@ -1,9 +1,5 @@
 # easy_refresh 下拉刷新上拉加载
 
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](/LICENSE)
-[![Platform Flutter](https://img.shields.io/badge/platform-Flutter-blue.svg)](https://flutter.dev)
-[![Pub](https://img.shields.io/pub/v/easy_refresh)](https://pub.dev/packages/easy_refresh)
-
 正如名字一样，EasyRefresh 很容易就能在 Flutter 应用上实现下拉刷新以及上拉加载操作，它支持几乎所有的 Flutter 滚动组件。它的功能与 Android 的 SmartRefreshLayout 很相似，同样也吸取了很多三方库的优点。EasyRefresh 中集成了多种风格的 Header 和 Footer，但是它并没有局限性，你可以很轻松的自定义。使用 Flutter 强大的动画，甚至随便一个简单的控件也可以完成。EasyRefresh 的目标是为 Flutter 打造一个强大，稳定，成熟的下拉刷新框架。
 
 [在线演示](https://xuelongqy.github.io/flutter_easy_refresh/)
@@ -92,41 +88,41 @@
 ### 4.控制器使用
 
 ```dart
-  EasyRefreshController _controller = EasyRefreshController(
-    controlFinishRefresh: true,
-    controlFinishLoad: true,
-  );
+EasyRefreshController _controller = EasyRefreshController(
+  controlFinishRefresh: true,
+  controlFinishLoad: true,
+);
   ....
-  EasyRefresh(
-    controller: _controller,
-    onRefresh: () async {
-      ....
-      _controller.finishRefresh();
-      _controller.resetFooter();
-    },
-    onLoad: () async {
-      ....
-      _controller.finishLoad(IndicatorResult.noMore);
-    },
+EasyRefresh(
+  controller: _controller,
+  onRefresh: () async {
     ....
-  );
+    _controller.finishRefresh();
+    _controller.resetFooter();
+  },
+  onLoad: () async {
+    ....
+    _controller.finishLoad(IndicatorResult.noMore);
+  },
   ....
-  _controller.callRefresh();
-  _controller.callLoad();
+);
+....
+_controller.callRefresh();
+_controller.callLoad();
 ```
 
 ### 5.使用指定的 Header 和 Footer
 
 ```dart
-  EasyRefresh(
-    header: MaterialHeader(),
-    footer: MaterialFooter(),
-    child: ListView(),
-    ....
-  )
-  // 全局设置
-  EasyRefresh.defaultHeaderBuilder = () => ClassicHeader();
-  EasyRefresh.defaultFooterBuilder = () => ClassicFooter();
+EasyRefresh(
+  header: MaterialHeader(),
+  footer: MaterialFooter(),
+  child: ListView(),
+  ....
+)
+// 全局设置
+EasyRefresh.defaultHeaderBuilder = () => ClassicHeader();
+EasyRefresh.defaultFooterBuilder = () => ClassicFooter();
 ```
 
 ### 6. Cupertino 风格的案例
@@ -273,5 +269,4 @@ class _CupertinoIndicatorPageState extends State<MyList> {
     );
   }
 }
-
 ```
