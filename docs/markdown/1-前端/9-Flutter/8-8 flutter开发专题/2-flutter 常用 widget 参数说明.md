@@ -1,6 +1,7 @@
 # flutter 常用 widget 参数说明
 
 ## GetMaterialApp
+
 ```dart
 GetMaterialApp(
   // 应用程序的首页 Widget
@@ -45,6 +46,8 @@ GetMaterialApp(
   // 默认的路由转换动画效果
   defaultTransition: Transition.fade,
 
+  customTransition: MyCustomTransition(),
+
   // 应用程序的标题
   title: 'My App',
 
@@ -79,8 +82,37 @@ GetMaterialApp(
   debugShowCheckedModeBanner: false,
 )
 
+
+//自定义切换动画
+class MyCustomTransition extends CustomTransition {
+  @override
+  Widget buildTransition(
+    BuildContext context,
+    Curve? curve,
+    Alignment? alignment,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
+    return SlideTransition(
+      position: Tween<Offset>(
+        begin: Offset(1.0, 0.0),
+        end: Offset.zero,
+      ).animate(
+        CurvedAnimation(
+          parent: animation,
+          curve: Curves.bounceInOut, // 弹性曲线
+        ),
+      ),
+      child: child,
+    );
+  }
+}
+
 ```
+
 ## ThemeData
+
 ```dart
 ThemeData(
   // 主题的亮度，通常为 light 或 dark
@@ -160,6 +192,7 @@ ThemeData(
 ```
 
 ## Scaffold
+
 ```dart
 Scaffold(
   // 应用栏
@@ -247,15 +280,19 @@ Scaffold(
   ),
 )
 ```
+
 ::: info
 注意事项：
 
 - Scaffold 是一个结构布局的组件，用于构建典型的 Material Design 布局结构。
 - Scaffold 可以包含应用栏、主内容区域、底部导航栏、浮动操作按钮、抽屉菜单等部件。
 - Scaffold 中的各个部分可以根据实际需要进行组合，灵活构建出不同风格的页面布局。
-:::
+  :::
+
 ## SafeArea
+
 `SafeArea` 组件用于确保其子组件在屏幕上显示时不会受到设备边缘的干扰，例如不会被设备的状态栏、导航栏等遮挡。以下是 `SafeArea` 的常用参数说明：
+
 ```dart
 SafeArea(
   // 是否应该应用SafeArea，即是否考虑顶部和底部的安全区域
@@ -282,15 +319,17 @@ SafeArea(
   ),
 )
 ```
+
 ::: info
 注意事项：
 
 - SafeArea 组件用于确保其子组件在屏幕上显示时不会受到设备边缘的干扰。
 - maintainBottomViewPadding 和 maintainTopViewPadding 参数用于指定是否应该应用底部和顶部的安全区域。默认情况下，它们都是 true。
 - left、right、top 和 bottom 参数用于分别指定左侧、右侧、顶部和底部的安全区域。默认情况下，它们都是 true。
-:::
+  :::
 
 ## AppBar
+
 ```dart
 AppBar(
   // 标题
@@ -357,6 +396,7 @@ AppBar(
   primary: true,
 )
 ```
+
 ::: info
 注意事项：
 
@@ -366,9 +406,12 @@ AppBar(
 - backgroundColor 参数用于设置应用栏的背景颜色。
 - elevation 参数用于设置应用栏的阴影。
 - automaticallyImplyLeading 参数控制是否自动添加返回按钮。
-:::
+  :::
+
 ## BottomNavigationBar
+
 `BottomNavigationBar` 是一个位于屏幕底部的导航栏，常用于切换不同页面或功能模块。以下是 `BottomNavigationBar` 的常用参数说明：
+
 ```dart
 BottomNavigationBar(
   // 导航栏项目
@@ -413,6 +456,7 @@ BottomNavigationBar(
   },
 )
 ```
+
 ::: info
 注意事项：
 
@@ -424,10 +468,12 @@ BottomNavigationBar(
 - backgroundColor 参数用于设置导航栏的背景颜色。
 - type 参数用于指定导航栏的类型，可以是 BottomNavigationBarType.fixed（固定样式）或 BottomNavigationBarType.shifting（移动样式）。
 - onTap 参数是一个回调函数，当切换项目时触发，可以在此处理项目切换事件。
-:::
+  :::
 
 ## PreferredSize
+
 `PreferredSize` 用于指定一个 `Widget` 的首选尺寸。通常用于自定义 `AppBar` 或 `BottomAppBar` 中的组件，以指定其高度。以下是 `PreferredSize` 的常用参数说明：
+
 ```dart
 PreferredSize(
   // 首选尺寸
@@ -442,6 +488,7 @@ PreferredSize(
 ```
 
 ## Text
+
 ```dart
 Text(
   // 显示的文本内容
@@ -451,43 +498,43 @@ Text(
   style: TextStyle(
     // 文本的颜色
     color: Colors.black,
-    
+
     // 字体大小
     fontSize: 16.0,
-    
+
     // 字体加粗
     fontWeight: FontWeight.bold,
-    
+
     // 字体倾斜
     fontStyle: FontStyle.italic,
-    
+
     // 字体族，如 'Roboto'
     fontFamily: 'Roboto',
-    
+
     // 文本对齐方式
     textAlign: TextAlign.center,
-    
+
     // 文本方向，如 TextDirection.ltr 或 TextDirection.rtl
     textDirection: TextDirection.ltr,
-    
+
     // 行高，通常用于设置多行文本的行间距
     height: 1.5,
-    
+
     // 文本装饰，如下划线、删除线等
     decoration: TextDecoration.underline,
-    
+
     // 文本装饰样式，如实线、虚线等
     decorationStyle: TextDecorationStyle.dashed,
-    
+
     // 文本的溢出处理方式，如省略号
     overflow: TextOverflow.ellipsis,
-    
+
     // 最大显示行数
     maxLines: 2,
-    
+
     // 文本截断方式，如尾部截断
     softWrap: true,
-    
+
     // 文本缩放比例
     textScaleFactor: 1.0,
   ),
@@ -496,7 +543,9 @@ Text(
   semanticsLabel: 'Hello, World!',
 )
 ```
+
 ## ElevatedButton
+
 ```dart
 ElevatedButton(
   // 按钮上显示的文本
@@ -511,10 +560,10 @@ ElevatedButton(
   style: ElevatedButton.styleFrom(
     // 按钮背景颜色
     primary: Colors.blue,
-    
+
     // 阴影高度
     elevation: 4,
-    
+
     // 文本样式
     textStyle: TextStyle(
       color: Colors.white,
@@ -523,7 +572,9 @@ ElevatedButton(
   ),
 )
 ```
+
 ## TextButton
+
 ```dart
 TextButton(
   // 按钮上显示的文本
@@ -538,10 +589,10 @@ TextButton(
   style: TextButton.styleFrom(
     // 文本样式
     primary: Colors.blue,
-    
+
     // 按钮的背景颜色
     backgroundColor: Colors.transparent,
-    
+
     // 文本样式
     textStyle: TextStyle(
       color: Colors.blue,
@@ -550,7 +601,9 @@ TextButton(
   ),
 )
 ```
+
 ## OutlinedButton
+
 ```dart
 OutlinedButton(
   // 按钮上显示的文本
@@ -565,13 +618,15 @@ OutlinedButton(
   style: OutlinedButton.styleFrom(
     // 边框颜色
     side: BorderSide(color: Colors.blue),
-    
+
     // 文本样式
     primary: Colors.blue,
   ),
 )
 ```
+
 ## IconButton
+
 ```dart
 IconButton(
   // 按钮图标
@@ -586,7 +641,9 @@ IconButton(
   color: Colors.blue,
 )
 ```
+
 ## Icon
+
 ```dart
 Icon(
   // 图标的图标数据
@@ -602,7 +659,9 @@ Icon(
   semanticLabel: 'Add',
 )
 ```
+
 ## AssetImage
+
 ```dart
 Image(
   // 从 assets 中加载图片
@@ -618,7 +677,9 @@ Image(
   fit: BoxFit.cover,
 )
 ```
+
 ## NetworkImage
+
 ```dart
 Image(
   // 从网络加载图片
@@ -634,7 +695,9 @@ Image(
   fit: BoxFit.cover,
 )
 ```
+
 ## FileImage
+
 ```dart
 Image(
   // 从文件加载图片
@@ -650,7 +713,9 @@ Image(
   fit: BoxFit.cover,
 )
 ```
+
 ## MemoryImage
+
 ```dart
 Image(
   // 从内存加载图片
@@ -668,7 +733,9 @@ Image(
 ```
 
 ## CircleAvatar
+
 `CircleAvatar` 是一个圆形头像组件，通常用于显示用户头像或图标。以下是 `CircleAvatar` 的常用参数说明：
+
 ```dart
 CircleAvatar(
   // 头像图片
@@ -699,6 +766,7 @@ CircleAvatar(
   foregroundColor: Colors.white,
 )
 ```
+
 ::: info
 注意事项：
 
@@ -711,9 +779,10 @@ CircleAvatar(
 - shadowColor 参数用于设置阴影的颜色。
 - elevation 参数用于设置阴影的高度。
 - foregroundColor 参数用于设置前景图标的颜色。
-:::
+  :::
 
 ## Textfield
+
 ```dart
 TextField(
   // 控制输入的文本
@@ -735,13 +804,13 @@ TextField(
   decoration: InputDecoration(
     // 前缀图标
     prefixIcon: Icon(Icons.person),
-    
+
     // 后缀图标
     suffixIcon: Icon(Icons.clear),
-    
+
     // 边框样式
     border: OutlineInputBorder(),
-    
+
     // 聚焦时的边框样式
     focusedBorder: OutlineInputBorder(
       borderSide: BorderSide(color: Colors.blue),
@@ -774,6 +843,7 @@ TextField(
   },
 )
 ```
+
 ```dart
   const TextField({
     Key key,
@@ -810,8 +880,9 @@ TextField(
     this.onTap,//点击事件
     this.buildCounter,
     this.scrollPhysics,
-  }) 
+  })
 ```
+
 ```dart
 InputDecoration({
   this.icon,    //位于装饰器外部和输入框前面的图标
@@ -848,7 +919,7 @@ InputDecoration({
   this.enabledBorder,  //输入框可用时显示的边框，如果errorText不为空的话，该属性无效
   this.border, //正常情况下的border
   this.enabled = true,  //输入框是否可用
-  this.semanticCounterText,  
+  this.semanticCounterText,
   this.alignLabelWithHint,
 })
 ```
@@ -865,9 +936,10 @@ InputDecoration({
 - maxLines 参数指定输入文本的最大行数。
 - onChanged 参数用于监听输入文本的变化事件，可以实时获取输入内容。
 - onSubmitted 参数用于监听输入文本的提交事件，通常在按下键盘的完成按钮时触发。
-:::
+  :::
 
 ## Container
+
 ```dart
 Container(
   // 子组件
@@ -904,10 +976,10 @@ Container(
   decoration: BoxDecoration(
     // 边框样式
     border: Border.all(color: Colors.black, width: 2.0),
-    
+
     // 边框圆角
     borderRadius: BorderRadius.circular(10.0),
-    
+
     // 背景图片
     image: DecorationImage(
       image: AssetImage('assets/image.png'),
@@ -919,6 +991,7 @@ Container(
   transform: Matrix4.rotationZ(0.1),
 )
 ```
+
 ::: info
 注意事项：
 
@@ -926,9 +999,10 @@ Container(
 - 使用 alignment 参数时，如果 Container 没有设置固定大小，子组件会居中显示，但如果设置了固定大小，子组件可能不会居中。
 - 在使用 alignment 属性时，如果容器不是无限制大小，则它将会定位子部件。
 - 当容器设置了宽度或高度时，子组件的大小不受 Container 的大小限制，但在没有设置宽度或高度时，子组件的大小受 Container 的约束影响。
-:::
+  :::
 
 ## Row
+
 ```dart
 Row(
   // 主轴上的对齐方式
@@ -954,18 +1028,20 @@ Row(
   ],
 )
 ```
+
 ::: info
 注意事项：
 
 - Row 组件将子组件沿水平方向排列。
 - mainAxisAlignment 参数控制子组件在主轴上的对齐方式，例如 MainAxisAlignment.start 将子组件靠近 Row 的开始位置。
--  crossAxisAlignment 参数控制子组件在交叉轴上的对齐方式，例如 CrossAxisAlignment.center 将子组件在交叉轴上居中对齐。
+- crossAxisAlignment 参数控制子组件在交叉轴上的对齐方式，例如 CrossAxisAlignment.center 将子组件在交叉轴上居中对齐。
 - 如果 Row 的尺寸超过父容器的尺寸，可以使用 MainAxisSize.min 来让 Row 尽可能小，或者使用 MainAxisSize.max 来让 Row 尽可能大。
 - 可以使用 mainAxisSpacing 参数控制主轴上子组件的间距。
 - Row 组件还有其他参数，如 textDirection、verticalDirection 等，可以根据需要设置。
-:::
+  :::
 
 ## Column
+
 ```dart
 Column(
   // 主轴上的对齐方式
@@ -991,6 +1067,7 @@ Column(
   ],
 )
 ```
+
 ::: info
 注意事项：
 
@@ -1000,9 +1077,10 @@ Column(
 - 如果 Column 的尺寸超过父容器的尺寸，可以使用 MainAxisSize.min 来让 Column 尽可能小，或者使用 MainAxisSize.max 来让 Column 尽可能大。
 - 可以使用 mainAxisSpacing 参数控制主轴上子组件的间距。
 - Column 组件还有其他参数，如 textDirection、verticalDirection 等，可以根据需要设置。
-:::
+  :::
 
 ## ListView
+
 ```dart
 ListView(
   // 滚动方向
@@ -1031,6 +1109,7 @@ ListView(
   ],
 )
 ```
+
 ::: info
 注意事项：
 
@@ -1042,10 +1121,12 @@ ListView(
 - primary 参数指定滚动控制器是否使用子组件的尺寸作为滚动视图的尺寸。
 - controller 参数用于指定一个滚动控制器，可以用于控制 ListView 的滚动行为。
 - children 参数为子组件列表，用于定义 ListView 中显示的内容。
-:::
+  :::
 
 ## ListView.separated
+
 `ListView.separated` 是 `ListView` 的一个变体，它允许在列表项之间插入分隔符。以下是 `ListView.separated` 的常用参数说明：
+
 ```dart
 ListView.separated(
   // 列表项构建器
@@ -1066,6 +1147,7 @@ ListView.separated(
   itemCount: 10,
 )
 ```
+
 ::: info
 注意事项：
 
@@ -1073,9 +1155,10 @@ ListView.separated(
 - itemBuilder 参数用于构建每个列表项的内容。
 - separatorBuilder 参数用于构建分隔符，它接受一个函数，该函数根据索引返回一个 Widget。
 - itemCount 参数用于指定列表项的数量。
-:::
+  :::
 
 ## GridView
+
 ```dart
 GridView(
   // 每行子组件数量
@@ -1104,6 +1187,7 @@ GridView(
   ],
 )
 ```
+
 ::: info
 注意事项：
 
@@ -1114,9 +1198,10 @@ GridView(
 - scrollDirection 参数指定滚动方向，可以是 Axis.vertical（垂直方向）或 Axis.horizontal（水平方向）。
 - physics 参数用于控制滚动的方式，如是否允许滚动、滚动的阻尼等。
 - children 参数为子组件列表，用于定义 GridView 中显示的内容。
-:::
+  :::
 
 ## Stack
+
 ```dart
 Stack(
   // 子组件的对齐方式
@@ -1130,6 +1215,7 @@ Stack(
   ],
 )
 ```
+
 ::: info
 注意事项：
 
@@ -1138,10 +1224,12 @@ Stack(
 - 子组件在 Stack 中的显示顺序由其在 children 列表中的位置决定，越靠后的子组件越在上层。
 - 如果未指定子组件的位置和大小，则它们将占据 Stack 组件的整个空间。
 - Stack 组件还有其他参数，如 textDirection、fit 等，可以根据需要设置。
-:::
+  :::
 
 ## Flex
+
 `Flex` 组件用于沿着主轴方向排列子组件，并根据子组件的 `Flex` 权重来分配剩余空间。通常与 `Row` 或 `Column` 一起使用。以下是 `Flex` 的常用参数说明：
+
 ```dart
 Flex(
   // 主轴方向
@@ -1164,6 +1252,7 @@ Flex(
   ],
 )
 ```
+
 ::: info
 注意事项：
 
@@ -1172,9 +1261,10 @@ Flex(
 - mainAxisAlignment 参数用于指定主轴对齐方式，可以是 MainAxisAlignment.start、MainAxisAlignment.center、MainAxisAlignment.end 等。
 - mainAxisSize 参数用于指定主轴尺寸约束，可以是 MainAxisSize.min（尽可能小）或 MainAxisSize.max（尽可能大）。
 - crossAxisAlignment 参数用于指定交叉轴对齐方式，可以是 CrossAxisAlignment.start、CrossAxisAlignment.center、CrossAxisAlignment.end 等。
-:::
+  :::
 
 ## Expanded
+
 ```dart
 Expanded(
   // 子组件在父容器中所占比例
@@ -1184,11 +1274,13 @@ Expanded(
   ),
 ),
 ```
+
 ::: info
 在这个例子中，Expanded 组件将其子组件的宽度（或高度，具体取决于其父组件的方向）扩展以填充父容器的可用空间。flex 参数指定了子组件在剩余空间中所占的比例。在这里，如果有多个 Expanded 子组件，它们的 flex 值将决定它们在父容器中所占的比例。比如，如果一个子组件的 flex 为 2，另一个的 flex 为 1，前者将占据剩余空间的 2/3，而后者将占据 1/3。
 :::
 
 ## Flexible
+
 ```dart
 Flexible(
   // 子组件在父容器中所占比例
@@ -1198,11 +1290,13 @@ Flexible(
   ),
 ),
 ```
+
 ::: info
 与 Expanded 不同，Flexible 可以根据需要收缩。flex 参数也用于指定子组件在父容器中所占的比例，但与 Expanded 不同，Flexible 不会强制子组件填充剩余空间，而是根据需要调整大小。
 :::
 
 ## Visibility
+
 ```dart
 Visibility(
   // 子组件
@@ -1225,6 +1319,7 @@ Visibility(
   maintainState: true,
 )
 ```
+
 ::: info
 注意事项：
 
@@ -1233,9 +1328,10 @@ Visibility(
 - maintainSize 参数用于控制当子组件不可见时是否保留其空间。
 - maintainAnimation 参数用于控制当子组件不可见时是否保留其动画状态。
 - maintainState 参数用于控制当子组件不可见时是否保留其语义信息。
-:::
+  :::
 
 ## ClipRRect
+
 ```dart
 ClipRRect(
   // 圆角矩形的圆角
@@ -1252,15 +1348,17 @@ ClipRRect(
   ),
 )
 ```
+
 ::: info
 注意事项：
 
 - ClipRRect 组件用于将其子组件裁剪为圆角矩形。
 - borderRadius 参数用于指定圆角矩形的圆角大小。
 - clipBehavior 参数用于指定裁剪的行为，例如 Clip.antiAlias 表示裁剪时使用抗锯齿。
-:::
+  :::
 
 ## SingleChildScrollView
+
 ```dart
 SingleChildScrollView(
   // 滚动方向
@@ -1288,6 +1386,7 @@ SingleChildScrollView(
   ),
 )
 ```
+
 ::: info
 注意事项：
 
@@ -1298,12 +1397,12 @@ SingleChildScrollView(
 - controller 参数用于指定一个滚动控制器，可以用于控制滚动位置、监听滚动事件等。
 - padding 参数用于设置滚动视图的内边距。
 - child 参数是一个子组件，可以是任何 Widget，但通常是一个 Column 或 Row，用于包含所有需要滚动的子组件。
-:::
-
-
+  :::
 
 ## DefaultTabController
+
 `DefaultTabController` 是一个用于管理 `TabBar` 和 `TabBarView` 的控制器，通常与 `TabBar` 和 `TabBarView` 一起使用。以下是 `DefaultTabController` 的常用参数说明：
+
 ```dart
 DefaultTabController(
   // tab的数量
@@ -1336,6 +1435,7 @@ DefaultTabController(
   ),
 )
 ```
+
 ::: info
 注意事项：
 
@@ -1345,10 +1445,12 @@ DefaultTabController(
 - child 参数接受一个 Widget，通常是 Scaffold，并包含了 TabBar 和 TabBarView。
 - TabBar 是一个选项卡栏，它的 tabs 参数接受一个 List，其中包含了 Tab 组件，用于定义每个选项卡的内容。
 - TabBarView 是一个包含选项卡内容的视图，它的 children 参数接受一个 List，其中包含了每个选项卡对应的内容视图。
-:::
+  :::
 
 ## NestedScrollView
+
 `NestedScrollView` 组件用于创建一个支持嵌套滚动的视图，通常用于处理多个滚动视图的嵌套。以下是 `NestedScrollView` 的常用参数说明：
+
 ```dart
 NestedScrollView(
   // 滚动控制器
@@ -1389,7 +1491,9 @@ NestedScrollView(
   ),
 )
 ```
+
 ::: info
+
 - 注意事项：
 
 - NestedScrollView 可以嵌套其他滚动视图，例如 ListView、GridView 等。
@@ -1398,10 +1502,12 @@ NestedScrollView(
 - physics 参数用于指定是否启用手势。默认情况下为 AlwaysScrollableScrollPhysics()，表示始终可以通过手势进行滚动。
 - headerSliverBuilder 参数是一个回调函数，用于构建顶部悬停栏，通常返回一个 List，其中包含一个或多个 SliverAppBar 组件。这些悬停栏会随着滚动而固定在顶部。
 - body 参数是主内容区域，通常是一个滚动视图，例如 ListView、SingleChildScrollView 等。
-:::
+  :::
 
 ## SliverOverlapAbsorber
+
 `SliverOverlapAbsorber` 是一个用于处理重叠区域的组件，通常与 `NestedScrollView` 和 `SliverAppBar` 一起使用。它可以吸收 `SliverAppBar` 重叠的部分，以便 `SliverOverlapInjector` 可以正确处理重叠。以下是 `SliverOverlapAbsorber` 的常用参数说明：
+
 ```dart
 NestedScrollView(
   // 滚动控制器
@@ -1442,16 +1548,20 @@ NestedScrollView(
   ),
 )
 ```
+
 ::: info
+
 - 注意事项：
 
 - SliverOverlapAbsorber 通常作为 NestedScrollView 的主体部分使用，用于处理重叠区域。
 - handle 参数需要指定一个 Key 来唯一标识 SliverOverlapAbsorber。通常可以使用 NestedScrollView.sliverOverlapAbsorberHandleFor(context) 来获取一个与当前 NestedScrollView 相关的 Key。
 - SliverOverlapAbsorber 的子组件通常是一个滚动视图，例如 SingleChildScrollView，用于显示主要内容。
-:::
+  :::
 
 ## FlexibleSpaceBar
+
 `FlexibleSpaceBar` 是 `SliverAppBar` 的一个子组件，用于定义一个可伸缩的空间，通常用于创建具有自定义效果的应用栏。以下是 `FlexibleSpaceBar` 的常用参数说明：
+
 ```dart
 FlexibleSpaceBar(
   // 标题
@@ -1499,6 +1609,7 @@ FlexibleSpaceBar(
   expandedTitleScale: 1.0,
 )
 ```
+
 ::: info
 注意事项：
 
@@ -1511,4 +1622,25 @@ FlexibleSpaceBar(
 - stretchModes 参数用于指定伸缩空间的拉伸模式，可以是 StretchMode.zoomBackground、StretchMode.blurBackground、StretchMode.fadeTitle 等。
 - foregroundBackgroundContainer 参数用于设置前景容器，通常用于显示额外的内容，例如按钮、文本等。
 - expandedTitleScale 参数用于控制标题在展开时的缩放比例。默认情况下，标题在展开时不会缩放，其值为 1.0。如果将 expandedTitleScale 设置为 2.0，则标题在展开时将以原始大小的两倍显示。
-:::
+  :::
+
+## PageView
+
+PageView 是 Flutter 中用来展示多个页面并支持滑动切换的组件之一。它常用于创建引导页、图片轮播、应用程序的欢迎页面等。
+
+```dart
+PageView({
+  Key? key,
+  Axis scrollDirection = Axis.horizontal, // 滚动方向，默认水平方向
+  bool reverse = false, // 子页面的排序是否是倒序，默认为false
+  PageController? controller, // 控制PageView的行为
+  ScrollPhysics? physics, // 滑动效果
+  bool pageSnapping = true, // 设置是否整页滚动，默认为true
+  ValueChanged<int>? onPageChanged, // 页面发生改变时的回调函数
+  DragStartBehavior dragStartBehavior = DragStartBehavior.start, // 认定开始拖动行为的方式，默认是start
+  bool allowImplicitScrolling = false, // 是否缓存当前页面的前后两页
+  String? restorationId, // restoreidID 以字符串为对象
+  Clip clipBehavior = Clip.hardEdge, // 内容剪辑
+  List<Widget> children = const <Widget>[], // 子页面组件列表
+})
+```

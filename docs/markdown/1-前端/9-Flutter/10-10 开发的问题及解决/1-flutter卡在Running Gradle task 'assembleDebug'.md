@@ -1,10 +1,10 @@
-# flutter卡在Running Gradle task 'assembleDebug'...
+# flutter 卡在 Running Gradle task 'assembleDebug'...
 
 1、问题：用安卓模拟器打开 `flutter` 项目时候，一直卡在 `Running Gradle task 'assembleDebug'...`
 
 2、原因：这是因为 `android studio` 运行项目时需要请求部分资源，而请求外网资源，你懂的...
 
-3、解决：解决方法:1、翻*墙 。2换源
+3、解决：解决方法:1、翻\*墙 。2 换源
 
 我采用的方法是换阿里源
 
@@ -13,6 +13,7 @@
 正确：maven { url 'https://maven.aliyun.com/nexus/content/groups/public' }
 
 - 修改 `Flutter` 安装目录下的文件：`flutter\packages\flutter_tools\gradle/flutter.gradle`
+
 ```java
 repositories {
 // google()
@@ -29,8 +30,8 @@ private static final String DEFAULT_MAVEN_HOST = "https://storage.flutter-io.cn"
 
 ```
 
-
 - 修改 `Flutter` 安装目录下的文件：`flutter\packages\flutter_tools\gradle/resolve_dependencies.gradle`
+
 ```java
 repositories {
 // google()
@@ -49,7 +50,7 @@ url "https://storage.flutter-io.cn/download.flutter.io"
 
 ```java
 buildscript {
-    ext.kotlin_version = '1.7.10'
+    ext.kotlin_version = '1.9.22'
     repositories {
         // google()
         // mavenCentral()
@@ -107,8 +108,9 @@ tasks.register("clean", Delete) {
 }
 
 ```
+
 - 修改 `android/gradle` 目录下: `android\gradle\wrapper\gradle-wrapper.properties`
 
-```java
+```properties
 distributionUrl=https\://services.gradle.org/distributions/gradle-8.0.2-all.zip
 ```

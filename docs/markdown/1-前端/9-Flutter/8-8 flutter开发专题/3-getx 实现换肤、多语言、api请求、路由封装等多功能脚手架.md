@@ -5,11 +5,12 @@
 将下面依赖复制到 `pubspec.yaml` 文件的 `dependencies` 下面
 
 ```yaml
+logger: ^2.2.0
+
 get: ^4.6.5
 get_storage: ^2.1.1
 
 dio: ^5.4.1
-pretty_dio_logger: ^1.3.1
 
 flutter_swiper_view: ^1.1.8
 
@@ -19,9 +20,9 @@ flutter_easyloading: ^3.0.0
 
 animations: ^2.0.11
 
-shared_preferences: ^2.2.2
-
 image_picker: ^1.0.7
+
+easy_refresh: ^3.3.4
 ```
 
 `analysis_options.yaml` 文件
@@ -44,6 +45,7 @@ analyzer:
     must_be_immutable: ignore
     non_constant_identifier_names: ignore
     use_function_type_syntax_for_parameters: ignore
+    use_super_parameters: ignore
 
 include: package:flutter_lints/flutter.yaml
 
@@ -171,7 +173,7 @@ class MyApp extends StatelessWidget {
           initialRoute: '/',
           getPages: routes,
           home: authC.token.value.isEmpty ? Login() : Root(),
-          defaultTransition: Transition.downToUp,
+          defaultTransition: Transition.rightToLeftWithFade,
           debugShowCheckedModeBanner: false,
           transitionDuration: const Duration(milliseconds: 250),
           translations: Messages(),
@@ -552,7 +554,7 @@ final routes = [
   GetPage(
     name: '/root',
     page: () => Root(),
-    transition: Transition.fadeIn,
+    transition: Transition.rightToLeftWithFade,
   ),
   GetPage(
     name: '/login',

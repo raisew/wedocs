@@ -160,6 +160,21 @@ flutter pub run flutter_native_splash:create --path=flutter_native_splash.yaml
 代码如下：
 
 ```dart
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+
+void main() async {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  // Keep native splash screen up until app is finished bootstrapping
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  runApp(MyApp());
+  // Remove splash screen when bootstrap is complete
+  FlutterNativeSplash.remove();
+}
+```
+
+或者
+
+```dart
 //原生的启动屏幕
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
@@ -179,7 +194,6 @@ void initialization(BuildContext? context) async {
   await Future.delayed(const Duration(seconds: 3));
   FlutterNativeSplash.remove();
 }
-
 
 ```
 
