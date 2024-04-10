@@ -19,10 +19,207 @@
 
 ## 2. 安装
 
-添加 `scroll_loop_auto_scroll: ^0.0.5` 到您的 `pubspec.yaml` 依赖项。并导入它：
+添加 `scroll_loop_auto_scroll: ^0.0.5` 到您的 `pubspec.yaml` 依赖项。
+
+线上版本在页面切换时会报错，使用以下 widget:
+
+scroll_loop_auto_scroll.dart
+
+```dart
+library scroll_loop_auto_scroll;
+
+import 'package:flutter/material.dart';
+
+class ScrollLoopAutoScroll extends StatefulWidget {
+  const ScrollLoopAutoScroll({
+    required this.child,
+    required this.scrollDirection,
+    Key? key,
+    this.delay = const Duration(seconds: 1),
+    this.duration = const Duration(seconds: 50),
+    this.gap = 25,
+    this.reverseScroll = false,
+    this.duplicateChild = 25,
+    this.enableScrollInput = true,
+    this.delayAfterScrollInput = const Duration(seconds: 1),
+  }) : super(key: key);
+
+  /// Widget to display in loop
+  ///
+  /// required
+  final Widget child;
+
+  /// Duration to wait before starting animation
+  ///
+  /// Default set to Duration(seconds: 1).
+  ///
+
+  final Duration delay;
+
+  /// Duration of animation
+  ///
+  /// Default set to Duration(seconds: 30).
+  final Duration duration;
+
+  /// Sized between end of child and beginning of next child instance
+  ///
+  /// Default set to 25.
+  final double gap;
+
+  /// The axis along which the scroll view scrolls.
+  ///
+  /// required
+  final Axis scrollDirection;
+
+  ///
+  /// true : Right to Left
+  ///
+  // |___________________________<--Scrollbar-Starting-Right-->|
+  ///
+  /// fasle : Left to Right (Default)
+  ///
+  // |<--Scrollbar-Starting-Left-->____________________________|
+  final bool reverseScroll;
+
+  /// The number of times duplicates child. So when the user scrolls then, he can't find the end.
+  ///
+  /// Default set to 25.
+  ///
+  final int duplicateChild;
+
+  ///User scroll input
+  ///
+  ///Default set to true
+  final bool enableScrollInput;
+
+  /// Duration to wait before starting animation, after user scroll Input.
+  ///
+  /// Default set to Duration(seconds: 1).
+  ///
+  final Duration delayAfterScrollInput;
+  @override
+  State<ScrollLoopAutoScroll> createState() => _ScrollLoopAutoScrollState();
+}
+
+class _ScrollLoopAutoScrollState extends State<ScrollLoopAutoScroll> with SingleTickerProviderStateMixin {
+  late final AnimationController animationController;
+  late Animation<Offset> offset;
+
+  ValueNotifier<bool> shouldScroll = ValueNotifier<bool>(false);
+  late ScrollController _scrollController; // Remove late keyword
+
+  @override
+  void initState() {
+    animationController = AnimationController(
+      duration: widget.duration,
+      vsync: this,
+    );
+
+    offset = Tween<Offset>(
+      begin: Offset.zero,
+      end: widget.scrollDirection == Axis.horizontal
+          ? widget.reverseScroll
+              ? const Offset(.5, 0)
+              : const Offset(-.5, 0)
+          : widget.reverseScroll
+              ? const Offset(0, .5)
+              : const Offset(0, -.5),
+    ).animate(animationController);
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await Future.delayed(widget.delay);
+      animationHandler();
+    });
+
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    _scrollController = ScrollController();
+    _scrollController.addListener(() async {
+      if (widget.enableScrollInput) {
+        if (animationController.isAnimating) {
+          animationController.stop();
+        } else {
+          await Future.delayed(widget.delayAfterScrollInput);
+          animationHandler();
+        }
+      }
+    });
+    super.didChangeDependencies();
+  }
+
+  animationHandler() async {
+    if (_scrollController.hasClients && _scrollController.position.maxScrollExtent > 0) {
+      shouldScroll.value = true;
+
+      if (shouldScroll.value && mounted) {
+        animationController.forward().then((_) async {
+          animationController.reset();
+
+          if (shouldScroll.value && mounted) {
+            animationHandler();
+          }
+        });
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      physics: widget.enableScrollInput ? const BouncingScrollPhysics() : const NeverScrollableScrollPhysics(),
+      controller: _scrollController,
+      scrollDirection: widget.scrollDirection,
+      reverse: widget.reverseScroll,
+      child: SlideTransition(
+        position: offset,
+        child: ValueListenableBuilder<bool>(
+          valueListenable: shouldScroll,
+          builder: (BuildContext context, bool shouldScroll, _) {
+            return widget.scrollDirection == Axis.horizontal
+                ? Row(
+                    children: List.generate(
+                        widget.duplicateChild,
+                        (index) => Padding(
+                              padding: EdgeInsets.only(right: shouldScroll && !widget.reverseScroll ? widget.gap : 0, left: shouldScroll && widget.reverseScroll ? widget.gap : 0),
+                              child: widget.child,
+                            )))
+                : Column(
+                    children: List.generate(
+                    widget.duplicateChild,
+                    (index) => Padding(
+                      padding: EdgeInsets.only(bottom: shouldScroll && !widget.reverseScroll ? widget.gap : 0, top: shouldScroll && widget.reverseScroll ? widget.gap : 0),
+                      child: widget.child,
+                    ),
+                  ));
+          },
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    animationController.dispose(); // Dispose AnimationController here
+    super.dispose();
+  }
+}
+
+```
+
+在需要页面导入：
 
 ```dart
 import 'package:scroll_loop_auto_scroll/scroll_loop_auto_scroll.dart';
+```
+
+或者
+
+```dart
+import '/components/scroll_loop_auto_scroll.dart';
 ```
 
 ## 3. 如何使用
