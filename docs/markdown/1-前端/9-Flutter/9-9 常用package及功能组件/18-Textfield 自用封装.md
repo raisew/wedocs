@@ -6,8 +6,6 @@ import 'package:get/get.dart';
 import 'package:flutter/services.dart';
 import '../themes/themes_controller.dart';
 
-ThemeController themeC = Get.put(ThemeController());
-
 ///自带删除键的MyTextfield
 typedef ITextFieldCallBack = void Function(String content);
 
@@ -37,6 +35,7 @@ class MyTextfield extends StatefulWidget {
   final Color? backgroundColor;
   final ITextFieldCallBack? fieldCallBack;
   final FormFieldValidator<String>? validator;
+  final double? paddingVetical;
 
   const MyTextfield({
     Key? key,
@@ -54,6 +53,7 @@ class MyTextfield extends StatefulWidget {
     this.fieldCallBack,
     this.backgroundColor,
     this.validator,
+    this.paddingVetical = 10.0,
   })  : assert(maxLines == null || maxLines > 0),
         assert(maxLength == null || maxLength > 0),
         keyboardType = maxLines == 1 ? keyboardType : ITextInputType.multiline,
@@ -64,11 +64,14 @@ class MyTextfield extends StatefulWidget {
 }
 
 class _MyTextfieldState extends State<MyTextfield> {
+  ThemeController themeC = Get.find<ThemeController>();
+
   String _inputText = "";
   bool _hasDeleteIcon = false;
   bool _hasFocus = false;
   bool _isNumber = false;
   bool _isPassword = false;
+  bool _obscureText = true;
 
   ///输入类型
   TextInputType? _getTextInputType() {
@@ -78,10 +81,14 @@ class _MyTextfieldState extends State<MyTextfield> {
       case ITextInputType.multiline:
         return TextInputType.multiline;
       case ITextInputType.number:
-        _isNumber = true;
+        setState(() {
+          _isNumber = true;
+        });
         return TextInputType.number;
       case ITextInputType.phone:
-        _isNumber = true;
+        setState(() {
+          _isNumber = true;
+        });
         return TextInputType.phone;
       case ITextInputType.datetime:
         return TextInputType.datetime;
@@ -90,7 +97,9 @@ class _MyTextfieldState extends State<MyTextfield> {
       case ITextInputType.url:
         return TextInputType.url;
       case ITextInputType.password:
-        _isPassword = true;
+        setState(() {
+          _isPassword = true;
+        });
         return TextInputType.text;
       default:
         return null;
@@ -98,25 +107,35 @@ class _MyTextfieldState extends State<MyTextfield> {
   }
 
   ///输入框焦点控制
-  // final FocusNode _focusNode = FocusNode();
+  final FocusNode _focusNode = FocusNode();
+
+  double _contentPaddingVertical = 0.0;
 
   @override
   void initState() {
     super.initState();
-    // _focusNode.addListener(_focusNodeListener);
+    setState(() {
+      _contentPaddingVertical = widget.paddingVetical ?? 10.0;
+    });
+    _focusNode.addListener(() {
+      if (!_focusNode.hasFocus) {
+        // 处理失去焦点的逻辑
+        setState(() {
+          _hasFocus = false;
+        });
+      } else {
+        setState(() {
+          _hasFocus = true;
+        });
+      }
+    });
   }
 
-  // Future<void> _focusNodeListener() async {
-  //   if (_focusNode.hasFocus) {
-  //     setState(() {
-  //       _hasFocus = false;
-  //     });
-  //   } else {
-  //     setState(() {
-  //       _hasFocus = true;
-  //     });
-  //   }
-  // }
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
 
   ///输入范围
   List<TextInputFormatter>? _getTextInputFormatter() {
@@ -129,19 +148,29 @@ class _MyTextfieldState extends State<MyTextfield> {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController controller = TextEditingController.fromValue(TextEditingValue(
+    TextEditingController controller = TextEditingController.fromValue(
+      TextEditingValue(
         text: _inputText,
-        selection: TextSelection.fromPosition(TextPosition(
-          affinity: TextAffinity.downstream,
-          offset: _inputText.length,
-        ))));
+        selection: TextSelection.fromPosition(
+          TextPosition(
+            affinity: TextAffinity.downstream,
+            offset: _inputText.length,
+          ),
+        ),
+      ),
+    );
     TextField textField = TextField(
-      // focusNode: _focusNode,
+      focusNode: _focusNode,
       controller: controller,
+      onEditingComplete: () {
+        FocusScope.of(context).requestFocus(_focusNode);
+      },
       autofocus: false,
+      textAlignVertical: TextAlignVertical.center,
       decoration: InputDecoration(
-        hintStyle: widget.hintStyle,
-        counterStyle: const TextStyle(color: Colors.white),
+        contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: _contentPaddingVertical),
+        hintStyle: widget.hintStyle ?? TextStyle(color: themeC.themeColor['c-text-5']),
+        counterStyle: const TextStyle(color: Colors.grey),
         labelText: widget.labelText,
         hintText: widget.hintText,
         prefixText: widget.prefixText,
@@ -150,52 +179,72 @@ class _MyTextfieldState extends State<MyTextfield> {
         ),
         border: widget.inputBorder ??
             const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+              borderRadius: BorderRadius.all(Radius.circular(8.0)),
               borderSide: BorderSide(
                 width: 1.0,
               ),
             ),
         enabledBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          borderRadius: BorderRadius.all(Radius.circular(8.0)),
           borderSide: BorderSide(
-            color: Colors.black12,
+            color: Color(0xfff3f3f3),
             width: 1,
           ),
         ),
-        focusedBorder: const OutlineInputBorder(
+        focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: Color.fromRGBO(244, 142, 85, 1),
+            color: themeC.themeColor['c-primary'],
             width: 2,
           ),
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          borderRadius: const BorderRadius.all(Radius.circular(8.0)),
         ),
         fillColor: widget.backgroundColor ?? Colors.transparent,
         filled: true,
         prefixIcon: widget.prefixIcon,
-        suffixIcon: _hasDeleteIcon && _hasFocus
-            ? SizedBox(
-                width: 20.0,
-                height: 20.0,
-                child: IconButton(
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.all(0.0),
-                  iconSize: 18.0,
-                  icon: widget.deleteIcon ?? const Icon(Icons.cancel),
-                  onPressed: () {
-                    setState(() {
-                      _inputText = "";
-                      _hasDeleteIcon = _inputText.isNotEmpty;
-                      widget.fieldCallBack!(_inputText);
-                    });
-                  },
-                ),
-              )
-            : const Text(""),
+        suffixIcon: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _hasDeleteIcon && _hasFocus
+                ? IconButton(
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.all(0.0),
+                    iconSize: 20.0,
+                    icon: widget.deleteIcon ?? const Icon(Icons.cancel),
+                    onPressed: () {
+                      setState(() {
+                        _inputText = "";
+                        _hasDeleteIcon = _inputText.isNotEmpty;
+                        widget.fieldCallBack!(_inputText);
+                      });
+                    },
+                  )
+                : const SizedBox(
+                    width: 0,
+                  ),
+            _isPassword
+                ? IconButton(
+                    icon: Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
+                    padding: const EdgeInsets.all(0.0),
+                    iconSize: 22.0,
+                    onPressed: () {
+                      setState(() {
+                        _obscureText = !_obscureText;
+                      });
+                    },
+                  )
+                : const SizedBox(
+                    width: 0,
+                  ),
+          ],
+        ),
       ),
       onChanged: (str) {
         setState(() {
           _inputText = str;
           _hasDeleteIcon = _inputText.isNotEmpty;
+          setState(() {
+            _hasFocus = true;
+          });
           widget.fieldCallBack!(_inputText);
         });
       },
@@ -210,7 +259,7 @@ class _MyTextfieldState extends State<MyTextfield> {
       maxLength: widget.maxLength,
       maxLines: widget.maxLines,
       style: widget.textStyle,
-      obscureText: _isPassword,
+      obscureText: _isPassword && _obscureText,
       inputFormatters: _getTextInputFormatter(),
     );
     return textField;

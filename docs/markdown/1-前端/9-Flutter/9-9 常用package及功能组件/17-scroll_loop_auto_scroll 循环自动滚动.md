@@ -151,7 +151,7 @@ class _ScrollLoopAutoScrollState extends State<ScrollLoopAutoScroll> with Single
   }
 
   animationHandler() async {
-    if (_scrollController.hasClients && _scrollController.position.maxScrollExtent > 0) {
+    if (_scrollController.hasClients) {
       shouldScroll.value = true;
 
       if (shouldScroll.value && mounted) {
@@ -207,6 +207,7 @@ class _ScrollLoopAutoScrollState extends State<ScrollLoopAutoScroll> with Single
     super.dispose();
   }
 }
+
 
 ```
 

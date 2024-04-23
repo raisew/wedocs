@@ -650,6 +650,8 @@ class Http {
       return response.data;
     } catch (e) {
       AppLogger().error(e);
+      EasyLoading.showError('网络错误，请重试');
+      return {};
     } finally {
       if (loadingStatus) {
         // Hide loading indicator
@@ -793,6 +795,7 @@ class Http {
 }
 
 final http = Http();
+
 
 ```
 
