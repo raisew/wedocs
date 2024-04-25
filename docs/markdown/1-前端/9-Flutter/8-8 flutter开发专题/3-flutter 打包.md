@@ -189,6 +189,12 @@ python3 -m http.server
 py -m http.server
 ```
 
+或者
+
+```sh
+python -m http.server
+```
+
 之后在本地就可以访问 `localhost:8000` 就可以看到界面了
 
 端口默认是 `8000`，也可以自定义端口
