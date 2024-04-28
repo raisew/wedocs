@@ -36,6 +36,8 @@ class MyTextfield extends StatefulWidget {
   final ITextFieldCallBack? fieldCallBack;
   final FormFieldValidator<String>? validator;
   final double? paddingVetical;
+  final String? initValue;
+  final bool? enabled;
 
   const MyTextfield({
     Key? key,
@@ -54,6 +56,8 @@ class MyTextfield extends StatefulWidget {
     this.backgroundColor,
     this.validator,
     this.paddingVetical = 10.0,
+    this.initValue,
+    this.enabled,
   })  : assert(maxLines == null || maxLines > 0),
         assert(maxLength == null || maxLength > 0),
         keyboardType = maxLines == 1 ? keyboardType : ITextInputType.multiline,
@@ -148,7 +152,11 @@ class _MyTextfieldState extends State<MyTextfield> {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController controller = TextEditingController.fromValue(
+    TextEditingController controller;
+    if (widget.initValue != null) {
+      _inputText = widget.initValue!;
+    }
+    controller = TextEditingController.fromValue(
       TextEditingValue(
         text: _inputText,
         selection: TextSelection.fromPosition(
@@ -159,9 +167,11 @@ class _MyTextfieldState extends State<MyTextfield> {
         ),
       ),
     );
+
     TextField textField = TextField(
       focusNode: _focusNode,
       controller: controller,
+      enabled: widget.enabled,
       onEditingComplete: () {
         FocusScope.of(context).requestFocus(_focusNode);
       },
@@ -187,7 +197,7 @@ class _MyTextfieldState extends State<MyTextfield> {
         enabledBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(8.0)),
           borderSide: BorderSide(
-            color: Color(0xfff3f3f3),
+            color: Color(0xffd9d9d9),
             width: 1,
           ),
         ),
@@ -242,9 +252,7 @@ class _MyTextfieldState extends State<MyTextfield> {
         setState(() {
           _inputText = str;
           _hasDeleteIcon = _inputText.isNotEmpty;
-          setState(() {
-            _hasFocus = true;
-          });
+          _hasFocus = true;
           widget.fieldCallBack!(_inputText);
         });
       },
@@ -265,5 +273,6 @@ class _MyTextfieldState extends State<MyTextfield> {
     return textField;
   }
 }
+
 
 ```

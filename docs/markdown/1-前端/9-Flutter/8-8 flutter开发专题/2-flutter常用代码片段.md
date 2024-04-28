@@ -348,3 +348,125 @@ Material(
     ),
   ),
 ```
+
+## ScrollController 监听滚动到底部，加载更多数据
+
+```dart
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Scroll Listener Example'),
+        ),
+        body: ScrollListenerWidget(),
+      ),
+    );
+  }
+}
+
+class ScrollListenerWidget extends StatefulWidget {
+  @override
+  _ScrollListenerWidgetState createState() =>          _ScrollListenerWidgetState();
+}
+
+class _ScrollListenerWidgetState extends State
+    with SingleTickerProviderStateMixin {
+  ScrollController _scrollController = ScrollController();
+  bool _isLoading = false;
+  List<String> _dataList = List.generate(20, (index) => 'Item $index');
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_scrollListener);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollListener() {
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      // 滚动到底部
+      _loadMoreData();
+    }
+  }
+
+  void _loadMoreData() {
+    if (!_isLoading) {
+      setState(() {
+        _isLoading = true;
+      });
+
+      // 模拟异步加载数据
+      Future.delayed(Duration(seconds: 2), () {
+        setState(() {
+          // 加载更多数据
+          _dataList.addAll(
+              List.generate(10, (index) => 'Item ${_dataList.length + index}'));
+          _isLoading = false;
+        });
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      controller: _scrollController,
+      itemCount: _dataList.length + (_isLoading ? 1 : 0),
+      itemBuilder: (context, index) {
+        if (index < _dataList.length) {
+          return ListTile(
+            title: Text(_dataList[index]),
+          );
+        } else {
+          return Padding(
+            padding: EdgeInsets.symmetric(vertical: 16.0),
+            child: Center(
+              child: CircularProgressIndicator(), // 加载指示器
+            ),
+          );
+        }
+      },
+    );
+  }
+}
+
+```
+
+## dart 数组操作
+
+### 一个数组的某个标识包含另外一个数组的值
+
+要判断 normalNumbs 列表中 type 字段的值是否在 [2, 3] 中，可以使用 where() 方法来过滤列表，然后使用 any() 方法来检查是否存在符合条件的元素。以下是示例代码：
+
+```dart
+void main() {
+  List<Map<String, dynamic>> normalNumbs = [
+    {'type': 1, 'name': '大', 'rate': 'big_rate', 'check': false},
+    {'type': 2, 'name': '小', 'rate': 'small_rate', 'check': false},
+    {'type': 3, 'name': '单', 'rate': 'd_rate', 'check': false},
+    {'type': 4, 'name': '双', 'rate': 's_rate', 'check': false}
+  ];
+
+  List<Map<String, dynamic>> filteredItems = normalNumbs.where((item) => [2, 3].contains(item['type'])).toList();
+
+  print(filteredItems); // 输出包含指定类型的项目列表
+}
+
+
+```
+
+在这个示例中，where() 方法将用于过滤列表，只保留 type 字段的值在 [2, 3] 中的元素。然后，isNotEmpty 属性将用于检查过滤后的列表是否包含任何元素，如果列表不为空，则表示 type 字段的值在 [2, 3] 中。
