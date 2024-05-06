@@ -353,40 +353,79 @@ Material(
 
 ```dart
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:pc28/components/empty.dart';
+import '../../locales/locale_controller.dart';
+import '../../themes/themes_controller.dart';
+import '../../components/my_app_bar.dart';
+import '../../api/api.dart';
+import '../game/game_num.dart';
 
-void main() {
-  runApp(MyApp());
-}
+class Bill extends StatefulWidget {
+  const Bill({Key? key}) : super(key: key);
 
-class MyApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Scroll Listener Example'),
-        ),
-        body: ScrollListenerWidget(),
-      ),
-    );
-  }
+  State<Bill> createState() => _BillState();
 }
 
-class ScrollListenerWidget extends StatefulWidget {
-  @override
-  _ScrollListenerWidgetState createState() =>          _ScrollListenerWidgetState();
-}
+class _BillState extends State<Bill> with SingleTickerProviderStateMixin {
+  LocaleController localeC = Get.find<LocaleController>();
+  ThemeController themeC = Get.find<ThemeController>();
 
-class _ScrollListenerWidgetState extends State
-    with SingleTickerProviderStateMixin {
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
   bool _isLoading = false;
-  List<String> _dataList = List.generate(20, (index) => 'Item $index');
+  bool isLoaded = false;
+
+  Map<String, dynamic> pageParams = {
+    'page': 1,
+    'limit': 20,
+  };
+  Map<String, dynamic> pageData = {
+    'isNomore': false,
+    'dataList': [],
+  };
+
+  void getData({bool? isMore, Function? callback}) async {
+    final res = await apis['orderLog']!(pageParams);
+    setState(() {
+      isLoaded = true;
+    });
+    if (res['code'] == 1) {
+      var resdata = res['data'] ?? {};
+      if (resdata.isEmpty) return;
+      if (isMore != null && !isMore) {
+        if (mounted) {
+          setState(() {
+            pageData['dataList'] = resdata['data'];
+          });
+        }
+      } else {
+        if (mounted) {
+          setState(() {
+            pageData['dataList'] = [...pageData['dataList'], ...resdata['data']];
+          });
+        }
+      }
+      if (resdata['last_page'] > pageParams['page']) {
+        setState(() {
+          pageData['isNomore'] = false;
+        });
+      } else {
+        setState(() {
+          pageData['isNomore'] = true;
+        });
+      }
+      if (callback != null) {
+        callback();
+      }
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_scrollListener);
+    getData();
   }
 
   @override
@@ -396,10 +435,11 @@ class _ScrollListenerWidgetState extends State
   }
 
   void _scrollListener() {
-    if (_scrollController.position.pixels ==
-        _scrollController.position.maxScrollExtent) {
+    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent) {
       // 滚动到底部
-      _loadMoreData();
+      if (!pageData['isNomore']) {
+        _loadMoreData();
+      }
     }
   }
 
@@ -407,42 +447,282 @@ class _ScrollListenerWidgetState extends State
     if (!_isLoading) {
       setState(() {
         _isLoading = true;
+        ++pageParams['page'];
       });
-
-      // 模拟异步加载数据
-      Future.delayed(Duration(seconds: 2), () {
-        setState(() {
-          // 加载更多数据
-          _dataList.addAll(
-              List.generate(10, (index) => 'Item ${_dataList.length + index}'));
-          _isLoading = false;
-        });
-      });
+      getData(
+        isMore: true,
+        callback: () {
+          setState(() {
+            _isLoading = false;
+          });
+        },
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      controller: _scrollController,
-      itemCount: _dataList.length + (_isLoading ? 1 : 0),
-      itemBuilder: (context, index) {
-        if (index < _dataList.length) {
-          return ListTile(
-            title: Text(_dataList[index]),
-          );
-        } else {
-          return Padding(
-            padding: EdgeInsets.symmetric(vertical: 16.0),
-            child: Center(
-              child: CircularProgressIndicator(), // 加载指示器
+    String getNum(types, nums) {
+      String betdata = '';
+      List typesList = types.split(',');
+      List<Map<String, dynamic>> bets = normalNumbs.where((item) => typesList.contains(item['type'].toString())).toList();
+      betdata = bets.map((numb) => numb['name'] as String).join(', ');
+      if (typesList.contains('5')) {
+        betdata = betdata == '' ? nums : '$betdata,$nums';
+      }
+      return betdata;
+    }
+
+    // String getStatus(status) {
+    //   String statusText = '';
+    //   if (status == 1) {
+    //     statusText = 'Won'.tr;
+    //   } else if (status == 2) {
+    //     statusText = 'Didn_win'.tr;
+    //   } else {
+    //     statusText = 'Not_drawn_yet'.tr;
+    //   }
+    //   return statusText;
+    // }
+    String getCheck(status) {
+      String statusText = '';
+      if (status == 1) {
+        statusText = 'Drawn_result'.tr;
+      } else {
+        statusText = 'Not_drawn_yet'.tr;
+      }
+      return statusText;
+    }
+
+    // String getSign(status) {
+    //   String signText = '';
+    //   if (status == 1) {
+    //     signText = '+';
+    //   } else if (status == 2) {
+    //     signText = '';
+    //   } else {
+    //     signText = '';
+    //   }
+    //   return signText;
+    // }
+
+    return Scaffold(
+      appBar: MyAppBar(
+        title: 'financial_bill'.tr, // 将字符串包装在Text小部件中
+        backgroundColor: themeC.themeColor['bgc-primary'],
+      ),
+      body: Column(
+        children: [
+          Container(
+            height: 46.0,
+            color: themeC.themeColor['bgc-primary'],
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Center(
+                    child: Text(
+                      'Issue'.tr,
+                      style: const TextStyle(
+                        fontSize: 14.0,
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 3,
+                  child: Center(
+                    child: Text(
+                      'Betting_details'.tr,
+                      style: const TextStyle(
+                        fontSize: 14.0,
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Center(
+                    child: Text(
+                      'state'.tr,
+                      style: const TextStyle(
+                        fontSize: 14.0,
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Center(
+                    child: Text(
+                      'Profit_and_loss'.tr,
+                      style: const TextStyle(
+                        fontSize: 14.0,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          );
-        }
-      },
+          ),
+          isLoaded && pageData['dataList'].isEmpty
+              ? const Expanded(child: Empty())
+              : Expanded(
+                  child: ListView.builder(
+                    controller: _scrollController,
+                    shrinkWrap: true, // 防止与SingleChildScrollView冲突
+                    itemCount: pageData['dataList'].length + (_isLoading ? 1 : 0),
+                    itemBuilder: (BuildContext content, int index) {
+                      if (index < pageData['dataList'].length) {
+                        var item = pageData['dataList'][index];
+                        var betStr = getNum(item['buy_type'], item['buy_num']);
+                        return Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 10.0,
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                width: 1.0,
+                                color: themeC.themeColor['bd-base']!,
+                              ),
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: Center(
+                                  child: Text(
+                                    '${item['code_sn']}',
+                                    style: TextStyle(
+                                      fontSize: 12.0,
+                                      fontWeight: FontWeight.w700,
+                                      color: themeC.themeColor['c-text-2'],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 3,
+                                child: Column(
+                                  children: [
+                                    RichText(
+                                      textAlign: TextAlign.center,
+                                      text: TextSpan(
+                                          style: TextStyle(
+                                            color: themeC.themeColor['c-text-3'],
+                                          ),
+                                          children: [
+                                            TextSpan(
+                                              text: '$betStr/',
+                                              style: const TextStyle(
+                                                fontSize: 10,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: '${item['buy_amount_one']}',
+                                              style: TextStyle(
+                                                color: themeC.themeColor['c-price'],
+                                              ),
+                                            ),
+                                            const TextSpan(
+                                              text: 'VND',
+                                              style: TextStyle(
+                                                fontSize: 11,
+                                              ),
+                                            ),
+                                          ]),
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    RichText(
+                                      textAlign: TextAlign.center,
+                                      text: TextSpan(
+                                          style: TextStyle(
+                                            color: themeC.themeColor['c-text-2'],
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                          children: [
+                                            TextSpan(
+                                              text: '${'total'.tr}:',
+                                              style: const TextStyle(
+                                                fontSize: 10,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: '${item['buy_amount']}',
+                                              style: TextStyle(
+                                                color: themeC.themeColor['c-price'],
+                                              ),
+                                            ),
+                                            const TextSpan(
+                                              text: 'VND',
+                                              style: TextStyle(
+                                                fontSize: 11,
+                                              ),
+                                            ),
+                                          ]),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: Center(
+                                  child: Text(
+                                    getCheck(item['is_check']),
+                                    style: TextStyle(
+                                      color: item['is_check'] == 1 ? themeC.themeColor['c-fall'] : themeC.themeColor['c-rise'],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Center(
+                                  child: Text(
+                                    '${num.parse(item['earn_lost']) >= 0 ? '+' + item['earn_lost'] : item['earn_lost']}',
+                                    style: TextStyle(
+                                      color: num.parse(item['earn_lost']) >= 0 ? themeC.themeColor['c-fall'] : themeC.themeColor['c-rise'],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      } else {
+                        if (pageData['isNomore']) {
+                          return const SizedBox();
+                        } else {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16.0),
+                            child: Center(
+                              child: SizedBox(
+                                width: 24,
+                                height: 24,
+                                child: CircularProgressIndicator(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  strokeWidth: 3,
+                                ),
+                              ), // 加载指示器
+                            ),
+                          );
+                        }
+                      }
+                    },
+                  ),
+                ),
+        ],
+      ),
     );
   }
 }
+
 
 ```
 
@@ -470,3 +750,324 @@ void main() {
 ```
 
 在这个示例中，where() 方法将用于过滤列表，只保留 type 字段的值在 [2, 3] 中的元素。然后，isNotEmpty 属性将用于检查过滤后的列表是否包含任何元素，如果列表不为空，则表示 type 字段的值在 [2, 3] 中。
+
+## 滚动到底部触发加载更多
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../../locales/locale_controller.dart';
+import '../../themes/themes_controller.dart';
+import '../../components/my_app_bar.dart';
+import '../../api/api.dart';
+import '../game/game_num.dart';
+
+class Bill extends StatefulWidget {
+  const Bill({Key? key}) : super(key: key);
+
+  @override
+  State<Bill> createState() => _BillState();
+}
+
+class _BillState extends State<Bill> with SingleTickerProviderStateMixin {
+  LocaleController localeC = Get.find<LocaleController>();
+  ThemeController themeC = Get.find<ThemeController>();
+
+  final ScrollController _scrollController = ScrollController();
+  bool _isLoading = false;
+
+  Map<String, dynamic> pageData = {
+    'page': 1,
+    'limit': 20,
+    'isNomore': false,
+    'dataList': [],
+  };
+
+  void getData({bool? isMore, Function? callback}) async {
+    final res = await apis['orderLog']!(pageData);
+    if (res['code'] == 1) {
+      var resdata = res['data'] ?? {};
+      if (resdata.isEmpty) return;
+      if (isMore != null && !isMore) {
+        if (mounted) {
+          setState(() {
+            pageData['dataList'] = resdata['data'];
+          });
+        }
+      } else {
+        if (mounted) {
+          setState(() {
+            pageData['dataList'] = [...pageData['dataList'], ...resdata['data']];
+          });
+        }
+      }
+      if (resdata['last_page'] > pageData['page']) {
+        pageData['isNomore'] = false;
+      } else {
+        pageData['isNomore'] = true;
+      }
+      callback ?? ();
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_scrollListener);
+    getData();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollListener() {
+    if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+      // 滚动到底部
+      if (!pageData['isNomore']) {
+        _loadMoreData();
+      }
+    }
+  }
+
+  void _loadMoreData() {
+    if (!_isLoading) {
+      setState(() {
+        _isLoading = true;
+        ++pageData['page'];
+      });
+      getData(
+        isMore: true,
+        callback: () {
+          _isLoading = false;
+        },
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    String getNum(types, nums) {
+      String betdata = '';
+      List typesList = types.split(',');
+      List<Map<String, dynamic>> bets = normalNumbs.where((item) => typesList.contains(item['type'].toString())).toList();
+      betdata = bets.map((numb) => numb['name'] as String).join(', ');
+      if (typesList.contains('5')) {
+        betdata = betdata == '' ? nums : '$betdata,$nums';
+      }
+      return betdata;
+    }
+
+    String getStatus(status) {
+      String statusText = '';
+      if (status == 1) {
+        statusText = '已中奖';
+      } else if (status == 2) {
+        statusText = '未中奖';
+      } else {
+        statusText = '未开奖';
+      }
+      return statusText;
+    }
+
+    String getSign(status) {
+      String signText = '';
+      if (status == 1) {
+        signText = '+';
+      } else if (status == 2) {
+        signText = '-';
+      } else {
+        signText = '';
+      }
+      return signText;
+    }
+
+    return Scaffold(
+      appBar: MyAppBar(
+        title: '财务账单', // 将字符串包装在Text小部件中
+        backgroundColor: themeC.themeColor['bgc-primary'],
+      ),
+      body: Column(
+        children: [
+          Container(
+            height: 46.0,
+            color: themeC.themeColor['bgc-primary'],
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: const Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Center(
+                    child: Text(
+                      '期号',
+                      style: TextStyle(
+                        fontSize: 14.0,
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 3,
+                  child: Center(
+                    child: Text(
+                      '下注详情',
+                      style: TextStyle(
+                        fontSize: 14.0,
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Center(
+                    child: Text(
+                      '状态',
+                      style: TextStyle(
+                        fontSize: 14.0,
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Center(
+                    child: Text(
+                      '盈亏',
+                      style: TextStyle(
+                        fontSize: 14.0,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              controller: _scrollController,
+              shrinkWrap: true, // 防止与SingleChildScrollView冲突
+              itemCount: pageData['dataList'].length + (_isLoading ? 1 : 0),
+              itemBuilder: (BuildContext content, int index) {
+                if (index < pageData['dataList'].length) {
+                  var item = pageData['dataList'][index];
+                  var betStr = getNum(item['buy_type'], item['buy_num']);
+                  return Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 10.0,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          width: 1.0,
+                          color: themeC.themeColor['bd-base']!,
+                        ),
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Center(
+                            child: Text(
+                              '${item['code_sn']}',
+                              style: TextStyle(
+                                fontSize: 12.0,
+                                color: themeC.themeColor['c-text-3'],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 3,
+                          child: Center(
+                            child: RichText(
+                              text: TextSpan(
+                                  style: TextStyle(
+                                    color: themeC.themeColor['c-text-2'],
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: '$betStr/',
+                                      style: const TextStyle(
+                                        fontSize: 10,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: '${item['buy_amount_one']}',
+                                      style: TextStyle(
+                                        color: themeC.themeColor['c-price'],
+                                      ),
+                                    ),
+                                    const TextSpan(
+                                      text: 'VND',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ]),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Center(
+                            child: Text(
+                              getStatus(item['status']),
+                              style: TextStyle(
+                                color: item['status'] == 1 ? themeC.themeColor['c-fall'] : themeC.themeColor['c-rise'],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Center(
+                            child: Text(
+                              '${getSign(item['status'])}${item['earn_lost']}',
+                              style: TextStyle(
+                                color: item['status'] == 1 ? themeC.themeColor['c-fall'] : themeC.themeColor['c-rise'],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  if (pageData['isNomore']) {
+                    return const SizedBox();
+                  } else {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      child: Center(
+                        child: SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: CircularProgressIndicator(
+                            color: Colors.grey.withOpacity(0.5),
+                            strokeWidth: 3,
+                          ),
+                        ), // 加载指示器
+                      ),
+                    );
+                  }
+                }
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+```
+
+## 判断 web 平台引入 dart:html 包
+
+```dart
+import 'package:pc28/utils/file_to_base64.dart' if (dart.library.html) 'package:pc28/utils/file_to_base64_web.dart';
+```

@@ -38,6 +38,8 @@ class MyTextfield extends StatefulWidget {
   final double? paddingVetical;
   final String? initValue;
   final bool? enabled;
+  final bool showCount;
+  final List<TextInputFormatter>? formatter;
 
   const MyTextfield({
     Key? key,
@@ -58,6 +60,8 @@ class MyTextfield extends StatefulWidget {
     this.paddingVetical = 10.0,
     this.initValue,
     this.enabled,
+    this.showCount = false,
+    this.formatter,
   })  : assert(maxLines == null || maxLines > 0),
         assert(maxLength == null || maxLength > 0),
         keyboardType = maxLines == 1 ? keyboardType : ITextInputType.multiline,
@@ -72,10 +76,12 @@ class _MyTextfieldState extends State<MyTextfield> {
 
   String _inputText = "";
   bool _hasDeleteIcon = false;
-  bool _hasFocus = false;
+  // bool _hasFocus = false;
   bool _isNumber = false;
   bool _isPassword = false;
   bool _obscureText = true;
+
+  int maxLen = 20;
 
   ///输入类型
   TextInputType? _getTextInputType() {
@@ -111,28 +117,29 @@ class _MyTextfieldState extends State<MyTextfield> {
   }
 
   ///输入框焦点控制
-  final FocusNode _focusNode = FocusNode();
+  late final FocusNode _focusNode;
 
   double _contentPaddingVertical = 0.0;
 
   @override
   void initState() {
     super.initState();
+    _focusNode = FocusNode();
     setState(() {
       _contentPaddingVertical = widget.paddingVetical ?? 10.0;
     });
-    _focusNode.addListener(() {
-      if (!_focusNode.hasFocus) {
-        // 处理失去焦点的逻辑
-        setState(() {
-          _hasFocus = false;
-        });
-      } else {
-        setState(() {
-          _hasFocus = true;
-        });
-      }
-    });
+    // _focusNode.addListener(() {
+    //   if (!_focusNode.hasFocus) {
+    //     // 处理失去焦点的逻辑
+    //     setState(() {
+    //       _hasFocus = false;
+    //     });
+    //   } else {
+    //     setState(() {
+    //       _hasFocus = true;
+    //     });
+    //   }
+    // });
   }
 
   @override
@@ -143,11 +150,22 @@ class _MyTextfieldState extends State<MyTextfield> {
 
   ///输入范围
   List<TextInputFormatter>? _getTextInputFormatter() {
-    return _isNumber
-        ? <TextInputFormatter>[
-            FilteringTextInputFormatter.digitsOnly,
-          ]
-        : null;
+    List<TextInputFormatter> formatters = [];
+
+    // 如果是数字输入，添加仅数字的过滤器
+    if (_isNumber) {
+      formatters.add(FilteringTextInputFormatter.digitsOnly);
+    }
+
+    // 添加禁止输入空格的过滤器
+    formatters.add(FilteringTextInputFormatter.deny(RegExp(r'\s')));
+
+    // 添加额外的自定义格式化器
+    if (widget.formatter != null) {
+      formatters.addAll(widget.formatter!);
+    }
+
+    return formatters;
   }
 
   @override
@@ -180,6 +198,7 @@ class _MyTextfieldState extends State<MyTextfield> {
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: _contentPaddingVertical),
         hintStyle: widget.hintStyle ?? TextStyle(color: themeC.themeColor['c-text-5']),
+        counterText: widget.showCount ? null : '',
         counterStyle: const TextStyle(color: Colors.grey),
         labelText: widget.labelText,
         hintText: widget.hintText,
@@ -214,37 +233,31 @@ class _MyTextfieldState extends State<MyTextfield> {
         suffixIcon: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _hasDeleteIcon && _hasFocus
-                ? IconButton(
-                    alignment: Alignment.center,
-                    padding: const EdgeInsets.all(0.0),
-                    iconSize: 20.0,
-                    icon: widget.deleteIcon ?? const Icon(Icons.cancel),
-                    onPressed: () {
-                      setState(() {
-                        _inputText = "";
-                        _hasDeleteIcon = _inputText.isNotEmpty;
-                        widget.fieldCallBack!(_inputText);
-                      });
-                    },
-                  )
-                : const SizedBox(
-                    width: 0,
-                  ),
-            _isPassword
-                ? IconButton(
-                    icon: Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
-                    padding: const EdgeInsets.all(0.0),
-                    iconSize: 22.0,
-                    onPressed: () {
-                      setState(() {
-                        _obscureText = !_obscureText;
-                      });
-                    },
-                  )
-                : const SizedBox(
-                    width: 0,
-                  ),
+            if (_hasDeleteIcon)
+              IconButton(
+                alignment: Alignment.center,
+                padding: const EdgeInsets.all(0.0),
+                iconSize: 20.0,
+                icon: widget.deleteIcon ?? const Icon(Icons.cancel),
+                onPressed: () {
+                  setState(() {
+                    _inputText = "";
+                    _hasDeleteIcon = _inputText.isNotEmpty;
+                    widget.fieldCallBack!(_inputText);
+                  });
+                },
+              ),
+            if (_isPassword)
+              IconButton(
+                icon: Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
+                padding: const EdgeInsets.all(0.0),
+                iconSize: 22.0,
+                onPressed: () {
+                  setState(() {
+                    _obscureText = !_obscureText;
+                  });
+                },
+              ),
           ],
         ),
       ),
@@ -252,19 +265,19 @@ class _MyTextfieldState extends State<MyTextfield> {
         setState(() {
           _inputText = str;
           _hasDeleteIcon = _inputText.isNotEmpty;
-          _hasFocus = true;
-          widget.fieldCallBack!(_inputText);
+          // _hasFocus = true;
         });
+        widget.fieldCallBack!(_inputText);
       },
       onSubmitted: (str) {
         _inputText = str;
         widget.fieldCallBack!(_inputText);
-        setState(() {
-          _hasFocus = false;
-        });
+        // setState(() {
+        //   _hasFocus = false;
+        // });
       },
       keyboardType: _getTextInputType(),
-      maxLength: widget.maxLength,
+      maxLength: widget.maxLength ?? maxLen,
       maxLines: widget.maxLines,
       style: widget.textStyle,
       obscureText: _isPassword && _obscureText,
@@ -273,6 +286,5 @@ class _MyTextfieldState extends State<MyTextfield> {
     return textField;
   }
 }
-
 
 ```

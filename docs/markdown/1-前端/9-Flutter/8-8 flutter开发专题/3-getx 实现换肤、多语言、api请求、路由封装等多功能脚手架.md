@@ -138,9 +138,12 @@ linter:
 
 ```dart
 import 'package:flutter/material.dart';
+import 'dart:ui';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+
 // import 'package:flutter_web_plugins/url_strategy.dart';
 import './routes/routes.dart';
 import './pages/root/root.dart';
@@ -151,10 +154,13 @@ import './auth/auth_controller.dart';
 import './pages/login/login.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await GetStorage.init();
   // usePathUrlStrategy();
   runApp(MyApp());
+  // Remove splash screen when bootstrap is complete
+  FlutterNativeSplash.remove();
 }
 
 class MyApp extends StatelessWidget {
@@ -165,17 +171,28 @@ class MyApp extends StatelessWidget {
   final ThemeController themeC = Get.put(ThemeController(), permanent: true);
   final LocaleController localeC = Get.put(LocaleController(), permanent: true);
   final AuthController authC = Get.put(AuthController(), permanent: true);
+  void updateLanguage() {
+    // 监听系统语言变化
+    window.onLocaleChanged = () {
+      var langCode = window.locale.languageCode;
+      localeC.setLocale(langCode);
+      Future.delayed(Duration.zero, () {
+        String name = authC.token.isEmpty ? '/login' : '/root';
+        Get.offAllNamed(name);
+      });
+    };
+  }
 
   @override
   Widget build(BuildContext context) {
     return Obx(() => GetMaterialApp(
-          title: 'coins',
+          title: '标题',
           initialRoute: '/',
           getPages: routes,
-          home: authC.token.value.isEmpty ? Login() : Root(),
-          defaultTransition: Transition.rightToLeftWithFade,
+          home: authC.token.isEmpty ? Login() : const Root(),
+          defaultTransition: Transition.cupertino,
           debugShowCheckedModeBanner: false,
-          transitionDuration: const Duration(milliseconds: 250),
+          transitionDuration: const Duration(milliseconds: 300),
           translations: Messages(),
           locale: Locale(localeC.languageCode.value, localeC.countryCode.value),
           // theme: themes[themeName!.isNotEmpty ? themeName : Config.theme],
@@ -189,6 +206,7 @@ class MyApp extends StatelessWidget {
             textTheme: TextTheme(
               bodyText2: TextStyle(
                 color: themeC.themeColor['c-text-1'],
+                fontSize: 12.0,
               ),
             ),
             buttonTheme: ButtonThemeData(
@@ -201,7 +219,7 @@ class MyApp extends StatelessWidget {
                   Colors.white, // 将文本颜色设置为白色
                 ),
                 overlayColor: MaterialStateProperty.all(
-                  Colors.black12, // 设置水波纹颜色为红色
+                  const Color.fromRGBO(200, 200, 200, 0.2), // 设置水波纹颜色为红色
                 ),
               ),
             ),
@@ -210,23 +228,91 @@ class MyApp extends StatelessWidget {
                 foregroundColor: MaterialStateProperty.all(themeC.themeColor['c-primary']),
                 padding: MaterialStateProperty.all(const EdgeInsets.only(left: 6.0, right: 6.0)),
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                // shape: MaterialStateProperty.all(
-                //   const RoundedRectangleBorder(
-                //     borderRadius: BorderRadius.zero,
-                //   ),
-                // ),
-                // overlayColor: MaterialStateProperty.all(
-                //   Colors.black12, // 设置水波纹颜色为红色
-                // ),
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+                overlayColor: MaterialStateProperty.all(
+                  const Color.fromRGBO(200, 200, 200, 0.2), // 设置水波纹颜色为红色
+                ),
               ),
             ),
             useMaterial3: true,
           ),
           // home: token!.isEmpty ? Login() : Root(),
-          builder: EasyLoading.init(),
+          builder: EasyLoading.init(builder: (BuildContext content, child) {
+            updateLanguage();
+            return Scaffold(
+              body: Center(
+                child: Container(
+                  constraints: const BoxConstraints(maxWidth: 540), // 设置页面最大宽度为540
+                  child: child,
+                ),
+              ),
+            );
+          }),
         ));
   }
 }
+
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key, required this.child});
+
+  final Widget child;
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData(); // 加载数据
+  }
+
+  Future<void> _loadData() async {
+    // 模拟加载数据的过程
+    await Future.delayed(const Duration(seconds: 3));
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.transparent, // 设置为透明
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          // 显示启动屏内容
+          Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/splash.png'),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          // 加载指示器
+          _isLoading
+              ? Container(
+                  color: Colors.black.withOpacity(0.5), // 半透明黑色背景
+                  child: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                )
+              : widget.child, // 加载完成后隐藏
+        ],
+      ),
+    );
+  }
+}
+
 ```
 
 ## 4. config.dart 配置文件
@@ -1136,4 +1222,169 @@ localC.setLocale(LanguageCode, CountryCode); // CountryCode可不传
 
 ```dart
 localeSet(LanguageCode, CountryCode); // CountryCode可不传
+```
+
+## 11. flutter web index.html
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
+
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
+
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
+    <base href="$FLUTTER_BASE_HREF" />
+
+    <meta charset="UTF-8" />
+    <meta content="IE=Edge" http-equiv="X-UA-Compatible" />
+    <meta name="description" content="A new Flutter project." />
+
+    <!-- iOS meta tags & icons -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="pc28" />
+    <link rel="apple-touch-icon" href="icons/Icon-192.png" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png" />
+
+    <title>Phú Quốc</title>
+    <link rel="manifest" href="manifest.json" />
+
+    <script>
+      // The value below is injected by flutter build, do not touch.
+      const serviceWorkerVersion = null
+    </script>
+    <!-- This script adds the flutter initialization JS code -->
+    <script src="flutter.js" defer=""></script>
+
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+
+    <!-- Croppie -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.css" />
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.js"></script> -->
+    <link rel="stylesheet" href="./croppie/croppie.css" />
+    <script defer src="./croppie/exif.js"></script>
+    <script src="./croppie/croppie.min.js"></script>
+
+    <style id="splash-screen-style">
+      html {
+        height: 100%;
+        max-width: 540px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100%;
+        background-color: #ffffff;
+        background-size: 100% 100%;
+      }
+
+      .center {
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 80%;
+        height: 80%;
+        max-width: 540px;
+        object-fit: cover;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+      }
+
+      .contain {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      .stretch {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+      .cover {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .bottom {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        -ms-transform: translate(-50%, 0);
+        transform: translate(-50%, 0);
+      }
+
+      .bottomLeft {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+      }
+
+      .bottomRight {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+      }
+    </style>
+    <script id="splash-screen-script">
+      function removeSplashFromWeb() {
+        document.getElementById("splash")?.remove()
+        document.getElementById("splash-branding")?.remove()
+        document.body.style.background = "transparent"
+      }
+    </script>
+  </head>
+
+  <body>
+    <picture id="splash">
+      <source srcset="splash/img/light-4x.png 1x, splash/img/light-4x.png 2x, splash/img/light-4x.png 3x, splash/img/light-4x.png 4x" media="(prefers-color-scheme: light)" />
+      <source srcset="splash/img/dark-4x.png 1x, splash/img/dark-4x.png 2x, splash/img/dark-4x.png 3x, splash/img/dark-4x.png 4x" media="(prefers-color-scheme: dark)" />
+      <img class="center" aria-hidden="true" src="splash/img/light-4x.png" alt="" />
+    </picture>
+
+    <script>
+      window.addEventListener("load", function (ev) {
+        // Generate a version number, e.g., using a timestamp
+        var version = Date.now()
+
+        // Construct the URL of main.dart.js with the version number
+        var scriptUrl = "main.dart.js?version=" + version
+
+        // Download main.dart.js with the version number
+        _flutter.loader.loadEntrypoint({
+          serviceWorker: {
+            serviceWorkerVersion: serviceWorkerVersion,
+          },
+          // Use the modified scriptUrl
+          loadUrl: scriptUrl,
+          onEntrypointLoaded: function (engineInitializer) {
+            engineInitializer.initializeEngine().then(function (appRunner) {
+              appRunner.runApp()
+            })
+          },
+        })
+      })
+    </script>
+  </body>
+</html>
 ```
