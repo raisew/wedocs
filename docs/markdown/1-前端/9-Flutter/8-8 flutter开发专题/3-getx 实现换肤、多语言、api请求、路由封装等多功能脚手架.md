@@ -355,7 +355,7 @@ class AppLogger {
         lineLength: 120,
         colors: true,
         printEmojis: true,
-        printTime: false,
+        printTime: true,
       ),
     );
   }
@@ -485,6 +485,7 @@ void showCustomBottomSheet(BuildContext context, Widget bottomSheetContent, {boo
                             borderRadius: BorderRadius.zero,
                           ),
                         ),
+                        minimumSize: const MaterialStatePropertyAll(Size(double.infinity, 50)),
                       ),
                       child: const Text(
                         '取消',
@@ -664,6 +665,7 @@ import '../config/config.dart';
 import '../utils/Store.dart';
 import '../utils/app_logger.dart';
 import '../utils/platform.dart';
+import 'package:get/get.dart' as getx;
 
 class Http {
   static final Http _instance = Http._internal();
@@ -684,15 +686,25 @@ class Http {
     _dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
         // Do something before request is sent
-        AppLogger().log('请求： ${options.method} ${options.uri}');
-        AppLogger().log('请求头： ${options.headers}');
-        AppLogger().log('请求参数：${options.data}');
-        AppLogger().log(options.data);
+        // Map<String, dynamic> requesets = {
+        //   'method': options.method,
+        //   'uri': options.uri,
+        //   'header': options.headers,
+        //   'params': options.data,
+        // };
+        // AppLogger().log('请求：$requesets');
+        // AppLogger().log(requesets);
         handler.next(options); // Must call handler.next to continue
       },
       onResponse: (response, handler) async {
         // Do something with response data
-        AppLogger().info('响应： ${response.requestOptions.method} ${response.requestOptions.uri}');
+        Map<String, dynamic> requesets = {
+          'method': response.requestOptions.method,
+          'uri': response.requestOptions.uri,
+          'headers': response.requestOptions.headers,
+          'data': response.requestOptions.data,
+        };
+        AppLogger().log('请求数据：$requesets');
         AppLogger().info('响应数据：${response.data}');
         AppLogger().info(response.data);
         handler.next(response); // Must call handler.next to continue
@@ -700,7 +712,6 @@ class Http {
       onError: (DioError e, handler) async {
         // Do something with response error
         AppLogger().error('请求错误: ${e.message}');
-        AppLogger().error(e.message);
         handler.next(e); // Must call handler.next to continue
       },
     ));
@@ -709,18 +720,27 @@ class Http {
   Future<dynamic> request(
     String method,
     String path, {
-    Map<String, dynamic>? data,
+    Map<dynamic, dynamic>? data,
+    Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? headers,
     bool loading = false,
   }) async {
     var token = await Store.get('token');
+    var lang = await Store.get('languageCode');
     final options = Options(method: method);
     options.headers = {
       'content-type': 'application/json',
+      'Accept-Language': lang ?? '',
       'token': token,
       ...?headers,
     };
-
+    if (token.isNotEmpty) {
+      if (method.toUpperCase() == 'GET') {
+        queryParameters?['token'] = token.toString();
+      } else {
+        data?['token'] = token;
+      }
+    }
     final loadingStatus = loading;
     if (loadingStatus) {
       // Show loading indicator
@@ -728,7 +748,7 @@ class Http {
     }
 
     try {
-      final response = await _dio.request(path, data: data, options: options);
+      final response = await _dio.request(path, data: data, queryParameters: queryParameters, options: options);
       final res = response.data;
       if (res['code'] != 1) {
         EasyLoading.showToast(res['msg']);
@@ -736,7 +756,7 @@ class Http {
       return response.data;
     } catch (e) {
       AppLogger().error(e);
-      EasyLoading.showError('网络错误，请重试');
+      EasyLoading.showError('Network_error'.tr);
       return {};
     } finally {
       if (loadingStatus) {
@@ -748,14 +768,14 @@ class Http {
 
   Future<dynamic> get(
     String path, {
-    Map<String, dynamic>? data,
+    Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? headers,
     bool loading = false,
   }) async {
     return request(
       'GET',
       path,
-      data: data,
+      queryParameters: queryParameters,
       headers: headers,
       loading: loading,
     );
@@ -763,7 +783,7 @@ class Http {
 
   Future<dynamic> post(
     String path, {
-    Map<String, dynamic>? data,
+    Map<dynamic, dynamic>? data,
     Map<String, dynamic>? headers,
     bool loading = false,
   }) async {
@@ -881,7 +901,6 @@ class Http {
 }
 
 final http = Http();
-
 
 ```
 
@@ -1113,21 +1132,23 @@ themeC.changeTheme('dark');
 
 ### 新建目录 `langs`
 
-多语言存放文件，命名由 `intl` 、 `LanguageCode`、`CountryCode` 拼接 `-` 组成
+多语言存放文件，命名由 `intl` 、 `LanguageCode`、`CountryCode` 拼接 `-` 组成。
 
-中文文件 `intl_zh_cn.dart`
+大部分用 `LanguageCode` 命名就行。
+
+中文文件 `zh.dart`
 
 ```dart
-final intlZhCn = {
+final zh = {
   "hello": "你好 世界",
   "test": "测试",
 };
 ```
 
-德语文件 `intl_de_DE.dart`
+德语文件 `de.dart`
 
 ```dart
-final intlDeDe = {
+final de = {
   "hello": "Hallo Welt",
   "test": "prüfen",
 };
@@ -1140,16 +1161,19 @@ final intlDeDe = {
 ```dart
 import 'package:get/get.dart';
 
-import 'langs/intl_zh_cn.dart';
-import 'langs/intl_de_de.dart';
+import 'langs/zh.dart';
+import 'langs/de.dart';
+import 'langs/en.dart';
 
 class Messages extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
-        'zh_CN': intlZhCn,
-        'de_DE': intlDeDe,
+        'zh': zh,
+        'de': de,
+        'en': en,
       };
 }
+
 ```
 
 - 使用
@@ -1274,9 +1298,9 @@ localeSet(LanguageCode, CountryCode); // CountryCode可不传
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.css" />
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.js"></script> -->
-    <link rel="stylesheet" href="./croppie/croppie.css" />
-    <script defer src="./croppie/exif.js"></script>
-    <script src="./croppie/croppie.min.js"></script>
+    <link rel="stylesheet" href="croppie/croppie.css" />
+    <script defer src="croppie/exif.js"></script>
+    <script src="croppie/croppie.min.js"></script>
 
     <style id="splash-screen-style">
       html {
@@ -1387,4 +1411,700 @@ localeSet(LanguageCode, CountryCode); // CountryCode可不传
     </script>
   </body>
 </html>
+```
+
+## 12. app_bar 封装
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../themes/themes_controller.dart';
+
+class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final Widget? leading;
+  final String? title;
+  final Color? titleColor;
+  final TextStyle? titleStyle;
+  final List<Widget>? actions;
+  final Widget? flexibleSpace;
+  final double? elevation;
+  final Color? backgroundColor;
+  final IconThemeData? iconTheme;
+  final bool? automaticallyImplyLeading;
+  final bool? centerTitle;
+  final bool? primary;
+  final double? titleSpacing;
+  final double? toolbarOpacity;
+  final double? bottomOpacity;
+  final double? toolbarHeight;
+  final double? scrolledUnderElevation;
+
+  MyAppBar({
+    Key? key,
+    this.leading,
+    this.title = '',
+    this.titleColor,
+    this.titleStyle,
+    this.actions,
+    this.flexibleSpace,
+    this.elevation,
+    this.backgroundColor,
+    this.iconTheme,
+    this.automaticallyImplyLeading = true,
+    this.centerTitle = true,
+    this.primary = true,
+    this.titleSpacing,
+    this.toolbarOpacity,
+    this.bottomOpacity,
+    this.toolbarHeight,
+    this.scrolledUnderElevation,
+  }) : super(key: key);
+
+  ThemeController themeC = Get.find<ThemeController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      leading: leading ??
+          IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios_outlined,
+              color: titleColor ?? themeC.themeColor['c-text-3'],
+              size: 20.0,
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+      title: Text(
+        title!,
+        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: titleColor ?? Colors.black87),
+      ),
+      actions: actions,
+      flexibleSpace: flexibleSpace,
+      scrolledUnderElevation: scrolledUnderElevation ?? 0,
+      elevation: elevation ?? 0,
+      backgroundColor: backgroundColor ?? themeC.themeColor['bgc-header'],
+      iconTheme: iconTheme,
+      automaticallyImplyLeading: automaticallyImplyLeading ?? true,
+      centerTitle: centerTitle,
+      primary: primary ?? true,
+      titleSpacing: titleSpacing,
+      toolbarOpacity: toolbarOpacity ?? 1.0,
+      bottomOpacity: bottomOpacity ?? 1.0,
+      toolbarHeight: toolbarHeight ?? kToolbarHeight,
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}
+
+```
+
+## 13. 图片加载封装
+
+```dart
+import 'dart:convert';
+import 'dart:typed_data';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter/material.dart';
+import '../config/config.dart';
+
+class MyImage extends StatelessWidget {
+  final String url;
+  final double? width;
+  final double? height;
+  final BoxFit? fit;
+  final Widget loadingWidget;
+  final Widget errorWidget;
+  final bool? loading;
+
+  const MyImage({
+    super.key,
+    required this.url,
+    this.width,
+    this.height,
+    this.fit,
+    this.loading,
+    this.loadingWidget = const CircularProgressIndicator(
+      color: Colors.black38,
+    ),
+    this.errorWidget = const Icon(Icons.error),
+  });
+
+  String imgType(String url) {
+    // 判断链接是否以常见的网络协议前缀开头
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+      return 'network'; // 不是本地链接
+    } else if (url.startsWith('data:image/svg')) {
+      return 'svg';
+    } else if (url.startsWith('data:image/')) {
+      return 'base64';
+    } else if (url.startsWith('/uploads/') || url.startsWith('/img/')) {
+      return 'uploads';
+    } else {
+      return 'asset'; // 是本地链接
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (imgType(url) == 'network') {
+      return Image.network(
+        url,
+        width: width,
+        height: height,
+        fit: fit ?? BoxFit.cover,
+        loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+          if (loadingProgress == null) {
+            return child;
+          } else {
+            if (loading == null || loading == false) {
+              return child;
+            }
+            return Center(
+              child: SizedBox(
+                width: 24.0,
+                height: 24.0,
+                child: loadingWidget,
+              ),
+            );
+          }
+        },
+        errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+          return errorWidget;
+        },
+      );
+    } else if (imgType(url) == 'svg') {
+      Uint8List bytes = base64Decode(url.split(',').last);
+      return SvgPicture.memory(
+        bytes,
+        width: width,
+        height: height,
+        fit: fit ?? BoxFit.cover,
+        alignment: Alignment.bottomCenter,
+      );
+    } else if (imgType(url) == 'base64') {
+      Uint8List bytes = const Base64Decoder().convert(url.split(',').last);
+      return Image.memory(
+        bytes,
+        width: width,
+        height: height,
+        fit: fit ?? BoxFit.cover,
+        errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+          return errorWidget;
+        },
+      );
+    } else if (imgType(url) == 'uploads') {
+      return Image.network(
+        Config.apiUrl + url,
+        width: width,
+        height: height,
+        fit: fit ?? BoxFit.cover,
+        loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+          if (loadingProgress == null) {
+            return child;
+          } else {
+            if (loading == null || loading == false) {
+              return child;
+            }
+            return Center(
+              child: SizedBox(
+                width: 24.0,
+                height: 24.0,
+                child: loadingWidget,
+              ),
+            );
+          }
+        },
+        errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+          return errorWidget;
+        },
+      );
+    } else {
+      return Image.asset(
+        url,
+        width: width,
+        height: height,
+        fit: fit ?? BoxFit.cover,
+        errorBuilder: (BuildContext context, Object error, StackTrace? stackTrace) {
+          return errorWidget;
+        },
+      );
+    }
+  }
+}
+
+```
+
+## 14. Textfield 文本框封装
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:flutter/services.dart';
+import '../themes/themes_controller.dart';
+
+///自带删除键的MyTextfield
+typedef ITextFieldCallBack = void Function(String content);
+
+typedef ITextFieldControlCallBack = void Function(TextEditingController control);
+
+enum ITextInputType {
+  text,
+  multiline,
+  number,
+  phone,
+  datetime,
+  emailAddress,
+  url,
+  password,
+}
+
+class MyTextfield extends StatefulWidget {
+  final ITextInputType keyboardType;
+  final int? maxLines;
+  final int? maxLength;
+  final String? labelText;
+  final String? hintText;
+  final TextStyle? hintStyle;
+  final Icon? deleteIcon;
+  final InputBorder? inputBorder;
+  final Widget? prefixIcon;
+  final String? prefixText;
+  final TextStyle? textStyle;
+  final Color? backgroundColor;
+  final ITextFieldCallBack? fieldCallBack;
+  final FormFieldValidator<String>? validator;
+  final double? paddingVetical;
+  final String? initValue;
+  final bool? enabled;
+  final bool showCount;
+  final List<TextInputFormatter>? formatter;
+  final ITextFieldControlCallBack? controlCallBack;
+
+  const MyTextfield({
+    Key? key,
+    ITextInputType keyboardType = ITextInputType.text,
+    this.maxLines = 1,
+    this.maxLength,
+    this.labelText,
+    this.hintText,
+    this.hintStyle,
+    this.deleteIcon,
+    this.inputBorder,
+    this.textStyle,
+    this.prefixIcon,
+    this.prefixText,
+    this.fieldCallBack,
+    this.backgroundColor,
+    this.validator,
+    this.paddingVetical = 10.0,
+    this.initValue,
+    this.enabled,
+    this.showCount = false,
+    this.formatter,
+    this.controlCallBack,
+  })  : assert(maxLines == null || maxLines > 0),
+        assert(maxLength == null || maxLength > 0),
+        keyboardType = maxLines == 1 ? keyboardType : ITextInputType.multiline,
+        super(key: key);
+
+  @override
+  State<MyTextfield> createState() => _MyTextfieldState();
+}
+
+class _MyTextfieldState extends State<MyTextfield> {
+  ThemeController themeC = Get.find<ThemeController>();
+
+  String _inputText = "";
+  bool _hasDeleteIcon = false;
+  // bool _hasFocus = false;
+  bool _isNumber = false;
+  bool _isPassword = false;
+  bool _obscureText = true;
+
+  int maxLen = 20;
+
+  ///输入类型
+  TextInputType? _getTextInputType() {
+    switch (widget.keyboardType) {
+      case ITextInputType.text:
+        return TextInputType.text;
+      case ITextInputType.multiline:
+        return TextInputType.multiline;
+      case ITextInputType.number:
+        setState(() {
+          _isNumber = true;
+        });
+        return TextInputType.number;
+      case ITextInputType.phone:
+        setState(() {
+          _isNumber = true;
+        });
+        return TextInputType.phone;
+      case ITextInputType.datetime:
+        return TextInputType.datetime;
+      case ITextInputType.emailAddress:
+        return TextInputType.emailAddress;
+      case ITextInputType.url:
+        return TextInputType.url;
+      case ITextInputType.password:
+        setState(() {
+          _isPassword = true;
+        });
+        return TextInputType.text;
+      default:
+        return null;
+    }
+  }
+
+  ///输入框焦点控制
+  late final FocusNode _focusNode;
+
+  double _contentPaddingVertical = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode = FocusNode();
+    setState(() {
+      _contentPaddingVertical = widget.paddingVetical ?? 10.0;
+    });
+    // _focusNode.addListener(() {
+    //   if (!_focusNode.hasFocus) {
+    //     // 处理失去焦点的逻辑
+    //     setState(() {
+    //       _hasFocus = false;
+    //     });
+    //   } else {
+    //     setState(() {
+    //       _hasFocus = true;
+    //     });
+    //   }
+    // });
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  ///输入范围
+  List<TextInputFormatter>? _getTextInputFormatter() {
+    List<TextInputFormatter> formatters = [];
+
+    // 如果是数字输入，添加仅数字的过滤器
+    if (_isNumber) {
+      formatters.add(FilteringTextInputFormatter.digitsOnly);
+    }
+
+    // 添加禁止输入空格的过滤器
+    formatters.add(FilteringTextInputFormatter.deny(RegExp(r'\s')));
+
+    // 添加额外的自定义格式化器
+    if (widget.formatter != null) {
+      formatters.addAll(widget.formatter!);
+    }
+
+    return formatters;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    TextEditingController controller;
+    if (widget.initValue != null) {
+      _inputText = widget.initValue!;
+    }
+    controller = TextEditingController.fromValue(
+      TextEditingValue(
+        text: _inputText,
+        selection: TextSelection.fromPosition(
+          TextPosition(
+            affinity: TextAffinity.downstream,
+            offset: _inputText.length,
+          ),
+        ),
+      ),
+    );
+    if (widget.controlCallBack != null) {
+      widget.controlCallBack!(controller);
+    }
+    TextField textField = TextField(
+      focusNode: _focusNode,
+      controller: controller,
+      enabled: widget.enabled,
+      onEditingComplete: () {
+        FocusScope.of(context).requestFocus(_focusNode);
+      },
+      autofocus: false,
+      textAlignVertical: TextAlignVertical.center,
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: _contentPaddingVertical),
+        hintStyle: widget.hintStyle ?? TextStyle(color: themeC.themeColor['c-text-5']),
+        counterText: widget.showCount ? null : '',
+        counterStyle: const TextStyle(color: Colors.grey),
+        labelText: widget.labelText,
+        hintText: widget.hintText,
+        prefixText: widget.prefixText,
+        prefixStyle: const TextStyle(
+          fontSize: 16.0,
+        ),
+        border: widget.inputBorder ??
+            const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8.0)),
+              borderSide: BorderSide(
+                width: 1.0,
+              ),
+            ),
+        enabledBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          borderSide: BorderSide(
+            color: Color(0xffd9d9d9),
+            width: 1,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: themeC.themeColor['c-primary'],
+            width: 2,
+          ),
+          borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+        ),
+        fillColor: widget.backgroundColor ?? Colors.transparent,
+        filled: true,
+        prefixIcon: widget.prefixIcon,
+        suffixIcon: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (_hasDeleteIcon)
+              IconButton(
+                alignment: Alignment.center,
+                padding: const EdgeInsets.all(0.0),
+                iconSize: 20.0,
+                icon: widget.deleteIcon ?? const Icon(Icons.cancel),
+                onPressed: () {
+                  setState(() {
+                    _inputText = "";
+                    _hasDeleteIcon = _inputText.isNotEmpty;
+                    widget.fieldCallBack!(_inputText);
+                  });
+                },
+              ),
+            if (_isPassword)
+              IconButton(
+                icon: Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
+                padding: const EdgeInsets.all(0.0),
+                iconSize: 22.0,
+                onPressed: () {
+                  setState(() {
+                    _obscureText = !_obscureText;
+                  });
+                },
+              ),
+          ],
+        ),
+      ),
+      onChanged: (str) {
+        setState(() {
+          _inputText = str;
+          _hasDeleteIcon = _inputText.isNotEmpty;
+          // _hasFocus = true;
+        });
+        widget.fieldCallBack!(_inputText);
+      },
+      onSubmitted: (str) {
+        _inputText = str;
+        widget.fieldCallBack!(_inputText);
+        // setState(() {
+        //   _hasFocus = false;
+        // });
+      },
+      keyboardType: _getTextInputType(),
+      maxLength: widget.maxLength ?? maxLen,
+      maxLines: widget.maxLines,
+      style: widget.textStyle,
+      obscureText: _isPassword && _obscureText,
+      inputFormatters: _getTextInputFormatter(),
+    );
+    return textField;
+  }
+}
+
+```
+
+## 15. 空状态封装
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+class Empty extends StatelessWidget {
+  const Empty({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.hourglass_empty,
+            size: 100,
+            color: Colors.grey.withOpacity(0.5),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            'No_data'.tr,
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.grey.withOpacity(0.5),
+            ),
+          ),
+          const SizedBox(height: 100),
+        ],
+      ),
+    );
+  }
+}
+
+```
+
+## 16. image_picker 选择图片封装
+
+```dart
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import '../utils/app_logger.dart';
+import './text_button_full.dart';
+
+class ImgPicker extends StatefulWidget {
+  const ImgPicker({Key? key, this.onChanged}) : super(key: key);
+  final ValueChanged? onChanged;
+
+  @override
+  State<ImgPicker> createState() => _ImgPickerState();
+}
+
+class _ImgPickerState extends State<ImgPicker> {
+  File? _imgFile;
+  Future<void> _pickImage(ImageSource source) async {
+    final picker = ImagePicker();
+    try {
+      final pickedFile = await picker.pickImage(
+        source: source,
+        maxWidth: 1000.0,
+        maxHeight: 1000.0,
+        imageQuality: 90,
+      );
+      _imgFile = pickedFile != null ? File(pickedFile.path) : null;
+      XFile? webFile = pickedFile;
+      widget.onChanged?.call({'pickfile': pickedFile, 'file': _imgFile!, 'fileWeb': webFile});
+
+      // widget.onChanged?.call(_imgFile!); // 调用回调函数
+    } catch (e) {
+      AppLogger().error(e);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        TextButtonFull(
+          text: 'shooting'.tr,
+          textStyle: const TextStyle(
+            color: Colors.black,
+          ),
+          onPressed: () {
+            _pickImage(ImageSource.camera);
+          },
+        ),
+        const Divider(
+          height: 1.0,
+          color: Colors.black12,
+        ),
+        TextButtonFull(
+          text: 'album'.tr,
+          textStyle: const TextStyle(
+            color: Colors.black,
+          ),
+          onPressed: () {
+            _pickImage(ImageSource.gallery);
+          },
+        ),
+        const Divider(
+          height: 1.0,
+          color: Colors.black12,
+        ),
+        // _imgFile == null
+        //     ? Text("请点击按钮选择图片")
+        //     : Image.file(
+        //         _imgFile!,
+        //         width: 300,
+        //         height: 300,
+        //         fit: BoxFit.cover,
+        //       ),
+      ],
+    );
+  }
+}
+
+```
+
+## 17. open_page 从点击处打开页面
+
+```dart
+import 'package:animations/animations.dart';
+import 'package:flutter/material.dart';
+
+class OpenPage extends StatelessWidget {
+  final Widget curPage;
+  final Widget nextPage;
+  const OpenPage({Key? key, required this.curPage, required this.nextPage}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return buildOpenContainer();
+  }
+
+  OpenContainer<dynamic> buildOpenContainer() {
+    return OpenContainer(
+      //背景颜色
+      closedColor: Colors.transparent,
+      //阴影
+      closedElevation: 0.0,
+      //圆角
+      closedShape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+      ),
+      //显示的布局
+      closedBuilder: (context, action) {
+        return curPage;
+      },
+      //过渡的方式
+      transitionType: ContainerTransitionType.fade,
+      //过渡的时间
+      transitionDuration: const Duration(milliseconds: 500),
+      //即将打开的 Widget 的边框样式
+      openShape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(0.0)),
+      ),
+      //即将打开的 Widget 的背景
+      openColor: Colors.transparent,
+      useRootNavigator: false,
+      //阴影
+      openElevation: 0.0,
+      //布局
+      openBuilder: (context, action) {
+        return nextPage;
+      },
+    );
+  }
+}
+
 ```
