@@ -1319,3 +1319,262 @@ Stack(
   ],
 )
 ```
+
+## 弹窗里面有列表切换，有表单操作
+
+```dart
+void showBuy(BuildContext context) {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      isDismissible: true,
+      elevation: 10.0,
+      context: context,
+      useSafeArea: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(0)),
+      ),
+      builder: (BuildContext context) {
+        return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
+          return SingleChildScrollView(
+            child: LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) {
+                double contentMaxWidth = constraints.maxWidth;
+                return GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () {
+                    FocusScope.of(context).requestFocus(FocusNode());
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 15.0),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: Center(
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      type = 'normal';
+                                    });
+                                  },
+                                  style: ButtonStyle(
+                                    backgroundColor: MaterialStatePropertyAll(type == 'normal' ? themeC.themeColor['c-second'] : themeC.themeColor['c-primary']),
+                                    shape: MaterialStatePropertyAll(
+                                      RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(4.0),
+                                      ),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    'ordinary'.tr,
+                                    style: const TextStyle(fontSize: 16.0),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: Center(
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      type = 'special';
+                                    });
+                                  },
+                                  style: ButtonStyle(
+                                    backgroundColor: MaterialStatePropertyAll(type == 'special' ? themeC.themeColor['c-second'] : themeC.themeColor['c-primary']),
+                                    shape: MaterialStatePropertyAll(
+                                      RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(4.0),
+                                      ),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    'special'.tr,
+                                    style: const TextStyle(fontSize: 16.0),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const Divider(
+                          height: 14,
+                          color: Colors.black26,
+                        ),
+                        Container(
+                          constraints: const BoxConstraints(maxHeight: 200),
+                          child: SingleChildScrollView(
+                            physics: const AlwaysScrollableScrollPhysics(), // 允许内容滚动
+                            child: Wrap(
+                              spacing: 4,
+                              runSpacing: 10,
+                              children: type == 'normal'
+                                  ? normalList.map((item) {
+                                      int index = normalList.indexOf(item);
+                                      return SizedBox(
+                                        width: contentMaxWidth / 4 - 12,
+                                        height: 28,
+                                        child: Material(
+                                          color: item['check'] ? themeC.themeColor['c-second'].withOpacity(0.8) : themeC.themeColor['bgc-primary'],
+                                          borderRadius: BorderRadius.circular(4.0),
+                                          child: InkWell(
+                                            onTap: () {
+                                              setState(() {
+                                                normalList[index]['check'] = !normalList[index]['check'];
+                                              });
+                                            },
+                                            child: PrizeItem(config: codeConfig, data: item),
+                                          ),
+                                        ),
+                                      );
+                                    }).toList()
+                                  : specialList.map((item) {
+                                      int index = specialList.indexOf(item);
+                                      return SizedBox(
+                                        width: contentMaxWidth / 4 - 12,
+                                        height: 28,
+                                        child: Material(
+                                          color: item['check'] ? themeC.themeColor['c-second'].withOpacity(0.8) : themeC.themeColor['bgc-primary'],
+                                          borderRadius: BorderRadius.circular(4.0),
+                                          child: InkWell(
+                                            onTap: () {
+                                              setState(() {
+                                                specialList[index]['check'] = !specialList[index]['check'];
+                                              });
+                                            },
+                                            child: PrizeItem(config: codeConfig, data: item),
+                                          ),
+                                        ),
+                                      );
+                                    }).toList(),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 12, bottom: 12, left: 4, right: 4),
+                          child: Wrap(
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.all(4),
+                                height: 26,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    width: 1,
+                                    color: themeC.themeColor['c-primary'],
+                                  ),
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: TextButton(
+                                  onPressed: () {
+                                    Get.toNamed('/rule');
+                                  },
+                                  child: Text('Rule_description'.tr),
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.all(4),
+                                height: 26,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    width: 1,
+                                    color: themeC.themeColor['c-primary'],
+                                  ),
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: TextButton(
+                                  onPressed: () {
+                                    rootC.changePageIndex(1);
+                                    Get.toNamed('/root');
+                                  },
+                                  child: Text('Online_deposit'.tr),
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.all(4),
+                                height: 26,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    width: 1,
+                                    color: themeC.themeColor['c-primary'],
+                                  ),
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: TextButton(
+                                  onPressed: () {
+                                    Get.toNamed('/withdraw');
+                                  },
+                                  child: Text('Quick_cash_withdrawal'.tr),
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.all(4),
+                                height: 26,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    width: 1,
+                                    color: themeC.themeColor['c-primary'],
+                                  ),
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: TextButton(
+                                  onPressed: () {
+                                    Get.toNamed('/bill');
+                                  },
+                                  child: Text('Betting_records'.tr),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Text('${'Buy_points'.tr}：'),
+                            Expanded(
+                              child: Container(
+                                  height: 40.0,
+                                  padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                                  child: MyTextfield(
+                                    maxLength: 10,
+                                    backgroundColor: Colors.white,
+                                    keyboardType: ITextInputType.number,
+                                    hintText: 'Please_enter_purchase_points'.tr,
+                                    controlCallBack: (control) {
+                                      numControl = control;
+                                    },
+                                    fieldCallBack: (val) {
+                                      formData['buy_amount_one'] = val;
+                                    },
+                                  )),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                buyOrder(context);
+                              },
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStatePropertyAll(themeC.themeColor['c-second']),
+                                shape: MaterialStatePropertyAll(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(4.0),
+                                  ),
+                                ),
+                              ),
+                              child: Text('Buy'.tr),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          );
+        });
+      },
+    );
+  }
+}
+```
