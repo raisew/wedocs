@@ -43,11 +43,19 @@ head:
 ---
 
 <script setup>
-import { useData } from 'vitepress'
+import { useData } from 'vitepress';
+import {ref, onMounted, onUnmounted} from 'vue';
 import Clock from "./components/Clock.vue";
 import DateTimeCount from "./components/DateTimeCount.vue";
 import Calendar from "./components/Calendar.vue";
 import Particles from "./components/Particles.vue";
+const particlesShow = ref(false);
+onMounted(()=>{
+  particlesShow.value = true;
+})
+onUnmounted(()=>{
+  particlesShow.value = false;
+})
 </script>
 
   <div class="container-main">
@@ -65,7 +73,7 @@ import Particles from "./components/Particles.vue";
       </el-col>
     </el-row>
   </div>
-  <Particles></Particles>
+  <Particles v-if="particlesShow"></Particles>
 
 <style lang="scss">
 

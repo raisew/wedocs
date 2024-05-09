@@ -728,6 +728,112 @@ class _BillState extends State<Bill> with SingleTickerProviderStateMixin {
 
 ## dart 数组操作
 
+### 创建数组
+
+- 使用 List 字面量创建数组
+
+```dart
+List<int> numbers = [1, 2, 3, 4, 5];
+
+```
+
+- 使用 List 构造函数创建数组
+
+```dart
+List<String> fruits = List<String>();
+fruits.add('Apple');
+fruits.add('Banana');
+fruits.add('Orange');
+
+```
+
+### 获取数组长度
+
+```dart
+List<int> numbers = [1, 2, 3, 4, 5];
+int length = numbers.length;
+print('Length of numbers: $length');
+
+```
+
+### 访问数组元素
+
+```dart
+List<String> fruits = ['Apple', 'Banana', 'Orange'];
+String firstFruit = fruits[0];
+print('First fruit: $firstFruit');
+
+```
+
+### 添加元素到数组
+
+```dart
+List<String> fruits = ['Apple', 'Banana', 'Orange'];
+fruits.add('Mango');
+print('Updated fruits: $fruits');
+
+```
+
+### 移除数组中的元素
+
+```dart
+List<int> numbers = [1, 2, 3, 4, 5];
+numbers.remove(3); // 移除元素 3
+print('Updated numbers: $numbers');
+
+```
+
+### 遍历数组
+
+- 使用 for 循环
+
+```dart
+List<int> numbers = [1, 2, 3, 4, 5];
+for (int i = 0; i < numbers.length; i++) {
+  print('Element at index $i: ${numbers[i]}');
+}
+
+```
+
+- 使用 forEach 方法
+
+```dart
+List<String> fruits = ['Apple', 'Banana', 'Orange'];
+fruits.forEach((fruit) {
+  print('Fruit: $fruit');
+});
+
+```
+
+### 转换数组
+
+- 将数组转换为字符串
+
+```dart
+List<String> fruits = ['Apple', 'Banana', 'Orange'];
+String fruitsStr = fruits.join(', ');
+print('Fruits: $fruitsStr');
+
+```
+
+- 将数组中的元素映射到新的数组
+
+```dart
+List<int> numbers = [1, 2, 3, 4, 5];
+List<String> numberStrs = numbers.map((number) => number.toString()).toList();
+print('Number strings: $numberStrs');
+
+```
+
+### 检查数组是否包含某个元素
+
+```dart
+List<String> fruits = ['Apple', 'Banana', 'Orange'];
+bool containsBanana = fruits.contains('Banana');
+print('Contains Banana? $containsBanana');
+
+```
+
 ### 一个数组的某个标识包含另外一个数组的值
 
 要判断 normalNumbs 列表中 type 字段的值是否在 [2, 3] 中，可以使用 where() 方法来过滤列表，然后使用 any() 方法来检查是否存在符合条件的元素。以下是示例代码：
@@ -746,10 +852,122 @@ void main() {
   print(filteredItems); // 输出包含指定类型的项目列表
 }
 
-
 ```
 
 在这个示例中，where() 方法将用于过滤列表，只保留 type 字段的值在 [2, 3] 中的元素。然后，isNotEmpty 属性将用于检查过滤后的列表是否包含任何元素，如果列表不为空，则表示 type 字段的值在 [2, 3] 中。
+
+### 将数组的值复制到另一个数组
+
+```dart
+List<int> originalList = [1, 2, 3, 4, 5];
+List<int> copiedList = List<int>.from(originalList);
+print('Copied list: $copiedList');
+
+```
+
+```dart
+List<Map<String, dynamic>> normalNumbs = [
+  {'type': 1, 'name': '大', 'rate': 'big_rate', 'check': false},
+  {'type': 2, 'name': '小', 'rate': 'small_rate', 'check': false},
+  {'type': 3, 'name': '单', 'rate': 'd_rate', 'check': false},
+  {'type': 4, 'name': '双', 'rate': 's_rate', 'check': false}
+];
+List<Map<String, dynamic>> normalList = List.from(normalNumbs.map((element) => {...element}));
+List<Map<String, dynamic>> specialList = List.from(specialNumbs.map((element) => {...element}));
+```
+
+### 筛选数组中满足条件的元素
+
+```dart
+List<int> numbers = [1, 2, 3, 4, 5];
+List<int> evenNumbers = numbers.where((number) => number % 2 == 0).toList();
+print('Even numbers: $evenNumbers');
+
+```
+
+### 对数组进行排序
+
+```dart
+List<int> numbers = [5, 2, 8, 1, 3];
+numbers.sort();
+print('Sorted numbers: $numbers');
+
+```
+
+### 将数组拆分为多个部分
+
+```dart
+List<int> numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+List<List<int>> chunks = [];
+int chunkSize = 3;
+for (int i = 0; i < numbers.length; i += chunkSize) {
+  chunks.add(numbers.sublist(i, i + chunkSize));
+}
+print('Chunks: $chunks');
+
+```
+
+### 合并多个数组
+
+```dart
+List<int> list1 = [1, 2, 3];
+List<int> list2 = [4, 5, 6];
+List<int> mergedList = [...list1, ...list2];
+print('Merged list: $mergedList');
+
+```
+
+### 数组中的重复项计数
+
+```dart
+List<int> numbers = [1, 2, 3, 2, 4, 3, 2, 5, 2];
+Map<int, int> countMap = {};
+numbers.forEach((number) {
+  countMap[number] = (countMap[number] ?? 0) + 1;
+});
+print('Count map: $countMap');
+
+```
+
+### 扁平化多维数组
+
+```dart
+List<List<int>> matrix = [
+  [1, 2, 3],
+  [4, 5],
+  [6, 7, 8]
+];
+List<int> flatList = [];
+matrix.forEach((row) {
+  flatList.addAll(row);
+});
+print('Flat list: $flatList');
+
+```
+
+### 按条件分组数组元素
+
+```dart
+List<int> numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+Map<bool, List<int>> groupedMap = numbers.groupBy((number) => number % 2 == 0);
+print('Grouped map: $groupedMap');
+
+```
+
+### 转置矩阵
+
+```dart
+List<List<int>> matrix = [
+  [1, 2, 3],
+  [4, 5, 6],
+  [7, 8, 9]
+];
+List<List<int>> transposedMatrix = List.generate(matrix[0].length, (colIndex) {
+  return List.generate(matrix.length, (rowIndex) => matrix[rowIndex][colIndex]);
+});
+print('Transposed matrix: $transposedMatrix');
+
+```
 
 ## 滚动到底部触发加载更多
 
@@ -1070,4 +1288,34 @@ class _BillState extends State<Bill> with SingleTickerProviderStateMixin {
 
 ```dart
 import 'package:pc28/utils/file_to_base64.dart' if (dart.library.html) 'package:pc28/utils/file_to_base64_web.dart';
+```
+
+## 文字描边效果
+
+```dart
+Stack(
+  children: <Widget>[
+    // 文字描边
+    Text(
+      '文字描边',
+      style: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.w700,
+        foreground: Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 4
+          ..color = Colors.white,
+      ),
+    ),
+    // 实际文字
+    Text(
+      '文字描边',
+      style: const TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.w700,
+        color: Color(0xff0080DD), // 或者你想要的文字颜色
+      ),
+    ),
+  ],
+)
 ```
