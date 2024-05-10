@@ -52,8 +52,8 @@ flutter_native_splash:
   # 只有 color 或 background_image 是必需的参数。使用 color 将闪屏界面的背景设置为单色。
   # 使用 background_image 可将 png 图像设置为闪屏界面的背景。该图像会被拉伸以适应应用大小。
   # color 和 background_image 不能同时设置，只有一个会被使用。
-  # color: "#42a5f5"
-  background_image: "assets/launch_image.png"
+  color: "#ffffff"
+  image: "assets/splash.png"
 
   # 以下是可选的参数。去掉注释前面的 #可使参数起作用。
 
@@ -77,6 +77,12 @@ flutter_native_splash:
   #background_image_dark: "assets/dark-background.png"
   #image_dark: assets/splash-invert.png
 
+  android_12:
+    image: assets/splash.png
+    icon_background_color: "#ffffff"
+    image_dark: assets/splash.png
+    icon_background_color_dark: "#ffffff"
+
   # android 、 ios 和 web 参数可用于不为对应的平台生成闪屏界面。
   #android: false
   #ios: false
@@ -88,7 +94,7 @@ flutter_native_splash:
   # https://developer.android.com/reference/android/view/Gravity): bottom 、 center 、
   # center_horizontal 、 center_vertical 、 clip_horizontal 、 clip_vertical 、
   # end 、 fill 、 fill_horizontal 、 fill_vertical 、 left 、 right 、 start 或 top 。
-  #android_gravity: center
+  android_gravity: center
   #
   # ios_content_mode 可以是以下 iOS UIView.ContentMode 其中之一 (查看
   # https://developer.apple.com/documentation/uikit/uiview/contentmode): scaleToFill 、
@@ -97,14 +103,14 @@ flutter_native_splash:
   #ios_content_mode: center
   #
   # web_image_mode 可以是以下模式其中之一：center 、 contain 、 stretch 和 cover 。
-  #web_image_mode: center
+  web_image_mode: center
 
   # 要隐藏通知栏，使用 fullscreen 参数 。在 Web 上不起作为，因为 Web 没有通知栏。默认是 false 。
   # 注意: 不像 Android 、 iOS 当应用加载时不会自动显示通知栏。
   #       要显示通知栏，在 Flutter 应用中添加以下代码：
   #       WidgetsFlutterBinding.ensureInitialized();
   #       SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom, SystemUiOverlay.top]);
-  #fullscreen: true
+  fullscreen: true
 
   # 如果改变了 info.plist 的名字，可以使用 info_plist_files 指定对应的文件名。
   # 只需移除下面三行前面的 # 字符，不要移除任何空格：

@@ -2,7 +2,7 @@
     <div id="particles"></div>
 </template>
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, onUnmounted } from "vue";
 import { tsParticles } from "@tsparticles/engine";
 import { loadAll } from "@tsparticles/all";
 
@@ -665,6 +665,9 @@ const init = async () => {
 }
 onMounted(() => {
     init();
+})
+onUnmounted(() => {
+    tsParticles.destroy();
 })
 
 </script>
