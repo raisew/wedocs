@@ -653,7 +653,6 @@ const options = {
 };
 
 
-
 const init = async () => {
     await loadAll(tsParticles);
     tsParticles.load({
@@ -667,7 +666,7 @@ onMounted(() => {
     init();
 })
 onUnmounted(() => {
-    tsParticles.destroy();
+    tsParticles.pause();
 })
 
 </script>
