@@ -70,7 +70,7 @@ onUnmounted(()=>{
 })
 </script>
 
-  <div class="container-main">
+  <div class="container-main mobile-main">
     <div class="sign">
       <div class="font-bold font-80 line-height-1">HONG YANG WU</div>
       <div class="font-26 mgt-10">代码如诗，世界如画。莫失心所念，万物皆可期。</div>
@@ -112,6 +112,13 @@ onUnmounted(()=>{
 	to { background-position: 100% 100% }
 
 } 
+
+@media screen and (max-width: 600px){
+  .mobile-main{
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
 
 
 </style>

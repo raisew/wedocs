@@ -264,11 +264,16 @@ watch(() => state.holidayMonth, (newVal) => {
 
 @media screen and (max-width: 600px) {
     .calendar-box {
-        width: 562*0.6* 1px;
-        height: 465*0.6* 1px;
+        width: 562*0.66* 1px;
+        height: 465*0.66* 1px;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+        margin-left: 0;
+        margin-right: 0;
 
         .calendar {
-            transform: scale(0.60);
+            transform: scale(0.66);
             transform-origin: 0 0;
 
         }

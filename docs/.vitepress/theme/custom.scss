@@ -98,6 +98,23 @@ h2 {
   }
 }
 
+.calendar .side .yiji::-webkit-scrollbar {
+  width: 2px; /* 设置滚动条的宽度 */
+}
+
+.calendar .side .yiji::-webkit-scrollbar-track {
+  background: transparent; /* 设置滚动条轨道的背景色 */
+}
+
+.calendar .side .yiji::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.5); /* 设置滚动条滑块的颜色 */
+  border-radius: 5px; /* 设置滚动条滑块的圆角 */
+}
+
+.calendar .side .yiji::-webkit-scrollbar-thumb:hover {
+  background: #555; /* 设置滚动条滑块悬停时的颜色 */
+}
+
 @media (min-width: 768px) {
   .DocSearch-Button {
     justify-content: flex-start;
