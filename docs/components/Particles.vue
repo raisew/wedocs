@@ -666,7 +666,6 @@ onMounted(() => {
     init();
 })
 onUnmounted(() => {
-    tsParticles.pause();
 })
 
 </script>
