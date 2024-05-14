@@ -53,26 +53,24 @@ AsyncLoadingNew.vue
 
 AsyncErrorNew.vue
 
-```jsx
+```vue
 <template>
-	<mypage>
-		<view class="w-100 h-100vh bgc-base flex flex-justify-center" style="padding-top: 15vh;" @click="reload">
-			<view>
-				<u-icon name="reload" size="80"></u-icon>
-			</view>
-		</view>
-	</mypage>
+  <mypage>
+    <view class="w-100 h-100vh bgc-base flex flex-justify-center" style="padding-top: 15vh;" @click="reload">
+      <view>
+        <u-icon name="reload" size="80"></u-icon>
+      </view>
+    </view>
+  </mypage>
 </template>
 
 <script setup>
-	const reload = () => {
-		// #ifdef H5
-		window.location.reload();
-		// #endif
-	}
+const reload = () => {
+  // #ifdef H5
+  window.location.reload()
+  // #endif
+}
 </script>
 
-<style>
-
-</style>
+<style></style>
 ```
