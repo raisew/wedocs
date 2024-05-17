@@ -1600,3 +1600,127 @@ TweenAnimationBuilder(
   },
 )
 ```
+
+## 多颜色渐变列表
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get/get.dart';
+import 'package:pc28/components/my_app_bar.dart';
+import '../../api/api.dart';
+import '../../auth/auth_controller.dart';
+
+class Room extends StatefulWidget {
+  const Room({Key? key}) : super(key: key);
+
+  @override
+  State<Room> createState() => _RoomState();
+}
+
+class _RoomState extends State<Room> {
+  AuthController authC = Get.find<AuthController>();
+
+  List listColors = [
+    [const Color(0xff7B8DB1), const Color(0xff748DB2), const Color(0xff8B8DCA)],
+    [const Color(0xffE59343), const Color(0xffF09C39), const Color(0xffFF7E36)],
+    [const Color(0xffF3C095), const Color(0xffDC7E79), const Color(0xffEAA9CB)],
+    [const Color(0xffE0E0FB), const Color(0xffC5CDF5), const Color(0xffF6D3DA)],
+  ];
+  List listImgs = [
+    'assets/images/room_1.png',
+    'assets/images/room_2.png',
+    'assets/images/room_3.png',
+    'assets/images/room_4.png',
+  ];
+
+  List list = [];
+  void getRoomList() async {
+    final res = await apis['colorsCodeConfig']!(<String, dynamic>{});
+    if (res['code'] == 1) {
+      setState(() {
+        list = res['data'] ?? [];
+      });
+    }
+  }
+
+  void toGame(data) {
+    if (num.parse(data['min_one']) > num.parse(authC.userinfo['money'])) {
+      EasyLoading.showToast('${'The_balance_cannot_be_less_than'.tr} ${data['min_one']}');
+      return;
+    }
+    Get.toNamed(
+      '/game',
+      arguments: data,
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getRoomList();
+  }
+
+  List<Widget> getRooms() {
+    List<Widget> rooms = [];
+    for (var i = 0; i < list.length; i++) {
+      rooms.add(Container(
+        margin: const EdgeInsets.symmetric(vertical: 6.0),
+        padding: const EdgeInsets.only(top: 45.0, left: 30.0),
+        width: double.maxFinite,
+        height: 150.0,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(listImgs[i % 4]),
+            fit: BoxFit.fill,
+          ),
+        ),
+        child: InkWell(
+          onTap: () {
+            toGame(list[i]);
+          },
+          highlightColor: Colors.transparent,
+          splashColor: Colors.transparent,
+          child: ShaderMask(
+            shaderCallback: (Rect bounds) {
+              return LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: listColors[i % 4],
+                tileMode: TileMode.mirror,
+              ).createShader(bounds);
+            },
+            child: Text(
+              list[i]['colors_name'],
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+                color: Colors.white, // 或者你想要的文字颜色
+              ),
+            ),
+          ),
+        ),
+      ));
+    }
+    return rooms;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: MyAppBar(
+        title: 'Select_room'.tr,
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 6.0, left: 16.0, right: 16.0, bottom: 6.0),
+          child: Column(
+            children: getRooms(),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+```
