@@ -321,12 +321,19 @@ class _SplashScreenState extends State<SplashScreen> {
 class Config {
   static const String theme = 'light';
 
-  static const String languageCode = 'de';
+  static const String languageCode = 'vi';
 
-  static const String countryCode = 'DE';
+  static const String countryCode = '';
 
-  static const String apiUrl = 'https://admin.be-cc.com';
+  static const String apiUrl = 'https://api.corona.top';
+
+  static const List<Map<String, dynamic>> langList = [
+    {"name": 'Tiếng Việt', "lang": 'vi'},
+    {"name": 'Englist', "lang": 'en'},
+    {"name": '中文简体', "lang": 'zh'},
+  ];
 }
+
 ```
 
 ## 5. utils 工具类文件
