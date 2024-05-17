@@ -1578,3 +1578,25 @@ void showBuy(BuildContext context) {
   }
 }
 ```
+
+## 点击展开收缩图片旋转动画
+
+```dart
+
+bool _isExpanded = false;
+
+TweenAnimationBuilder(
+  duration: const Duration(milliseconds: 300),
+  tween: Tween<double>(begin: _isExpanded ? -1 : 0.0, end: _isExpanded ? 1.0 : 0.0),
+  builder: (context, double value, child) {
+    return Transform.rotate(
+      angle: value * -1.0 * 3.14,
+      child: const MyImage(
+        url: 'assets/images/icon_arrow_down.png',
+        width: 18,
+        height: 18,
+      ),
+    );
+  },
+)
+```
