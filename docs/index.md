@@ -52,22 +52,18 @@ import Particles from "./components/Particles.vue";
 const particlesShow = ref(false);
 onMounted(()=>{
   particlesShow.value = true;
-  document.addEventListener("visibilitychange", function() {
+  document.addEventListener("visibilitychange", ()=> {
   if (document.visibilityState === 'visible') {
     // 页面进入可见状态，执行相应的操作
-    console.log("页面进入可见状态");
     particlesShow.value = true;
   } else {
     // 页面进入不可见状态，执行相应的操作
-    console.log("页面进入不可见状态");
     particlesShow.value = false;
   }
 });
 
 })
-onUnmounted(()=>{
-  particlesShow.value = false;
-})
+
 </script>
 
   <div class="container-main mobile-main">
