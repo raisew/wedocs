@@ -9,9 +9,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover" />
     <title></title>
     <link rel="stylesheet" href="./css/style.css" />
     <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
@@ -34,6 +32,9 @@
 
 html {
   font-size: 1.333333333333vw; /*10px=1rem;*/
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @media screen and (min-width: 750px) {
@@ -42,9 +43,8 @@ html {
   }
 }
 body {
-  font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, Helvetica, Segoe
-      UI, Arial, Roboto, PingFang SC, miui, Hiragino Sans GB, Microsoft Yahei, sans-serif;
-  background: #eff5fb url("../images/bg.png") no-repeat;
+  font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, Helvetica, Segoe UI, Arial, Roboto, PingFang SC, miui, Hiragino Sans GB, Microsoft Yahei, sans-serif;
+  background: #eff5fb url('../images/bg.png') no-repeat;
   background-size: 100% auto;
   font-size: 2.4rem;
   color: #000000;
@@ -366,7 +366,7 @@ body {
 }
 .btn .btn-box::before,
 .btn .btn-box::after {
-  content: "";
+  content: '';
   display: block;
   width: 6.3rem;
   height: 2.6rem;
