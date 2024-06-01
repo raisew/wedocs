@@ -10,7 +10,7 @@ https://www.uvui.cn/
 
 ## 项目脚手架包
 
-[](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202405111446283.zip)
+[uvui-demo.zip](https://cdn.jsdelivr.net/gh/raisew/gallery/wedoc/202405111446283.zip)
 
 ## uv-button 添加水波效果
 
@@ -557,17 +557,17 @@ export default {
     // 按钮的预置样式，info，primary，error，warning，success
     type: {
       type: String,
-      default: "info",
+      default: 'info',
     },
     // 按钮尺寸，large，normal，small，mini
     size: {
       type: String,
-      default: "normal",
+      default: 'normal',
     },
     // 按钮形状，circle（两边为半圆），square（带圆角）
     shape: {
       type: String,
-      default: "square",
+      default: 'square',
     },
     // 按钮是否镂空
     plain: {
@@ -587,12 +587,12 @@ export default {
     // 加载中提示文字
     loadingText: {
       type: [String, Number],
-      default: "",
+      default: '',
     },
     // 加载状态图标类型
     loadingMode: {
       type: String,
-      default: "spinner",
+      default: 'spinner',
     },
     // 加载图标大小
     loadingSize: {
@@ -603,19 +603,19 @@ export default {
     // https://uniapp.dcloud.io/component/button
     openType: {
       type: String,
-      default: "",
+      default: '',
     },
     // 用于 <form> 组件，点击分别会触发 <form> 组件的 submit/reset 事件
     // 取值为submit（提交表单），reset（重置表单）
     formType: {
       type: String,
-      default: "",
+      default: '',
     },
     // 打开 APP 时，向 APP 传递的参数，open-type=launchApp时有效
     // 只微信小程序、QQ小程序有效
     appParameter: {
       type: String,
-      default: "",
+      default: '',
     },
     // 指定是否阻止本节点的祖先节点出现点击态，微信小程序有效
     hoverStopPropagation: {
@@ -625,30 +625,30 @@ export default {
     // 指定返回用户信息的语言，zh_CN 简体中文，zh_TW 繁体中文，en 英文。只微信小程序有效
     lang: {
       type: String,
-      default: "en",
+      default: 'en',
     },
     // 会话来源，open-type="contact"时有效。只微信小程序有效
     sessionFrom: {
       type: String,
-      default: "",
+      default: '',
     },
     // 会话内消息卡片标题，open-type="contact"时有效
     // 默认当前标题，只微信小程序有效
     sendMessageTitle: {
       type: String,
-      default: "",
+      default: '',
     },
     // 会话内消息卡片点击跳转小程序路径，open-type="contact"时有效
     // 默认当前分享路径，只微信小程序有效
     sendMessagePath: {
       type: String,
-      default: "",
+      default: '',
     },
     // 会话内消息卡片图片，open-type="contact"时有效
     // 默认当前页面截图，只微信小程序有效
     sendMessageImg: {
       type: String,
-      default: "",
+      default: '',
     },
     // 是否显示会话内消息卡片，设置此参数为 true，用户进入客服会话会在右下角显示"可能要发送的小程序"提示，
     // 用户点击后可以快速发送小程序消息，open-type="contact"时有效
@@ -659,7 +659,7 @@ export default {
     // 额外传参参数，用于小程序的data-xxx属性，通过target.dataset.name获取
     dataName: {
       type: String,
-      default: "",
+      default: '',
     },
     // 节流，一定时间内只能触发一次
     throttleTime: {
@@ -680,37 +680,37 @@ export default {
     // nvue中无法控制文字的样式
     text: {
       type: [String, Number],
-      default: "",
+      default: '',
     },
     // 按钮图标
     icon: {
       type: String,
-      default: "",
+      default: '',
     },
     // 按钮图标大小
     iconSize: {
       type: [String, Number],
-      default: "",
+      default: '',
     },
     // 按钮图标颜色
     iconColor: {
       type: String,
-      default: "#000000",
+      default: '#000000',
     },
     // 按钮颜色，支持传入linear-gradient渐变色
     color: {
       type: String,
-      default: "",
+      default: '',
     },
     // 自定义按钮文本样式
     customTextStyle: {
       type: [Object, String],
-      default: "",
+      default: '',
     },
     // 水波纹的背景颜色
     rippleBgColor: {
       type: String,
-      default: "",
+      default: '',
     },
     // 是否开启水波纹效果
     ripple: {
@@ -725,7 +725,7 @@ export default {
 ### vue.scss
 
 ```scss
-@import "@/uni_modules/uv-ui-tools/libs/css/color.scss";
+@import '@/uni_modules/uv-ui-tools/libs/css/color.scss';
 // nvue下hover-class无效
 $uv-button-before-top: 50% !default;
 $uv-button-before-left: 50% !default;
@@ -773,7 +773,7 @@ $uv-button-plain-uv-button-warning-color: $uv-warning;
     border-radius: inherit;
     transform: $uv-button-before-transform;
     opacity: $uv-button-before-opacity;
-    content: " ";
+    content: ' ';
     background-color: $uv-button-before-background-color;
     border-color: $uv-button-before-border-color;
   }
